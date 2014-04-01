@@ -1,4 +1,24 @@
-gvnix-samples
-=============
+= gvNIX samples
+gvNIX team
+:page-layout: base
+:homepage: http://gvnix.org
+:googlecode: http://code.google.com/p/gvnix/
 
-Are you looking for sample applications made with gvNIX? This is the official samples repository for the gvNIX project.
+This repository contains several sample applications for getting started with {homepage}[gvNIX]. 
+
+== Additional resources
+
+The main web site for {homepage}[gvNIX] and {googlecode}[Google Code].
+
+== Bug reporting
+
+If you find a bug in a sample, or have an enhancement request, create an issue for the sample.
+
+== Contributing
+
+http://help.github.com/send-pull-requests[Pull requests] are welcome.
+
+==  Disclaimer
+
+The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.
+
