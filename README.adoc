@@ -4,15 +4,25 @@ gvNIX team
 :homepage: http://gvnix.org
 :googlecode: http://code.google.com/p/gvnix/
 
-This repository contains several sample applications for getting started with {homepage}[gvNIX]. 
+Welcome to the gvNIX samples repository which provides you several sample 
+applications for getting started with {homepage}[gvNIX]. 
+
+Each sample is contained in its own sub directory in which you will
+find a _README.adoc_ file explaining further details, e.g. how to run the 
+respective sample.
 
 == Additional resources
 
-The main web site for {homepage}[gvNIX] and {googlecode}[Google Code].
+The {homepage}[gvNIX] site contains several guides in spanish that show how to 
+use gvNIX.
+
+The gvNIX {googlecode}[Google Code] project contains quick starts and
+how tos in english.
 
 == Bug reporting
 
-If you find a bug in a sample, or have an enhancement request, create an issue for the sample.
+If you find a bug in a sample, or have an enhancement request, create an issue 
+for the sample.
 
 == Contributing
 
@@ -20,5 +30,11 @@ http://help.github.com/send-pull-requests[Pull requests] are welcome.
 
 ==  Disclaimer
 
-The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.
+The software is provided "as is", without warranty of any kind, express or 
+implied, including but not limited to the warranties of merchantability, 
+fitness for a particular purpose and noninfringement. In no event shall the 
+authors or copyright holders be liable for any claim, damages or other 
+liability, whether in an action of contract, tort or otherwise, arising from, 
+out of or in connection with the software or the use or other dealings in the 
+software.
 
