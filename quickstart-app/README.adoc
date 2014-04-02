@@ -31,16 +31,16 @@ like UI customization, performance improvement, database queries tunning, etc.
 
 This guide teaches you how to:
 
-. <<create-project, Create a new project>>
-. <<build-domain-model, Build the domain model>>
+. <<create-a-new-project, Create a new project>>
+. <<build-the-domain-model, Build the domain model>>
 . TBC
 
-[[create-project]]
+[[]]
 == Create a new project
 
 TBC
 
-[[build-domain-model]]
+[[]]
 == Build the domain model
 
 === The domain model
