@@ -1,0 +1,48 @@
+= gvNIX quick start application
+Getting started with gvNIX
+:page-layout: base
+:toc-placement: manual
+:homepage: http://gvnix.org
+:download: http://code.google.com/p/gvnix/
+:installguide: http://code.google.com/p/gvnix/wiki/InstallGvnix
+:download: http://code.google.com/p/gvnix/downloads/
+
+gvNIX is a Spring Roo distribution that focuses both enterprise knowledge and 
+enterprise standards to build Java applications.
+
+After {download}[downloading], unpacking and {installguide}[installing] the 
+development environment for gvNIX 1.2.1, try out the following steps to create 
+an application.
+
+The goal of this quick start guide is to familiarize you with gvNIX. For this 
+purpose, we will build an application following a _domain-driven design_
+philosophy.
+
+The application presented in this guide is the Spring PetClinic application. The users of the application are employees of the clinic who, in the course of their work, need to view and manage information regarding veterinarians, the clients, and their pets.
+
+Note this sample isn't real application which normally needs additional work
+like UI customization, performance improvement, database queries tunning, etc.
+
+This guide teaches you how to:
+
+. Build a domain model (entities and logic) that captures the problem domain 
+  of the system being built
+. Start without a service layer initially and only add services where the 
+  logic doesn't belong in any domain entity.
+. Use _Design by Contract_ (DbC), _Automated Tests_, _CI_ and _Refactoring_ to 
+  make the implementation as closely aligned as possible with the domain model.
+
+== Create the project
+
+TBC
+
+== Build the domain model
+
+=== The domain model
+
+image:images/petclinic-uml.png[Pet Clinic Domain Entities]
+
+=== Create the domain entities
+
+TBC
+

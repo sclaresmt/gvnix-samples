@@ -3,6 +3,7 @@ gvNIX team
 :page-layout: base
 :homepage: http://gvnix.org
 :googlecode: http://code.google.com/p/gvnix/
+:installguide: http://code.google.com/p/gvnix/wiki/InstallGvnix
 
 Welcome to the gvNIX samples repository which provides you several sample 
 applications for getting started with {homepage}[gvNIX]. 
@@ -10,6 +11,11 @@ applications for getting started with {homepage}[gvNIX].
 Each sample is contained in its own sub directory in which you will
 find a _README.adoc_ file explaining further details, e.g. how to run the 
 respective sample.
+
+Note you can run samples locally by cloning this repository and
+starting each application with +mvn tomcat7:run+, but it is
+recommended to {installguide}[install gvNIX] and try yourself to develop
+the application following the _README.adoc_ file in each sample.
 
 == Additional resources
 
