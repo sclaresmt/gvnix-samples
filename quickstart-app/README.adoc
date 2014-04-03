@@ -35,19 +35,38 @@ This guide teaches you how to:
 . <<build-the-domain-model, Build the domain model>>
 . TBC
 
-[[]]
+[[create-a-new-project]]
 == Create a new project
 
-TBC
+. Create a directory for the new project.
++
 
-[[]]
+[source,shell]
+
+$ mkdir clinic
+$ cd clinic
+
+. Start gvNIX
++
+
+[source,shell]
+
+. TBC
+
+[[build-the-domain-model]]
 == Build the domain model
 
 === The domain model
 
 image:images/petclinic-uml.png[Pet Clinic Domain Entities]
 
+This class diagram represents a simplified model of the problem domain for the
+pet clinic problem domain, it is a good starting point for the application 
+in order to deliver a first prototype.
+
 === Create the domain entities
 
 TBC
+
+== TBC
 
