@@ -37,6 +37,8 @@ public abstract class AbstractPerson {
     @Size(max = 30)
     private String city;
 
+    /**
+     */
     @NotNull
     private String telephone;
 

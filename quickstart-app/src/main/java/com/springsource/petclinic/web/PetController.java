@@ -14,7 +14,7 @@ import org.gvnix.addon.web.mvc.batch.GvNIXWebJpaBatch;
 @RooWebScaffold(path = "pets", formBackingObject = Pet.class)
 @RooWebFinder
 @GvNIXWebJQuery
-@GvNIXWebJpaBatch(service = PetBatchService.class)
 @GvNIXDatatables(ajax = true, detailFields = { "visits" })
+@GvNIXWebJpaBatch(service = PetBatchService.class)
 public class PetController {
 }

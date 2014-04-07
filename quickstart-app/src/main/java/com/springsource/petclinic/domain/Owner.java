@@ -6,12 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
-import org.gvnix.web.screen.roo.addon.GvNIXEntityBatch;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-@GvNIXEntityBatch
 public class Owner extends AbstractPerson {
 
     /**

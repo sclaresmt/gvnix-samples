@@ -23,15 +23,19 @@ import com.springsource.petclinic.web.VetController;
 import com.springsource.petclinic.web.VetController_Roo_Controller;
 import com.springsource.petclinic.web.VetController_Roo_GvNIXDatatables;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.validation.Valid;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +46,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,7 +94,7 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         uiModel.addAttribute("datatablesInlineEditing",false);
         uiModel.addAttribute("datatablesInlineCreating",false);
         uiModel.addAttribute("datatablesSecurityApplied",true);
-        uiModel.addAttribute("datatablesStandardMode",true);
+        uiModel.addAttribute("datatablesStandardMode",false);
         uiModel.addAttribute("finderNameParam","ajax_find");
     }
     
@@ -201,9 +206,73 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         return "redirect:".concat(redirect);
     }
     
+    public void VetController.populateItemForRender(HttpServletRequest request, Vet vet, boolean editing) {
+        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
+        
+        request.setAttribute("vet", vet);
+        request.setAttribute("itemId", conversionService_dtt.convert(vet.getId(),String.class));
+        
+        if (editing) {
+            // spring from:input tag uses BindingResult to locate property editors for each bean
+            // property. So, we add a request attribute (required key id BindingResult.MODEL_KEY_PREFIX + object name)
+            // with a correctly initialized bindingResult.
+            BeanPropertyBindingResult bindindResult = new BeanPropertyBindingResult(vet, "vet");
+            bindindResult.initConversion(conversionService_dtt);
+            request.setAttribute(BindingResult.MODEL_KEY_PREFIX + "vet",bindindResult);
+            // Add date time patterns and enums to populate inputs
+            populateEditForm(uiModel, vet);
+        } else {
+            // Add date time patterns
+            addDateTimeFormatPatterns(uiModel);
+        }
+        
+        // Load uiModel attributes into request
+        Map<String, Object> modelMap = uiModel.asMap();
+        for (String key : modelMap.keySet()){
+            request.setAttribute(key, modelMap.get(key));
+        }
+    }
+    
+    public List<Map<String, String>> VetController.renderVets(SearchResults<Vet> searchResult, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        // Prepare result
+        List<Vet> vets = searchResult.getResults();
+        List<Map<String, String>> result = new ArrayList<Map<String, String>>(vets.size());
+        String controllerPath = "vets";
+        String pageToUse = "show";
+        String renderUrl = String.format("/WEB-INF/views/%s/%s.jspx", controllerPath, pageToUse);
+        
+        // For every element
+        for (Vet vet: vets) {
+            Map<String, String> item = new HashMap<String, String>();
+            final StringWriter buffer = new StringWriter();
+            // Call JSP to render current entity
+            RequestDispatcher dispatcher = request.getRequestDispatcher(renderUrl);
+            
+            populateItemForRender(request, vet, false);
+            dispatcher.include(request, new HttpServletResponseWrapper(response) {
+                private PrintWriter writer = new PrintWriter(buffer);
+                @Override
+                public PrintWriter getWriter() throws IOException {
+                    return writer;
+                }
+            });
+            
+            String render = buffer.toString();
+            // Load item id)
+            item.put("DT_RowId", conversionService_dtt.convert(vet.getId(), String.class));
+            // Put rendered content into first column (uses column index)
+            item.put("0", render);
+            
+            result.add(item);
+        }
+        
+        return result;
+    }
+    
     @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", produces = "application/json")
     @ResponseBody
-    public DatatablesResponse<Map<String, String>> VetController.findAllVets(@DatatablesParams DatatablesCriterias criterias, @ModelAttribute Vet vet, HttpServletRequest request) {
+    public DatatablesResponse<Map<String, String>> VetController.findAllVets(@DatatablesParams DatatablesCriterias criterias, @ModelAttribute Vet vet, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // URL parameters are used as base search filters
         Enumeration<Map<String, String>> parameterNames = (Enumeration<Map<String, String>>) request.getParameterNames();
         Map<String, Object> baseSearchValuesMap = getPropertyMap(vet, parameterNames);
@@ -212,14 +281,8 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
         long recordsFound = searchResult.getResultsCount();
-        
-        // Entity pk field name
-        String pkFieldName = "id";
-        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
-        addDateTimeFormatPatterns(uiModel);
-        Map<String, Object> datePattern = uiModel.asMap();
-        
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern, conversionService_dtt); 
+        List<Map<String, String>> rows = renderVets(searchResult, request, response);
+        DataSet<Map<String, String>> dataSet = new DataSet<Map<String, String>>(rows, totalRecords, recordsFound); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     

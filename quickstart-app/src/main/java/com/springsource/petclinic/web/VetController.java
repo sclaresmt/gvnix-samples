@@ -12,7 +12,7 @@ import org.gvnix.addon.web.mvc.batch.GvNIXWebJpaBatch;
 @Controller
 @RooWebScaffold(path = "vets", formBackingObject = Vet.class)
 @GvNIXWebJQuery
+@GvNIXDatatables(ajax = true, mode = "show", detailFields = { "visits" })
 @GvNIXWebJpaBatch(service = VetBatchService.class)
-@GvNIXDatatables(ajax = true, detailFields = { "visits" })
 public class VetController {
 }

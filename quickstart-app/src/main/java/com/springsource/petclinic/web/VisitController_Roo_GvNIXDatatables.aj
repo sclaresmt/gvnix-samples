@@ -80,7 +80,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         uiModel.addAttribute("datatablesUseAjax",true);
         uiModel.addAttribute("datatablesInlineEditing",false);
         uiModel.addAttribute("datatablesInlineCreating",false);
-        uiModel.addAttribute("datatablesSecurityApplied",false);
+        uiModel.addAttribute("datatablesSecurityApplied",true);
         uiModel.addAttribute("datatablesStandardMode",true);
         uiModel.addAttribute("finderNameParam","ajax_find");
     }

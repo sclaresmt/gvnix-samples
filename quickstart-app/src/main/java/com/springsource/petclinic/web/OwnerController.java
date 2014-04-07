@@ -13,8 +13,8 @@ import org.gvnix.web.report.roo.addon.GvNIXReports;
 @Controller
 @RooWebScaffold(path = "owners", formBackingObject = Owner.class)
 @GvNIXWebJQuery
-@GvNIXWebJpaBatch(service = OwnerBatchService.class)
 @GvNIXDatatables(ajax = true, detailFields = { "pets", "vets" })
+@GvNIXWebJpaBatch(service = OwnerBatchService.class)
 @GvNIXReports({ "report_owners|pdf" })
 public class OwnerController {
 }

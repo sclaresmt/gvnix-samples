@@ -77,15 +77,29 @@ logging setup --level INFO
 // Adding JQuery, Datatables and Bootstrap
 web mvc jquery setup
 web mvc datatables setup 
-web mvc bootstrap setup
 web mvc jquery all
+web mvc bootstrap setup
 
-// Creating datatables and datatables details
-web mvc datatables all
+// Creating master patterns 
+web mvc datatables add --type ~.web.VetController --mode show
+web mvc datatables add --type ~.web.PetController
+web mvc datatables add --type ~.web.OwnerController
+web mvc datatables add --type ~.web.VisitController
+
+// At this point, the application is complete, and you can run
+
+
+// Pattern: master table Owner > detail table Pet
 web mvc datatables detail add --type ~.web.OwnerController --property pets
+
+// Pattern: master table Owner > detail table Vet
+web mvc datatables detail add --type ~.web.OwnerController --property vets
+
+// Pattern: master table Owner > detail table Pet > detail table Visit
+web mvc datatables detail add --type ~.web.PetController --property visits
+
+// Pattern: master table Owner > detail table Vet > detail table Visit
 web mvc datatables detail add --type ~.web.VetController --property visits
-web mvc datatables detail add --property vets --type ~.web.OwnerController
-web mvc datatables detail add --property visits --type ~.web.PetController
 
 
 // Adding Batch Services
