@@ -78,9 +78,9 @@ privileged aspect OwnerIntegrationTest_Roo_IntegrationTest {
         obj = Owner.findOwner(id);
         Assert.assertNotNull("Find method for 'Owner' illegally returned null for id '" + id + "'", obj);
         boolean modified =  dod.modifyOwner(obj);
-        Integer currentVersion = obj.getVersion();
+        String currentVersion = obj.getOccChekcsum();
         obj.flush();
-        Assert.assertTrue("Version for 'Owner' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'Owner' failed to increment on flush directive", (currentVersion != null && !currentVersion.equals(obj.getOccChekcsum())) || !modified);
     }
     
     @Test
@@ -91,11 +91,11 @@ privileged aspect OwnerIntegrationTest_Roo_IntegrationTest {
         Assert.assertNotNull("Data on demand for 'Owner' failed to provide an identifier", id);
         obj = Owner.findOwner(id);
         boolean modified =  dod.modifyOwner(obj);
-        Integer currentVersion = obj.getVersion();
+        String currentVersion = obj.getOccChekcsum();
         Owner merged = (Owner)obj.merge();
         obj.flush();
         Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
-        Assert.assertTrue("Version for 'Owner' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'Owner' failed to increment on flush directive", (currentVersion != null && !currentVersion.equals(obj.getOccChekcsum())) || !modified);
     }
     
     @Test

@@ -8,10 +8,14 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.gvnix.occ.roo.addon.GvNIXEntityOCCChecksum;
+import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
+@GvNIXEntityOCCChecksum
 public abstract class AbstractPerson {
 
     /**
@@ -58,4 +62,8 @@ public abstract class AbstractPerson {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
     private Date birthDay;
+
+    @Version
+    @Transient
+    private String occChekcsum;
 }

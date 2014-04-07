@@ -1,4 +1,5 @@
-// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-04-07 17:08:00
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-04-07 17:44:32
+hint
 project --topLevelPackage com.springsource.petclinic --projectName petclinic
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
 enum type --class ~.reference.PetType
@@ -50,6 +51,7 @@ web mvc all --package ~.web
 web mvc finder all
 web mvc language --code de
 web mvc language --code es
+occ checksum all
 test integration --entity ~.domain.Vet
 test integration --entity ~.domain.Owner
 test integration --entity ~.domain.Pet
@@ -67,13 +69,14 @@ web mvc datatables add --type ~.web.VetController --mode show
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController
+menu setup
 web mvc datatables detail add --type ~.web.OwnerController --property pets
 web mvc datatables detail add --type ~.web.OwnerController --property vets
 web mvc datatables detail add --type ~.web.PetController --property visits
 web mvc datatables detail add --type ~.web.VetController --property visits
 jpa gvnix setup
-web mvc batch setup
 jpa batch all
+web mvc batch setup
 web mvc batch all
 security setup
 web mvc bootstrap update
@@ -82,6 +85,5 @@ web report add --controller ~.web.OwnerController --reportName report_owners
 remote service define ws --class ~.services.PetsServices --serviceName  ws_get_all_pets
 remote service operation --name ws_list_pets --service ~.services.PetsServices
 // script --file quickstart.roo
-hint
 exit
-// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-04-07 17:09:13
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-04-07 17:45:53

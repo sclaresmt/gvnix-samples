@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Version;
 
 privileged aspect Pet_Roo_Jpa_Entity {
     
@@ -22,24 +21,12 @@ privileged aspect Pet_Roo_Jpa_Entity {
     @Column(name = "id")
     private Long Pet.id;
     
-    @Version
-    @Column(name = "version")
-    private Integer Pet.version;
-    
     public Long Pet.getId() {
         return this.id;
     }
     
     public void Pet.setId(Long id) {
         this.id = id;
-    }
-    
-    public Integer Pet.getVersion() {
-        return this.version;
-    }
-    
-    public void Pet.setVersion(Integer version) {
-        this.version = version;
     }
     
 }

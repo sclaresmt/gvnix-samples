@@ -59,4 +59,12 @@ privileged aspect Pet_Roo_JavaBean {
         this.visits = visits;
     }
     
+    public String Pet.getOccChekcsum() {
+        return this.occChekcsum;
+    }
+    
+    public void Pet.setOccChekcsum(String occChekcsum) {
+        this.occChekcsum = occChekcsum;
+    }
+    
 }

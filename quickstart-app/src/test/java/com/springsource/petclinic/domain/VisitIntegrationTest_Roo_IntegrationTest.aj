@@ -78,9 +78,9 @@ privileged aspect VisitIntegrationTest_Roo_IntegrationTest {
         obj = Visit.findVisit(id);
         Assert.assertNotNull("Find method for 'Visit' illegally returned null for id '" + id + "'", obj);
         boolean modified =  dod.modifyVisit(obj);
-        Integer currentVersion = obj.getVersion();
+        String currentVersion = obj.getOccChekcsum();
         obj.flush();
-        Assert.assertTrue("Version for 'Visit' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'Visit' failed to increment on flush directive", (currentVersion != null && !currentVersion.equals(obj.getOccChekcsum())) || !modified);
     }
     
     @Test
@@ -91,11 +91,11 @@ privileged aspect VisitIntegrationTest_Roo_IntegrationTest {
         Assert.assertNotNull("Data on demand for 'Visit' failed to provide an identifier", id);
         obj = Visit.findVisit(id);
         boolean modified =  dod.modifyVisit(obj);
-        Integer currentVersion = obj.getVersion();
+        String currentVersion = obj.getOccChekcsum();
         Visit merged = obj.merge();
         obj.flush();
         Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
-        Assert.assertTrue("Version for 'Visit' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'Visit' failed to increment on flush directive", (currentVersion != null && !currentVersion.equals(obj.getOccChekcsum())) || !modified);
     }
     
     @Test

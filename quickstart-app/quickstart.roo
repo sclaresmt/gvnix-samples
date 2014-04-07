@@ -62,6 +62,9 @@ web mvc finder all
 web mvc language --code de
 web mvc language --code es
 
+// Adding Optimistic Concurrency Control 
+occ checksum all
+
 // Adding Tests
 test integration --entity ~.domain.Vet
 test integration --entity ~.domain.Owner
@@ -86,7 +89,10 @@ web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController
 
-// At this point, the application is complete, and you can run
+// Setup menu
+menu setup
+
+/////// At this point, the application is complete, and you can run
 
 
 // Pattern: master table Owner > detail table Pet
@@ -102,10 +108,16 @@ web mvc datatables detail add --type ~.web.PetController --property visits
 web mvc datatables detail add --type ~.web.VetController --property visits
 
 
-// Adding Batch Services
+// Enable gvNIX JPA utilities
 jpa gvnix setup
-web mvc batch setup
+
+// Creates a Spring @Service class with methods for entity batch updates
 jpa batch all
+
+// Enable gvNIX Web MVC Batch utilities
+web mvc batch setup
+
+// Add support for JPA batch operations in all controllers
 web mvc batch all
 
 // Adding Spring security

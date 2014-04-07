@@ -12,10 +12,14 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
+import org.gvnix.occ.roo.addon.GvNIXEntityOCCChecksum;
+import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord(sequenceName = "PET_SEQ", finders = { "findPetsByNameAndWeight", "findPetsByOwner", "findPetsBySendRemindersAndWeightLessThan", "findPetsByTypeAndNameLike" })
+@GvNIXEntityOCCChecksum
 public class Pet {
 
     /**
@@ -50,4 +54,8 @@ public class Pet {
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
     private Set<Visit> visits = new HashSet<Visit>();
+
+    @Version
+    @Transient
+    private String occChekcsum;
 }

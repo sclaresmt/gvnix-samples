@@ -78,9 +78,9 @@ privileged aspect PetIntegrationTest_Roo_IntegrationTest {
         obj = Pet.findPet(id);
         Assert.assertNotNull("Find method for 'Pet' illegally returned null for id '" + id + "'", obj);
         boolean modified =  dod.modifyPet(obj);
-        Integer currentVersion = obj.getVersion();
+        String currentVersion = obj.getOccChekcsum();
         obj.flush();
-        Assert.assertTrue("Version for 'Pet' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'Pet' failed to increment on flush directive", (currentVersion != null && !currentVersion.equals(obj.getOccChekcsum())) || !modified);
     }
     
     @Test
@@ -91,11 +91,11 @@ privileged aspect PetIntegrationTest_Roo_IntegrationTest {
         Assert.assertNotNull("Data on demand for 'Pet' failed to provide an identifier", id);
         obj = Pet.findPet(id);
         boolean modified =  dod.modifyPet(obj);
-        Integer currentVersion = obj.getVersion();
+        String currentVersion = obj.getOccChekcsum();
         Pet merged = obj.merge();
         obj.flush();
         Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
-        Assert.assertTrue("Version for 'Pet' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'Pet' failed to increment on flush directive", (currentVersion != null && !currentVersion.equals(obj.getOccChekcsum())) || !modified);
     }
     
     @Test
