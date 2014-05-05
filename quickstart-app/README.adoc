@@ -29,6 +29,10 @@ The application presented in this guide is the Spring PetClinic application. The
 Note this sample isn't a real application which normally needs additional work
 like UI customization, performance improvement, database queries tunning, etc.
 
+= Guide
+
+You can execute quickstart.roo[quickstart.roo] file and creates a petclinic example application 
+
 This guide teaches you how to:
 
 . <<create-a-new-project, Create a new project>>
@@ -169,8 +173,9 @@ web mvc all --package ~.web
 [source,shell]
 web mvc finder all
 
-. If you want to install some differents languages to use in your application, execute de following commands:
-+
+=== Multi-language
+
+If you want to install some differents languages to use in your application, execute de following commands:
 
 [source,shell]
 web mvc language --code es
@@ -179,4 +184,35 @@ web mvc language --code de
 
 [[add-occ]]
 == Add Optimistic Concurrency Control
+
+To add concurrency control to all entities in your project, use the following command:
+
+[source,shell]
+occ checksum all
+
+
+[[add-tests]] 
+== Add JUnit & Selenium Tests
+
+=== JUnit
+
+Add JUnit tests to your application entities using the next commands:
+
+[source,shell]
+test integration --entity ~.domain.Vet
+test integration --entity ~.domain.Owner
+test integration --entity ~.domain.Pet
+test integration --entity ~.domain.Visit
+
+== Selenium
+
+Add Selenium tests to your application entities using the next commands:
+
+[source,shell]
+selenium test --controller ~.web.OwnerController
+selenium test --controller ~.web.PetController
+selenium test --controller ~.web.VetController
+selenium test --controller ~.web.VisitController
+
+
 
