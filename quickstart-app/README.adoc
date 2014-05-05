@@ -31,7 +31,9 @@ like UI customization, performance improvement, database queries tunning, etc.
 
 == Guide
 
-You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-app/quickstart.roo[quickstart.roo] file and creates a petclinic example application or follow the next guide.
+You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-app/quickstart.roo[quickstart.roo] file and creates a petclinic example application. 
+
+If you don't have experience using gvNIX, you can follow the next Guide to generate a petclinic example application.
 
 This guide teaches you how to:
 
