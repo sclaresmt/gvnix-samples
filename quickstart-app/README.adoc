@@ -42,9 +42,9 @@ This guide teaches you how to:
 . <<add-web-layers, Add web layers>>
 . <<add-optimistic-concurrency-control, Add Optimistic Concurrency Control >>
 . <<add-junit-and-selenium-tests, Add JUnit and Selenium Tests >>
-. <<jquery-setup, JQuery, Datatables and Bootstrap Setup >>
+. <<jquery-datatables-and-bootstrap-setup, JQuery, Datatables and Bootstrap Setup >>
 . <<menu-setup, Menu Setup >>
-. <<create-patterns-&-details-using-datatables, Create Patterns & Details using Datatables>>
+. <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
 . <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
 . <<add-spring-security, Add Spring Security >>
 . <<add-reports, Add Reports >>
@@ -214,7 +214,7 @@ selenium test --controller ~.web.PetController
 selenium test --controller ~.web.VetController
 selenium test --controller ~.web.VisitController
 
-[[jquery-setup]]
+[[jquery-datatables-and-bootstrap-setup]]
 == JQuery, Datatables & Bootstrap Setup
 
 === JQuery
@@ -254,8 +254,8 @@ To install gvNIX menu, use the following command:
 [source,shell]
 menu setup
 
-[[create-patterns-&-details-using-datatables]] 
-== Create Patterns & Details using Datatables
+[[create-patterns-and-details-using-datatables]] 
+== Create Patterns and Details using Datatables
 
 === Create master patterns 
 
@@ -332,7 +332,7 @@ To set up Spring Security in your gvNIX project, use the next command:
 security setup
 
 [icon="images/icons/note.png"]
-NOTE: _You need to execute *web mvc bootstrap update* after security setup to displays login as Bootstrap appearance._
+NOTE: _You need to execute *web mvc bootstrap update* command after security setup to displays login as Bootstrap appearance._
 
 [[add-reports]]
 == Add Reports
