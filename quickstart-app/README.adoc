@@ -29,9 +29,9 @@ The application presented in this guide is the Spring PetClinic application. The
 Note this sample isn't a real application which normally needs additional work
 like UI customization, performance improvement, database queries tunning, etc.
 
-= Guide
+== Guide
 
-You can execute quickstart.roo[quickstart.roo] file and creates a petclinic example application 
+You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-app/quickstart.roo[quickstart.roo] file and creates a petclinic example application or follow the next guide.
 
 This guide teaches you how to:
 
