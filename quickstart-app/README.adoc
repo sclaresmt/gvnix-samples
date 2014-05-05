@@ -42,7 +42,7 @@ This guide teaches you how to:
 . <<add-web-layers, Add web layers>>
 . <<add-optimistic-concurrency-control, Add Optimistic Concurrency Control >>
 . <<add-junit-and-selenium-tests, Add JUnit and Selenium Tests >>
-. <<jquery-datatables-and-bootstrap-setup, JQuery, Datatables and Bootstrap Setup >>
+. <<jquery-,-datatables-and-bootstrap-setup, JQuery, Datatables and Bootstrap Setup >>
 . <<menu-setup, Menu Setup >>
 . <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
 . <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
