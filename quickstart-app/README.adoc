@@ -85,7 +85,7 @@ in order to deliver a first prototype.
 
 === Create the domain entities
 
-TBC
+Following the above class diagram, run the following commands to generate petclinic application:
 
 == TBC
 
