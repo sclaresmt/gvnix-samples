@@ -76,7 +76,7 @@ Execute the following command to set up persistence in your gvNIX project:
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
 
 [icon="images/icons/note.png"]
-NOTE: _Replace *provider* param and *database* param with your own configuration. Use this to follow the guide._
+NOTE: _You can replace *provider* param and *database* param with your own configuration._
 
 [[build-the-domain-model]]
 == Build the domain model
@@ -188,7 +188,7 @@ web mvc all --package ~.web
 web mvc finder all
 
 
-. _*(Optional)*_ If you want to install some *differents languages* to use in your application, execute de following commands:
+. *(Optional)* If you want to install some *differents languages* to use in your application, execute de following commands:
 +
 
 [source,shell]
