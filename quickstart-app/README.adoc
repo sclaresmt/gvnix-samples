@@ -88,7 +88,7 @@ in order to deliver a first prototype.
 
 === Create the domain entities
 
-Following the above class diagram, run the following commands to generate the petclinic domain entities:
+Following the above class diagram, run the next commands to generate the petclinic domain entities:
 
 . Create entities:
 +
@@ -204,7 +204,7 @@ test integration --entity ~.domain.Owner
 test integration --entity ~.domain.Pet
 test integration --entity ~.domain.Visit
 
-== Selenium
+=== Selenium
 
 Add Selenium tests to your application entities using the next commands:
 
@@ -214,5 +214,35 @@ selenium test --controller ~.web.PetController
 selenium test --controller ~.web.VetController
 selenium test --controller ~.web.VisitController
 
+[[jquery-setup]]
+== JQuery, Datatables & Bootstrap Setup
+
+=== JQuery Setup
+
+. To use jQuery components in your project, you must to execute the following command:
++
+
+[source,shell]
+web mvc jquery setup
+
+. Configure all your views to use jQuery components running the next command:
++
+
+[source,shell]
+web mvc jquery all
+
+=== Datatables Setup
+
+To use Datatables to show data in your application, execute the following command:
+
+[source,shell]
+web mvc datatables setup 
+
+=== Bootstrap
+
+Implements Bootstrap in your application and modify its visual appearance executing the next command:
+
+[source,shell]
+web mvc bootstrap setup
 
 
