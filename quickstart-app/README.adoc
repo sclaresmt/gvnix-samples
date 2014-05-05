@@ -57,14 +57,17 @@ $ cd clinic
 
 . Start gvNIX
 . Execute command to create project:
++
 
 [source,shell]
 project --topLevelPackage com.springsource.petclinic --projectName petclinic
 
 [[persistence-setup]]
 == Persistence Setup
++
 
-. To persistence setup execute the following command (Replace provider param and database param with your own configuration):
+Execute the following command to set up persistence in your gvNIX project (Replace provider param and database param with your own configuration):
++
 
 [source,shell]
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
