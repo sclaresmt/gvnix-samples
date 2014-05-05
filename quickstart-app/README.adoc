@@ -145,6 +145,8 @@ field reference --fieldName owner --type ~.domain.Owner --class ~.domain.Vet
 field set --fieldName vets --type ~.domain.Vet --class ~.domain.Owner --cardinality ONE_TO_MANY --mappedBy owner
 field set --fieldName visits --type ~.domain.Visit --class ~.domain.Pet --cardinality ONE_TO_MANY --mappedBy pet
 
++
+
 [icon="images/icons/note.png"]
 NOTE: _You must to indicate *field type*, *field name* and the *entity class*._
 
