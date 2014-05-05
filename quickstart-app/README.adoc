@@ -267,5 +267,5 @@ web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController
 
-[NOTE]
-_Use *--mode* param with show value, to display only a record per page_
+[icon="images/icons/note.png"]
+NOTE: _Use *--mode* param with show value, to display only a record per page_
