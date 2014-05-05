@@ -70,10 +70,13 @@ project --topLevelPackage com.springsource.petclinic --projectName petclinic
 [[persistence-setup]]
 == Persistence Setup
 
-Execute the following command to set up persistence in your gvNIX project (Replace provider param and database param with your own configuration):
+Execute the following command to set up persistence in your gvNIX project:
 
 [source,shell]
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
+
+[icon="images/icons/note.png"]
+NOTE: _Replace *provider* param and *database* param with your own configuration. Use this to follow the guide._
 
 [[build-the-domain-model]]
 == Build the domain model
@@ -100,7 +103,7 @@ entity jpa --class ~.domain.AbstractPerson --abstract
 entity jpa --class ~.domain.Vet --extends ~.domain.AbstractPerson
 entity jpa --class ~.domain.Owner --extends ~.domain.AbstractPerson
 
-. Create general enumerates to use in petclinic application:
+. Create *PetType* and *Specialty* enumerates to use in petclinic application:
 +
 
 [source,shell]
@@ -113,7 +116,7 @@ enum constant --name Cardiology
 enum constant --name Dentistry
 enum constant --name Nutrition
 
-. Add fields to entities (you must to indicate field type, field name and the entity class):
+. Add fields to entities:
 +
 
 [source,shell]
@@ -142,11 +145,14 @@ field reference --fieldName owner --type ~.domain.Owner --class ~.domain.Vet
 field set --fieldName vets --type ~.domain.Vet --class ~.domain.Owner --cardinality ONE_TO_MANY --mappedBy owner
 field set --fieldName visits --type ~.domain.Visit --class ~.domain.Pet --cardinality ONE_TO_MANY --mappedBy pet
 
+[icon="images/icons/note.png"]
+NOTE: _You must to indicate *field type*, *field name* and the *entity class*._
+
 
 [[add-finder-methods]]
 == Add finder methods
 
-If you want to find data by different fields, you need to generate some methods. Execute the following commands in gvNIX shell to implements this functionality (you must to indicate unic finderName and entity class):
+If you want to *find data* by different fields, you need to generate some methods. Execute the following commands in gvNIX shell to implements this functionality:
 
 [source,shell]
 finder add --finderName findPetsByNameAndWeight --class ~.domain.Pet
@@ -157,25 +163,33 @@ finder add --finderName findVisitsByDescriptionAndVisitDate --class ~.domain.Vis
 finder add --finderName findVisitsByVisitDateBetween
 finder add --finderName findVisitsByDescriptionLike
 
+[icon="images/icons/note.png"]
+NOTE: _You must to indicate *unic finderName* and entity class._
+
 [[add-web-layers]]
 == Add Web Layers
 
-. Execute the following commands to generate web layer:
+. Execute the following commands setup web layer: and generate web layer:
 +
 
 [source,shell]
 web mvc setup
+
+. Execute the following commands to generate web layer for all application entities:
++
+
+[source,shell]
 web mvc all --package ~.web
 
-. To generate web layers of the generated finders above, run the next commands:
+. To generate web layers of all the generated finders above, run the next commands:
 +
 
 [source,shell]
 web mvc finder all
 
-=== Multi-language
 
-If you want to install some differents languages to use in your application, execute de following commands:
+. _*(Optional)*_ If you want to install some *differents languages* to use in your application, execute de following commands:
++
 
 [source,shell]
 web mvc language --code es
@@ -240,7 +254,7 @@ web mvc datatables setup
 
 === Bootstrap
 
-Implements Bootstrap in your application and modify its visual appearance executing the next command:
+Implements Bootstrap in your application to modify its visual appearance executing the next command:
 
 [source,shell]
 web mvc bootstrap setup
@@ -259,7 +273,7 @@ menu setup
 
 === Create master patterns 
 
-After setup Datatables components, you can use them to display data in your application. Run the following commands to create master patterns with Datatable components:
+After setup Datatables components run the following commands to create master patterns with Datatable components:
 
 [source,shell]
 web mvc datatables add --type ~.web.VetController --mode show
@@ -274,32 +288,36 @@ NOTE: _Use *--mode* param with show value, to display only a record per page_
 
 After create Datatables master patterns, you can add details to display related information about the selected row.
 
-. To create the following structure "Pattern: master table Owner > detail table Pet" use the next command:
+. To create the following structure "Master table Owner > detail table Pet" use the next command:
 +
 
 [source,shell]
 web mvc datatables detail add --type ~.web.OwnerController --property pets
 
-. To create the following structure "Pattern: master table Owner > detail table Vet" use the next command:
+. To create the following structure "Master table Owner > detail table Vet" use the next command:
 +
 
 [source,shell]
 web mvc datatables detail add --type ~.web.OwnerController --property vets
 
++
+
 [icon="images/icons/note.png"]
 NOTE: _Master Datatable *Vet* uses mode show to display data, so this detail displays a datatable with show mode._
 
-. To create the following structure "Pattern: master table Owner > detail table Pet > detail table Visit" use the next command:
+. To create the following structure "Master table Owner > detail table Pet > detail table Visit" use the next command:
 +
 
 [source,shell]
 web mvc datatables detail add --type ~.web.PetController --property visits
 
++
+
 [icon="images/icons/note.png"]
 NOTE: _The above example, shows three levels of details (Master, detail and detail of the detail)_
 
 
-. To create the following structure "Pattern: master table Owner > detail table Vet > detail table Visit" use the next command:
+. To create the following structure "Master table Owner > detail table Vet > detail table Visit" use the next command:
 +
 
 [source,shell]
@@ -308,16 +326,16 @@ web mvc datatables detail add --type ~.web.VetController --property visits
 [[enable-datatables-inline-editing]] 
 == Enable Datatables Inline Editing
 
-To use InlineEditing Datatables functionalities, you must to generate ajax methods to implement it. You can generate them using the following commands.
+To use InlineEditing Datatables functionalities, you must to generate ajax methods. You can generate them using the following commands.
 
-. Applying batch to entities
+. Generate batch methods to entities
 +
 
 [source,shell]
 jpa gvnix setup
 jpa batch all
 
-. Applying batch to controllers
+. Generate batch methods to controllers
 +
 [source,shell]
 web mvc batch setup
