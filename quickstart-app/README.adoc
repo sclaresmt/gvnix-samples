@@ -142,7 +142,7 @@ field set --fieldName visits --type ~.domain.Visit --class ~.domain.Pet --cardin
 [[add-finders]]
 == Add finder methods
 
-If you want to find data by different fields in your entities, you need to generate some methods. Execute the following commands in gvNIX shell to implements this functionality (you must to indicate unic finderName and entity class):
+If you want to find data by different fields, you need to generate some methods. Execute the following commands in gvNIX shell to implements this functionality (you must to indicate unic finderName and entity class):
 
 [source,shell]
 finder add --finderName findPetsByNameAndWeight --class ~.domain.Pet
@@ -156,4 +156,27 @@ finder add --finderName findVisitsByDescriptionLike
 [[add-web-layers]]
 == Add Web Layers
 
+. Execute the following commands to generate web layer:
++
+
+[source,shell]
+web mvc setup
+web mvc all --package ~.web
+
+. To generate web layers of the generated finders above, run the next commands:
++
+
+[source,shell]
+web mvc finder all
+
+. If you want to install some differents languages to use in your application, execute de following commands:
++
+
+[source,shell]
+web mvc language --code es
+web mvc language --code de
+
+
+[[add-occ]]
+== Add Optimistic Concurrency Control
 
