@@ -42,14 +42,12 @@ This guide teaches you how to:
 +
 
 [source,shell]
-
 $ mkdir clinic
 $ cd clinic
 
 . Start gvNIX
 +
 
-[source,shell]
 
 . TBC
 
