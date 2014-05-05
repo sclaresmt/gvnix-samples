@@ -142,3 +142,18 @@ field set --fieldName visits --type ~.domain.Visit --class ~.domain.Pet --cardin
 [[add-finders]]
 == Add finder methods
 
+If you want to find data by different fields in your entities, you need to generate some methods. Execute the following commands in gvNIX shell to implements this functionality (you must to indicate unic finderName and entity class):
+
+[source,shell]
+finder add --finderName findPetsByNameAndWeight --class ~.domain.Pet
+finder add --finderName findPetsByOwner
+finder add --finderName findPetsBySendRemindersAndWeightLessThan
+finder add --finderName findPetsByTypeAndNameLike
+finder add --finderName findVisitsByDescriptionAndVisitDate --class ~.domain.Visit
+finder add --finderName findVisitsByVisitDateBetween
+finder add --finderName findVisitsByDescriptionLike
+
+[[add-web-layers]]
+== Add Web Layers
+
+
