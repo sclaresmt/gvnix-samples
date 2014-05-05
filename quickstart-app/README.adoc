@@ -33,7 +33,6 @@ This guide teaches you how to:
 
 . <<create-a-new-project, Create a new project>>
 . <<persistence-setup, Persistence Setup>>
-. <<enumerates, Create Enumerates>>
 . <<build-the-domain-model, Build the domain model>>
 . <<add-web-layers, Add web layers>>
 . <<add-occ, Add Optimistic Concurrency Control >>
@@ -57,10 +56,18 @@ $ mkdir clinic
 $ cd clinic
 
 . Start gvNIX
-+
+. Execute command to create project:
 
+[source,shell]
+project --topLevelPackage com.springsource.petclinic --projectName petclinic
 
-. TBC
+[[persistence-setup]]
+== Persistence Setup
+
+. To persistence setup execute the following command (Replace provider param and database param with your own configuration):
+
+[source,shell]
+jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
 
 [[build-the-domain-model]]
 == Build the domain model
