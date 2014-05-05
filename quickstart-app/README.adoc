@@ -40,15 +40,15 @@ This guide teaches you how to:
 . <<build-the-domain-model, Build the domain model>>
 . <<add-finder-methods, Add finder methods>>
 . <<add-web-layers, Add web layers>>
-. <<add-occ, Add Optimistic Concurrency Control >>
-. <<add-tests, Add JUnit & Selenium Tests >>
-. <<jquery-setup, JQuery, Datatables & Bootstrap Setup >>
+. <<add-optimistic-concurrency-control, Add Optimistic Concurrency Control >>
+. <<add-junit-and-selenium-tests, Add JUnit and Selenium Tests >>
+. <<jquery-setup, JQuery, Datatables and Bootstrap Setup >>
 . <<menu-setup, Menu Setup >>
 . <<create-patterns-&-details-using-datatables, Create Patterns & Details using Datatables>>
-. <<enable-inline-editing, Enable Datatables Inline Editing >>
+. <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
 . <<add-spring-security, Add Spring Security >>
 . <<add-reports, Add Reports >>
-. <<add-web-services, Add WebServices >>
+. <<add-webservices, Add WebServices >>
 
 [[create-a-new-project]]
 == Create a new project
@@ -182,7 +182,7 @@ web mvc language --code es
 web mvc language --code de
 
 
-[[add-occ]]
+[[add-optimistic-concurrency-control]]
 == Add Optimistic Concurrency Control
 
 To add concurrency control to all entities in your project, use the following command:
@@ -191,8 +191,8 @@ To add concurrency control to all entities in your project, use the following co
 occ checksum all
 
 
-[[add-tests]] 
-== Add JUnit & Selenium Tests
+[[add-junit-and-selenium-tests]] 
+== Add JUnit and Selenium Tests
 
 === JUnit
 
@@ -269,3 +269,87 @@ web mvc datatables add --type ~.web.VisitController
 
 [icon="images/icons/note.png"]
 NOTE: _Use *--mode* param with show value, to display only a record per page_
+
+=== Adding Datatables Details
+
+After create Datatables master patterns, you can add details to display related information about the selected row.
+
+. To create the following structure "Pattern: master table Owner > detail table Pet" use the next command:
++
+
+[source,shell]
+web mvc datatables detail add --type ~.web.OwnerController --property pets
+
+. To create the following structure "Pattern: master table Owner > detail table Vet" use the next command:
++
+
+[source,shell]
+web mvc datatables detail add --type ~.web.OwnerController --property vets
+
+[icon="images/icons/note.png"]
+NOTE: _Master Datatable *Vet* uses mode show to display data, so this detail displays a datatable with show mode._
+
+. To create the following structure "Pattern: master table Owner > detail table Pet > detail table Visit" use the next command:
++
+
+[source,shell]
+web mvc datatables detail add --type ~.web.PetController --property visits
+
+[icon="images/icons/note.png"]
+NOTE: _The above example, shows three levels of details (Master, detail and detail of the detail)_
+
+
+. To create the following structure "Pattern: master table Owner > detail table Vet > detail table Visit" use the next command:
++
+
+[source,shell]
+web mvc datatables detail add --type ~.web.VetController --property visits
+
+[[enable-datatables-inline-editing]] 
+== Enable Datatables Inline Editing
+
+To use InlineEditing Datatables functionalities, you must to generate ajax methods to implement it. You can generate them using the following commands.
+
+. Applying batch to entities
++
+
+[source,shell]
+jpa gvnix setup
+jpa batch all
+
+. Applying batch to controllers
++
+[source,shell]
+web mvc batch setup
+web mvc batch all
+
+[[add-spring-security]]
+== Add Spring Security
+
+To set up Spring Security in your gvNIX project, use the next command:
+
+[source,shell]
+security setup
+
+[icon="images/icons/note.png"]
+NOTE: _You need to execute *web mvc bootstrap update* after security setup to displays login as Bootstrap appearance._
+
+[[add-reports]]
+== Add Reports
+
+If you need to print reports of your application data, you can add simple reports using the next commands:
+
+[source,shell]
+web report setup
+web report add --controller ~.web.OwnerController --reportName report_owners
+
+[[add-webservices]] 
+== Add WebServices
+
+gvNIX provides web services that can be accessed by external applications. To implements this functionalities, use the following commands:
+
+[source,shell]
+remote service define ws --class ~.services.PetsServices --serviceName ws_get_all_pets
+remote service operation --name ws_list_pets --service ~.services.PetsServices
+
+
