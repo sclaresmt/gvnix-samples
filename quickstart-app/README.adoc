@@ -38,13 +38,13 @@ This guide teaches you how to:
 . <<create-a-new-project, Create a new project>>
 . <<persistence-setup, Persistence Setup>>
 . <<build-the-domain-model, Build the domain model>>
-. <<add-finders, Add finder methods>>
+. <<add-finder-methods, Add finder methods>>
 . <<add-web-layers, Add web layers>>
 . <<add-occ, Add Optimistic Concurrency Control >>
 . <<add-tests, Add JUnit & Selenium Tests >>
 . <<jquery-setup, JQuery, Datatables & Bootstrap Setup >>
 . <<menu-setup, Menu Setup >>
-. <<add-datatables, Create Patterns & Details using Datatables>>
+. <<create-patterns-&-details-using-datatables, Create Patterns & Details using Datatables>>
 . <<enable-inline-editing, Enable Datatables Inline Editing >>
 . <<add-spring-security, Add Spring Security >>
 . <<add-reports, Add Reports >>
@@ -143,7 +143,7 @@ field set --fieldName vets --type ~.domain.Vet --class ~.domain.Owner --cardinal
 field set --fieldName visits --type ~.domain.Visit --class ~.domain.Pet --cardinality ONE_TO_MANY --mappedBy pet
 
 
-[[add-finders]]
+[[add-finder-methods]]
 == Add finder methods
 
 If you want to find data by different fields, you need to generate some methods. Execute the following commands in gvNIX shell to implements this functionality (you must to indicate unic finderName and entity class):
@@ -217,7 +217,7 @@ selenium test --controller ~.web.VisitController
 [[jquery-setup]]
 == JQuery, Datatables & Bootstrap Setup
 
-=== JQuery Setup
+=== JQuery
 
 . To use jQuery components in your project, you must to execute the following command:
 +
@@ -231,7 +231,7 @@ web mvc jquery setup
 [source,shell]
 web mvc jquery all
 
-=== Datatables Setup
+=== Datatables
 
 To use Datatables to show data in your application, execute the following command:
 
@@ -246,3 +246,25 @@ Implements Bootstrap in your application and modify its visual appearance execut
 web mvc bootstrap setup
 
 
+[[menu-setup]]
+== Menu Setup
+
+To install gvNIX menu, use the following command:
+
+[source,shell]
+menu setup
+
+[[create-patterns-&-details-using-datatables]] 
+== Create Patterns & Details using Datatables
+
+=== Create master patterns 
+
+After setup Datatables components, you can use them to display data in your application. Run the following commands to create master patterns with Datatable components:
+
+[source,shell]
+web mvc datatables add --type ~.web.VetController --mode show
+web mvc datatables add --type ~.web.PetController
+web mvc datatables add --type ~.web.OwnerController
+web mvc datatables add --type ~.web.VisitController
+
+<i>Use <b>--mode</b> param with show value, to display only a record per page</i>
