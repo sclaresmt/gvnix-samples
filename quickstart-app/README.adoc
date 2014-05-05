@@ -267,4 +267,5 @@ web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController
 
-<i>Use <b>--mode</b> param with show value, to display only a record per page</i>
+[NOTE]
+_Use *--mode* param with show value, to display only a record per page_
