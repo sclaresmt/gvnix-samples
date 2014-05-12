@@ -45,9 +45,10 @@ This guide teaches you how to:
 . <<add-optimistic-concurrency-control, Add Optimistic Concurrency Control >>
 . <<add-junit-and-selenium-tests, Add JUnit and Selenium Tests >>
 . <<jquery-datatables-and-bootstrap-setup, JQuery Datatables and Bootstrap Setup >>
-. <<menu-setup, Menu Setup >>
 . <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
+. <<run-application, Run application >>
 . <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
+. <<menu-setup, Menu Setup >>
 . <<add-spring-security, Add Spring Security >>
 . <<add-reports, Add Reports >>
 . <<add-webservices, Add WebServices >>
@@ -258,6 +259,11 @@ web mvc jquery setup
 [source,shell]
 web mvc jquery all
 
+. Optionally, you can convert view-by-view to jQuery
+
+[source,shell]
+web mvc jquery add --type ~.web.PetController
+
 === Datatables
 
 To use Datatables to show data in your application, execute the following command:
@@ -272,14 +278,6 @@ Implements Bootstrap in your application to modify its visual appearance executi
 [source,shell]
 web mvc bootstrap setup
 
-
-[[menu-setup]]
-== Menu Setup
-
-To install gvNIX menu, use the following command:
-
-[source,shell]
-menu setup
 
 [[create-patterns-and-details-using-datatables]] 
 == Create Patterns and Details using Datatables
@@ -336,6 +334,26 @@ NOTE: _The above example, shows three levels of details (Master, detail and deta
 [source,shell]
 web mvc datatables detail add --type ~.web.VetController --property visits
 
+[[run-application]]
+== Run application
+
+At this point, you can run your generated gvNIX application. You have different ways to execute it:
+
+. Using console:
++
+
+You can use the following commands to execute your application on tomcat server:
+
+[source,shell]
+mvn clean compile tomcat:run
+
+image:images/run-application.png[Running gvNIX application]
+
+. You can use STS to run your application:
+
+
+
+
 [[enable-datatables-inline-editing]] 
 == Enable Datatables Inline Editing
 
@@ -353,6 +371,14 @@ jpa batch all
 [source,shell]
 web mvc batch setup
 web mvc batch all
+
+[[menu-setup]]
+== Menu Setup
+
+To install gvNIX menu, use the following command:
+
+[source,shell]
+menu setup
 
 [[add-spring-security]]
 == Add Spring Security
