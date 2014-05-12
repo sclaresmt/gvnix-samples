@@ -281,7 +281,7 @@ web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController --inline true --ajax true
 
 [icon="images/icons/note.png"]
-NOTE: _Use *--mode* param with show value, to display only a record per page_ :|\n _Use *--inlineEditing* param with true value to enable inline creation and inline update_
+NOTE: _Use *--mode* param with show value, to display only a record per page_ \n _Use *--inlineEditing* param with true value to enable inline creation and inline update_
 
 === Adding Datatables Details
 
