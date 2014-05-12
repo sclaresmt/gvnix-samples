@@ -237,6 +237,15 @@ selenium test --controller ~.web.VisitController
 
 === JQuery
 
+Spring MVC - jQuery integration.
+
+    * Converts Dojo based views into jQuery based views
+    * Adds form validation support
+    * Reduces the contents of small JavaScript code into the HTML document
+    * Includes jQuery UI 
+
+Looks how easy you can transform your Dojo based project into jQuery based project: 
+
 . To use jQuery components in your project, you must to execute the following command:
 +
 
