@@ -317,9 +317,8 @@ At this point, you can run your generated gvNIX application. To do it:
 mvn clean compile tomcat:run
 
 image:images/shell/running-application.png[Running gvNIX application]
-image:images/shell/running-works.png[gvNIX application running on tomcat]
 
-At this moment, you can access to your gvNIX application at _http://localhost:8080/petclinic/_.
+At this moment, you can access to your gvNIX application at _http://localhost:8080/petclinic/_
 
 image:images/sample-application.png[Petclinic sample application]
 
