@@ -46,6 +46,7 @@ This guide teaches you how to:
 . <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
 . <<run-application, Run application >>
 . <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
+. <<loupe-components, Loupe Components >>
 . <<menu-setup, Menu Setup >>
 . <<spring-security, Spring Security >>
 . <<reports, Reports >>
@@ -281,7 +282,7 @@ web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController --inline true --ajax true
 
 [icon="images/icons/note.png"]
-NOTE: _Use *--mode* param with show value, to display only a record per page_ \n _Use *--inlineEditing* param with true value to enable inline creation and inline update_
+NOTE: _Use *--mode* param with show value, to display only a record per page_. _Use *--inlineEditing* param with true value to enable inline creation and inline update_
 
 === Adding Datatables Details
 
@@ -341,6 +342,31 @@ At this moment, you can access to your gvNIX application at _http://localhost:80
 
 image:images/sample-application.png[Petclinic sample application]
 
+[[loupe-components]]
+== Loupe Components
+
+The Loupe fields provide new functionality to search related data more easily than using combobox.
+
+To implement Loupe in your gvNIX application you need to execute the following commands:
+
+. Setup Loupe components:
++
+
+[source,shell]
+web mvc loupe setup
+
+. Add some necessary functions to the controller:
++
+
+[source,shell]
+web mvc loupe set --controller ~.web.VisitController
+
+. Convert related fields to loupe elements on create and update views:
++
+
+[source,shell]
+web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
+web mvc loupe field --controller ~.web.VisitController --field vet
 
 [[menu-setup]]
 == Menu Setup
