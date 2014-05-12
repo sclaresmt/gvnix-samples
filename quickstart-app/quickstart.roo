@@ -62,20 +62,17 @@ web mvc finder all
 web mvc language --code de
 web mvc language --code es
 
-// Adding Optimistic Concurrency Control 
-occ checksum all
+// Enable gvNIX JPA utilities
+jpa gvnix setup
 
-// Adding Tests
-test integration --entity ~.domain.Vet
-test integration --entity ~.domain.Owner
-test integration --entity ~.domain.Pet
-test integration --entity ~.domain.Visit
-selenium test --controller ~.web.OwnerController
-selenium test --controller ~.web.PetController
-selenium test --controller ~.web.VetController
-selenium test --controller ~.web.VisitController
-logging setup --level INFO
+// Creates a Spring @Service class with methods for entity batch updates
+jpa batch all
 
+// Enable gvNIX Web MVC Batch utilities
+web mvc batch setup
+
+// Add support for JPA batch operations in all controllers
+web mvc batch all
 
 // Adding JQuery, Datatables and Bootstrap
 web mvc jquery setup
@@ -87,13 +84,9 @@ web mvc bootstrap setup
 web mvc datatables add --type ~.web.VetController --mode show
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
-web mvc datatables add --type ~.web.VisitController
-
-// Setup menu
-menu setup
+web mvc datatables add --type ~.web.VisitController --inline true --ajax true
 
 /////// At this point, the application is complete, and you can run
-
 
 // Pattern: master table Owner > detail table Pet
 web mvc datatables detail add --type ~.web.OwnerController --property pets
@@ -107,18 +100,8 @@ web mvc datatables detail add --type ~.web.PetController --property visits
 // Pattern: master table Owner > detail table Vet > detail table Visit
 web mvc datatables detail add --type ~.web.VetController --property visits
 
-
-// Enable gvNIX JPA utilities
-jpa gvnix setup
-
-// Creates a Spring @Service class with methods for entity batch updates
-jpa batch all
-
-// Enable gvNIX Web MVC Batch utilities
-web mvc batch setup
-
-// Add support for JPA batch operations in all controllers
-web mvc batch all
+// Setup menu
+menu setup
 
 // Adding Spring security
 security setup
@@ -127,6 +110,20 @@ web mvc bootstrap update
 // Adding reports
 web report setup 
 web report add --controller ~.web.OwnerController --reportName report_owners
+
+// Adding Optimistic Concurrency Control 
+occ checksum all
+
+// Adding Tests
+test integration --entity ~.domain.Vet
+test integration --entity ~.domain.Owner
+test integration --entity ~.domain.Pet
+test integration --entity ~.domain.Visit
+selenium test --controller ~.web.OwnerController
+selenium test --controller ~.web.PetController
+selenium test --controller ~.web.VetController
+selenium test --controller ~.web.VisitController
+logging setup --level INFO
 
 // Adding Web Services
 remote service define ws --class ~.services.PetsServices --serviceName  ws_get_all_pets

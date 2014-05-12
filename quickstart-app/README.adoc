@@ -248,6 +248,24 @@ Implements Bootstrap in your application to modify its visual appearance executi
 [source,shell]
 web mvc bootstrap setup
 
+[[enable-datatables-inline-editing]] 
+== Enable Datatables Inline Editing
+
+To use InlineEditing Datatables functionalities, you must to generate ajax methods. You can generate them using the following commands.
+
+. Generate batch methods to entities
++
+
+[source,shell]
+jpa gvnix setup
+jpa batch all
+
+. Generate batch methods to controllers
++
+[source,shell]
+web mvc batch setup
+web mvc batch all
+
 
 [[create-patterns-and-details-using-datatables]] 
 == Create Patterns and Details using Datatables
@@ -260,10 +278,10 @@ After setup Datatables components run the following commands to create master pa
 web mvc datatables add --type ~.web.VetController --mode show
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
-web mvc datatables add --type ~.web.VisitController --inlineEditing true
+web mvc datatables add --type ~.web.VisitController --inline true --ajax true
 
 [icon="images/icons/note.png"]
-NOTE: _Use *--mode* param with show value, to display only a record per page_ <br/> _Use *--inlineEditing* param with true value to enable inline creation and inline update_
+NOTE: _Use *--mode* param with show value, to display only a record per page_ :|\n _Use *--inlineEditing* param with true value to enable inline creation and inline update_
 
 === Adding Datatables Details
 
@@ -323,26 +341,6 @@ At this moment, you can access to your gvNIX application at _http://localhost:80
 
 image:images/sample-application.png[Petclinic sample application]
 
-
-
-
-[[enable-datatables-inline-editing]] 
-== Enable Datatables Inline Editing
-
-To use InlineEditing Datatables functionalities, you must to generate ajax methods. You can generate them using the following commands.
-
-. Generate batch methods to entities
-+
-
-[source,shell]
-jpa gvnix setup
-jpa batch all
-
-. Generate batch methods to controllers
-+
-[source,shell]
-web mvc batch setup
-web mvc batch all
 
 [[menu-setup]]
 == Menu Setup
@@ -420,3 +418,4 @@ At the end of this tutorial, and if you follow all steps above, you will have a 
 image:images/sample-application-login.png[width="45%"]
 image:images/sample-application-home.png[width="45%"]
 image:images/sample-application-pet-creation.png[width="45%"]
+image:images/sample-application-pet-list.png[width="45%"]
