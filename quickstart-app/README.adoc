@@ -46,7 +46,7 @@ This guide teaches you how to:
 . <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
 . <<run-application, Run application >>
 . <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
-. <<loupe-components, Loupe Components >>
+. <<loupe-fields, Loupe Components >>
 . <<menu-setup, Menu Setup >>
 . <<spring-security, Spring Security >>
 . <<reports, Reports >>
@@ -342,12 +342,12 @@ At this moment, you can access to your gvNIX application at _http://localhost:80
 
 image:images/sample-application.png[Petclinic sample application]
 
-[[loupe-components]]
-== Loupe Components
+[[loupe-fields]]
+== Loupe Fields
 
 The Loupe fields provide new functionality to search related data more easily than using combobox.
 
-To implement Loupe in your gvNIX application you need to execute the following commands:
+To implement Loupe fields in your gvNIX application you need to execute the following commands:
 
 . Setup Loupe components:
 +
@@ -367,6 +367,9 @@ web mvc loupe set --controller ~.web.VisitController
 [source,shell]
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
 web mvc loupe field --controller ~.web.VisitController --field vet
+
+[icon="images/icons/note.png"]
+NOTE: _You can configure callbacks functions for fields above editing 'scripts/loupefield/loupe-callbacks.js'. You can add onDraw function and onSet function to manage that events._
 
 [[menu-setup]]
 == Menu Setup
@@ -399,10 +402,12 @@ web report add --controller ~.web.OwnerController --reportName report_owners
 [[optimistic-concurrency-control]]
 == Optimistic Concurrency Control
 
-To add concurrency control to all entities in your project, use the following command:
+With Optimistic Concurrency Control application compare the old and new entity state without the need to alter legacy database tables with version columns. 
+
+To add concurrency control to an specific entity in your project, use the following command:
 
 [source,shell]
-occ checksum all
+occ checksum set --entity ~.domain.Pet
 
 
 [[junit-and-selenium-tests]] 
