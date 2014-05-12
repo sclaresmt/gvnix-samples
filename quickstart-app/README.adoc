@@ -417,6 +417,6 @@ remote service operation --name ws_list_pets --service ~.services.PetsServices
 
 At the end of this tutorial, and if you follow all steps above, you will have a petclinic application with following appearance
 
-image:images/sample-application-login.png[width="35%"]
-image:images/sample-application-home.png[width="35%"]
-image:images/sample-application-pet-creation.png[width="35%"]
+image:images/sample-application-login.png[width="50%"]
+image:images/sample-application-home.png[width="50%"]
+image:images/sample-application-pet-creation.png[width="50%"]
