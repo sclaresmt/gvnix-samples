@@ -229,6 +229,7 @@ web mvc jquery setup
 web mvc jquery all
 
 . Optionally, you can convert view-by-view to jQuery
++
 
 [source,shell]
 web mvc jquery add --type ~.web.PetController
@@ -315,11 +316,12 @@ At this point, you can run your generated gvNIX application. To do it:
 [source,shell]
 mvn clean compile tomcat:run
 
-image:images/run-application.png[Running gvNIX application]
+image:images/shell/running-application.png[Running gvNIX application]
+image:images/shell/running-works.png[gvNIX application running on tomcat]
 
-At this moment, your gvNIX application will have the next appearance.
+At this moment, you can access to your gvNIX application at _http://localhost:8080/petclinic/_.
 
-
+image:images/sample-application.png[Petclinic sample application]
 
 
 
