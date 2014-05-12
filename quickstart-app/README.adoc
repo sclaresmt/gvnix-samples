@@ -260,10 +260,10 @@ After setup Datatables components run the following commands to create master pa
 web mvc datatables add --type ~.web.VetController --mode show
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
-web mvc datatables add --type ~.web.VisitController
+web mvc datatables add --type ~.web.VisitController --inlineEditing true
 
 [icon="images/icons/note.png"]
-NOTE: _Use *--mode* param with show value, to display only a record per page_
+NOTE: _Use *--mode* param with show value, to display only a record per page_ <br/> _Use *--inlineEditing* param with true value to enable inline creation and inline update_
 
 === Adding Datatables Details
 
@@ -412,5 +412,9 @@ gvNIX provides web services that can be accessed by external applications. To im
 [source,shell]
 remote service define ws --class ~.services.PetsServices --serviceName ws_get_all_pets
 remote service operation --name ws_list_pets --service ~.services.PetsServices
+
+== Result
+
+At the end of this tutorial, and if you follow all steps above, you will have a petclinic application with following appearance
 
 
