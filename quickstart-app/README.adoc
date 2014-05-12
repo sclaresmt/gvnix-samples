@@ -310,7 +310,7 @@ web mvc datatables detail add --type ~.web.VetController --property visits
 At this point, you can run your generated gvNIX application. To do it:
 
 . Open shell on the main folder of your project.
-. Use the following commands to execute your application on tomcat server:
+. Use the following command to execute your application on tomcat server:
 +
 
 [source,shell]
@@ -318,7 +318,8 @@ mvn clean compile tomcat:run
 
 image:images/shell/running-application.png[Running gvNIX application]
 
-At this moment, you can access to your gvNIX application at _http://localhost:8080/petclinic/_
+At this moment, you can access to your gvNIX application at _http://localhost:8080/petclinic/_. The application must have the following appearance:
++
 
 image:images/sample-application.png[Petclinic sample application]
 
