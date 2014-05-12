@@ -40,18 +40,18 @@ This guide teaches you how to:
 . <<create-a-new-project, Create a new project>>
 . <<persistence-setup, Persistence Setup>>
 . <<build-the-domain-model, Build the domain model>>
-. <<add-finder-methods, Add finder methods>>
-. <<add-web-layers, Add web layers>>
+. <<finder-methods, Finder methods>>
+. <<web-layers, Web layers>>
 . <<jquery-datatables-and-bootstrap-setup, JQuery Datatables and Bootstrap Setup >>
 . <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
 . <<run-application, Run application >>
 . <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
 . <<menu-setup, Menu Setup >>
-. <<add-spring-security, Add Spring Security >>
-. <<add-reports, Add Reports >>
-. <<add-optimistic-concurrency-control, Add Optimistic Concurrency Control >>
-. <<add-junit-and-selenium-tests, Add JUnit and Selenium Tests >>
-. <<add-webservices, Add WebServices >>
+. <<spring-security, Spring Security >>
+. <<reports, Reports >>
+. <<optimistic-concurrency-control, Optimistic Concurrency Control >>
+. <<junit-and-selenium-tests, JUnit and Selenium Tests >>
+. <<webservices, WebServices >>
 
 [[create-a-new-project]]
 == Create a new project
@@ -156,8 +156,8 @@ field set --fieldName visits --type ~.domain.Visit --class ~.domain.Pet --cardin
 NOTE: _You must to indicate *field type*, *field name* and the *entity class*._
 
 
-[[add-finder-methods]]
-== Add finder methods
+[[finder-methods]]
+== Finder methods
 
 If you want to *find data* by different fields, you need to generate some methods. Execute the following commands in gvNIX shell to implements this functionality:
 
@@ -173,8 +173,8 @@ finder add --finderName findVisitsByDescriptionLike
 [icon="images/icons/note.png"]
 NOTE: _You must to indicate *unic finderName* and entity class._
 
-[[add-web-layers]]
-== Add Web Layers
+[[web-layers]]
+== Web Layers
 
 . Execute the following commands setup web layer: and generate web layer:
 +
@@ -361,8 +361,8 @@ security setup
 [icon="images/icons/note.png"]
 NOTE: _You need to execute *web mvc bootstrap update* command after security setup to displays login as Bootstrap appearance._
 
-[[add-reports]]
-== Add Reports
+[[reports]]
+== Reports
 
 If you need to print reports of your application data, you can add simple reports using the next commands:
 
@@ -370,8 +370,8 @@ If you need to print reports of your application data, you can add simple report
 web report setup
 web report add --controller ~.web.OwnerController --reportName report_owners
 
-[[add-optimistic-concurrency-control]]
-== Add Optimistic Concurrency Control
+[[optimistic-concurrency-control]]
+== Optimistic Concurrency Control
 
 To add concurrency control to all entities in your project, use the following command:
 
@@ -379,8 +379,8 @@ To add concurrency control to all entities in your project, use the following co
 occ checksum all
 
 
-[[add-junit-and-selenium-tests]] 
-== Add JUnit and Selenium Tests
+[[junit-and-selenium-tests]] 
+== JUnit and Selenium Tests
 
 === JUnit
 
@@ -402,8 +402,8 @@ selenium test --controller ~.web.PetController
 selenium test --controller ~.web.VetController
 selenium test --controller ~.web.VisitController
 
-[[add-webservices]] 
-== Add WebServices
+[[webservices]] 
+== WebServices
 
 gvNIX provides web services that can be accessed by external applications. To implements this functionalities, use the following commands:
 
@@ -419,3 +419,4 @@ image:images/sample-application-login.png[width="45%"]
 image:images/sample-application-home.png[width="45%"]
 image:images/sample-application-pet-creation.png[width="45%"]
 image:images/sample-application-pet-list.png[width="45%"]
+image:images/sample-application-visit-inline.png[width="45%"]

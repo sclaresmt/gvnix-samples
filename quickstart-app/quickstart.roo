@@ -76,11 +76,11 @@ web mvc batch all
 
 // Adding JQuery, Datatables and Bootstrap
 web mvc jquery setup
-web mvc datatables setup 
+web mvc datatables setup
 web mvc jquery all
 web mvc bootstrap setup
 
-// Creating master patterns 
+// Creating master patterns
 web mvc datatables add --type ~.web.VetController --mode show
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
@@ -100,6 +100,12 @@ web mvc datatables detail add --type ~.web.PetController --property visits
 // Pattern: master table Owner > detail table Vet > detail table Visit
 web mvc datatables detail add --type ~.web.VetController --property visits
 
+// Installing Loupe components, adding loupe functions and using loupe fields
+web mvc loupe setup
+web mvc loupe set --controller ~.web.VisitController
+web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
+web mvc loupe field --controller ~.web.VisitController --field vet
+
 // Setup menu
 menu setup
 
@@ -108,11 +114,11 @@ security setup
 web mvc bootstrap update
 
 // Adding reports
-web report setup 
+web report setup
 web report add --controller ~.web.OwnerController --reportName report_owners
 
-// Adding Optimistic Concurrency Control 
-occ checksum all
+// Adding Optimistic Concurrency Control
+occ checksum set --entity ~.domain.Pet
 
 // Adding Tests
 test integration --entity ~.domain.Vet
@@ -125,6 +131,13 @@ selenium test --controller ~.web.VetController
 selenium test --controller ~.web.VisitController
 logging setup --level INFO
 
+// Dynamic Configuration
+configuration create --name local
+configuration property add --name log4j.rootLogger
+configuration property value --configuration local --property log4j.rootLogger --value ERROR
+configuration list
+configuration export
+
 // Adding Web Services
-remote service define ws --class ~.services.PetsServices --serviceName  ws_get_all_pets
+remote service define ws --class ~.services.PetsServices --serviceName ws_get_all_pets
 remote service operation --name ws_list_pets --service ~.services.PetsServices
