@@ -42,8 +42,6 @@ This guide teaches you how to:
 . <<build-the-domain-model, Build the domain model>>
 . <<add-finder-methods, Add finder methods>>
 . <<add-web-layers, Add web layers>>
-. <<add-optimistic-concurrency-control, Add Optimistic Concurrency Control >>
-. <<add-junit-and-selenium-tests, Add JUnit and Selenium Tests >>
 . <<jquery-datatables-and-bootstrap-setup, JQuery Datatables and Bootstrap Setup >>
 . <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
 . <<run-application, Run application >>
@@ -51,6 +49,8 @@ This guide teaches you how to:
 . <<menu-setup, Menu Setup >>
 . <<add-spring-security, Add Spring Security >>
 . <<add-reports, Add Reports >>
+. <<add-optimistic-concurrency-control, Add Optimistic Concurrency Control >>
+. <<add-junit-and-selenium-tests, Add JUnit and Selenium Tests >>
 . <<add-webservices, Add WebServices >>
 
 [[create-a-new-project]]
@@ -69,6 +69,8 @@ $ cd clinic
 
 [source,shell]
 project --topLevelPackage com.springsource.petclinic --projectName petclinic
+
+image:images/shell/create-project.png[Create a new project using console]
 
 [[persistence-setup]]
 == Persistence Setup
@@ -200,39 +202,6 @@ web mvc finder all
 web mvc language --code es
 web mvc language --code de
 
-
-[[add-optimistic-concurrency-control]]
-== Add Optimistic Concurrency Control
-
-To add concurrency control to all entities in your project, use the following command:
-
-[source,shell]
-occ checksum all
-
-
-[[add-junit-and-selenium-tests]] 
-== Add JUnit and Selenium Tests
-
-=== JUnit
-
-Add JUnit tests to your application entities using the next commands:
-
-[source,shell]
-test integration --entity ~.domain.Vet
-test integration --entity ~.domain.Owner
-test integration --entity ~.domain.Pet
-test integration --entity ~.domain.Visit
-
-=== Selenium
-
-Add Selenium tests to your application entities using the next commands:
-
-[source,shell]
-selenium test --controller ~.web.OwnerController
-selenium test --controller ~.web.PetController
-selenium test --controller ~.web.VetController
-selenium test --controller ~.web.VisitController
-
 [[jquery-datatables-and-bootstrap-setup]]
 == JQuery, Datatables & Bootstrap Setup
 
@@ -337,19 +306,20 @@ web mvc datatables detail add --type ~.web.VetController --property visits
 [[run-application]]
 == Run application
 
-At this point, you can run your generated gvNIX application. You have different ways to execute it:
+At this point, you can run your generated gvNIX application. To do it:
 
-. Using console:
+. Open shell on the main folder of your project.
+. Use the following commands to execute your application on tomcat server:
 +
-
-You can use the following commands to execute your application on tomcat server:
 
 [source,shell]
 mvn clean compile tomcat:run
 
 image:images/run-application.png[Running gvNIX application]
 
-. You can use STS to run your application:
+At this moment, your gvNIX application will have the next appearance.
+
+
 
 
 
@@ -399,6 +369,38 @@ If you need to print reports of your application data, you can add simple report
 [source,shell]
 web report setup
 web report add --controller ~.web.OwnerController --reportName report_owners
+
+[[add-optimistic-concurrency-control]]
+== Add Optimistic Concurrency Control
+
+To add concurrency control to all entities in your project, use the following command:
+
+[source,shell]
+occ checksum all
+
+
+[[add-junit-and-selenium-tests]] 
+== Add JUnit and Selenium Tests
+
+=== JUnit
+
+Add JUnit tests to your application entities using the next commands:
+
+[source,shell]
+test integration --entity ~.domain.Vet
+test integration --entity ~.domain.Owner
+test integration --entity ~.domain.Pet
+test integration --entity ~.domain.Visit
+
+=== Selenium
+
+Add Selenium tests to your application entities using the next commands:
+
+[source,shell]
+selenium test --controller ~.web.OwnerController
+selenium test --controller ~.web.PetController
+selenium test --controller ~.web.VetController
+selenium test --controller ~.web.VisitController
 
 [[add-webservices]] 
 == Add WebServices
