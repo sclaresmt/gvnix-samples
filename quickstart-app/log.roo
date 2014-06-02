@@ -87,3 +87,6 @@ remote service operation --name ws_list_pets --service ~.services.PetsServices
 // script --file quickstart.roo
 exit
 // Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-04-07 17:45:53
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-06-02 11:11:34
+exit
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-06-02 11:12:01

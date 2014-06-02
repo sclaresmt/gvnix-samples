@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,16 @@ import org.springframework.web.context.request.WebRequest;
 
 privileged aspect VetController_Roo_GvNIXWebJpaBatch {
     
+    @Autowired
+    public ConversionService VetController.conversionService_batch;
+    
     public static Logger VetController.LOGGER_BATCH = LoggerFactory.getLogger(VetController.class);;
     
     @Autowired
     public VetBatchService VetController.batchService;
     
     @RequestMapping(value = "/delete", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<Object> VetController.delete(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Vet vet, WebRequest request) {
+    public ResponseEntity<Object> VetController.deleteBatch(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Vet vet, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         long count = 0;
@@ -74,11 +78,11 @@ privileged aspect VetController_Roo_GvNIXWebJpaBatch {
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.PUT, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Vet>> VetController.update(@RequestBody @Valid List<Vet> vets, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Vet>> VetController.updateBatch(@RequestBody @Valid List<Vet> vets, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Vet>> jsonResponse = new JsonResponse<List<Vet>>();
+        jsonResponse.setValue(vets);
         if (bindingResult.hasErrors()) {
             jsonResponse.setBindingResult(bindingResult);
-            jsonResponse.setValue(vets);
             jsonResponse.setStatus("ERROR");
             return jsonResponse;
         }
@@ -86,23 +90,23 @@ privileged aspect VetController_Roo_GvNIXWebJpaBatch {
             vets = batchService.update(vets);
         }
         catch(Exception ex) {
-            jsonResponse.setValue(vets);
             jsonResponse.setStatus("ERROR");
             jsonResponse.setExceptionMessage(ex.getLocalizedMessage());
             return jsonResponse;
         }
         jsonResponse.setValue(vets);
+        jsonResponse.setOid(getOIDList(vets));
         jsonResponse.setStatus("SUCCESS");
         return jsonResponse;
     }
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Vet>> VetController.create(@RequestBody @Valid List<Vet> vets, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Vet>> VetController.createBatch(@RequestBody @Valid List<Vet> vets, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Vet>> jsonResponse = new JsonResponse<List<Vet>>();
+        jsonResponse.setValue(vets);
         if (bindingResult.hasErrors()) {
             jsonResponse.setBindingResult(bindingResult);
-            jsonResponse.setValue(vets);
             jsonResponse.setStatus("ERROR");
             return jsonResponse;
         }
@@ -110,14 +114,21 @@ privileged aspect VetController_Roo_GvNIXWebJpaBatch {
             batchService.create(vets);
         }
         catch(Exception ex) {
-            jsonResponse.setValue(vets);
             jsonResponse.setStatus("ERROR");
             jsonResponse.setExceptionMessage(ex.getLocalizedMessage());
             return jsonResponse;
         }
-        jsonResponse.setValue(vets);
+        jsonResponse.setOid(getOIDList(vets));
         jsonResponse.setStatus("SUCCESS");
         return jsonResponse;
+    }
+    
+    public List<String> VetController.getOIDList(List<Vet> vets) {
+        List<String> result = new ArrayList<String>(vets.size());
+        for (Vet vet : vets) {
+            result.add(conversionService_batch.convert(vet.getId(), String.class));
+        }
+        return result;
     }
     
     public Map<String, Object> VetController.getRequestPropertyValues(Vet vet, Iterator<String> propertyNames) {

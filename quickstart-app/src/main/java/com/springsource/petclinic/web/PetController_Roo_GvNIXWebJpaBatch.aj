@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,16 @@ import org.springframework.web.context.request.WebRequest;
 
 privileged aspect PetController_Roo_GvNIXWebJpaBatch {
     
+    @Autowired
+    public ConversionService PetController.conversionService_batch;
+    
     public static Logger PetController.LOGGER_BATCH = LoggerFactory.getLogger(PetController.class);;
     
     @Autowired
     public PetBatchService PetController.batchService;
     
     @RequestMapping(value = "/delete", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<Object> PetController.delete(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Pet pet, WebRequest request) {
+    public ResponseEntity<Object> PetController.deleteBatch(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Pet pet, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         long count = 0;
@@ -74,11 +78,11 @@ privileged aspect PetController_Roo_GvNIXWebJpaBatch {
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.PUT, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Pet>> PetController.update(@RequestBody @Valid List<Pet> pets, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Pet>> PetController.updateBatch(@RequestBody @Valid List<Pet> pets, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Pet>> jsonResponse = new JsonResponse<List<Pet>>();
+        jsonResponse.setValue(pets);
         if (bindingResult.hasErrors()) {
             jsonResponse.setBindingResult(bindingResult);
-            jsonResponse.setValue(pets);
             jsonResponse.setStatus("ERROR");
             return jsonResponse;
         }
@@ -86,23 +90,23 @@ privileged aspect PetController_Roo_GvNIXWebJpaBatch {
             pets = batchService.update(pets);
         }
         catch(Exception ex) {
-            jsonResponse.setValue(pets);
             jsonResponse.setStatus("ERROR");
             jsonResponse.setExceptionMessage(ex.getLocalizedMessage());
             return jsonResponse;
         }
         jsonResponse.setValue(pets);
+        jsonResponse.setOid(getOIDList(pets));
         jsonResponse.setStatus("SUCCESS");
         return jsonResponse;
     }
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Pet>> PetController.create(@RequestBody @Valid List<Pet> pets, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Pet>> PetController.createBatch(@RequestBody @Valid List<Pet> pets, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Pet>> jsonResponse = new JsonResponse<List<Pet>>();
+        jsonResponse.setValue(pets);
         if (bindingResult.hasErrors()) {
             jsonResponse.setBindingResult(bindingResult);
-            jsonResponse.setValue(pets);
             jsonResponse.setStatus("ERROR");
             return jsonResponse;
         }
@@ -110,14 +114,21 @@ privileged aspect PetController_Roo_GvNIXWebJpaBatch {
             batchService.create(pets);
         }
         catch(Exception ex) {
-            jsonResponse.setValue(pets);
             jsonResponse.setStatus("ERROR");
             jsonResponse.setExceptionMessage(ex.getLocalizedMessage());
             return jsonResponse;
         }
-        jsonResponse.setValue(pets);
+        jsonResponse.setOid(getOIDList(pets));
         jsonResponse.setStatus("SUCCESS");
         return jsonResponse;
+    }
+    
+    public List<String> PetController.getOIDList(List<Pet> pets) {
+        List<String> result = new ArrayList<String>(pets.size());
+        for (Pet pet : pets) {
+            result.add(conversionService_batch.convert(pet.getId(), String.class));
+        }
+        return result;
     }
     
     public Map<String, Object> PetController.getRequestPropertyValues(Pet pet, Iterator<String> propertyNames) {

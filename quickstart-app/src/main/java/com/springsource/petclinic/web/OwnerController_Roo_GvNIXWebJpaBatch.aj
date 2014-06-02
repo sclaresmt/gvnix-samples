@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,16 @@ import org.springframework.web.context.request.WebRequest;
 
 privileged aspect OwnerController_Roo_GvNIXWebJpaBatch {
     
+    @Autowired
+    public ConversionService OwnerController.conversionService_batch;
+    
     public static Logger OwnerController.LOGGER_BATCH = LoggerFactory.getLogger(OwnerController.class);;
     
     @Autowired
     public OwnerBatchService OwnerController.batchService;
     
     @RequestMapping(value = "/delete", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<Object> OwnerController.delete(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Owner owner, WebRequest request) {
+    public ResponseEntity<Object> OwnerController.deleteBatch(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Owner owner, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         long count = 0;
@@ -74,11 +78,11 @@ privileged aspect OwnerController_Roo_GvNIXWebJpaBatch {
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.PUT, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Owner>> OwnerController.update(@RequestBody @Valid List<Owner> owners, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Owner>> OwnerController.updateBatch(@RequestBody @Valid List<Owner> owners, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Owner>> jsonResponse = new JsonResponse<List<Owner>>();
+        jsonResponse.setValue(owners);
         if (bindingResult.hasErrors()) {
             jsonResponse.setBindingResult(bindingResult);
-            jsonResponse.setValue(owners);
             jsonResponse.setStatus("ERROR");
             return jsonResponse;
         }
@@ -86,23 +90,23 @@ privileged aspect OwnerController_Roo_GvNIXWebJpaBatch {
             owners = batchService.update(owners);
         }
         catch(Exception ex) {
-            jsonResponse.setValue(owners);
             jsonResponse.setStatus("ERROR");
             jsonResponse.setExceptionMessage(ex.getLocalizedMessage());
             return jsonResponse;
         }
         jsonResponse.setValue(owners);
+        jsonResponse.setOid(getOIDList(owners));
         jsonResponse.setStatus("SUCCESS");
         return jsonResponse;
     }
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Owner>> OwnerController.create(@RequestBody @Valid List<Owner> owners, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Owner>> OwnerController.createBatch(@RequestBody @Valid List<Owner> owners, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Owner>> jsonResponse = new JsonResponse<List<Owner>>();
+        jsonResponse.setValue(owners);
         if (bindingResult.hasErrors()) {
             jsonResponse.setBindingResult(bindingResult);
-            jsonResponse.setValue(owners);
             jsonResponse.setStatus("ERROR");
             return jsonResponse;
         }
@@ -110,14 +114,21 @@ privileged aspect OwnerController_Roo_GvNIXWebJpaBatch {
             batchService.create(owners);
         }
         catch(Exception ex) {
-            jsonResponse.setValue(owners);
             jsonResponse.setStatus("ERROR");
             jsonResponse.setExceptionMessage(ex.getLocalizedMessage());
             return jsonResponse;
         }
-        jsonResponse.setValue(owners);
+        jsonResponse.setOid(getOIDList(owners));
         jsonResponse.setStatus("SUCCESS");
         return jsonResponse;
+    }
+    
+    public List<String> OwnerController.getOIDList(List<Owner> owners) {
+        List<String> result = new ArrayList<String>(owners.size());
+        for (Owner owner : owners) {
+            result.add(conversionService_batch.convert(owner.getId(), String.class));
+        }
+        return result;
     }
     
     public Map<String, Object> OwnerController.getRequestPropertyValues(Owner owner, Iterator<String> propertyNames) {

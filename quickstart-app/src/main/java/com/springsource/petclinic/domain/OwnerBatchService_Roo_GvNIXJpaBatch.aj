@@ -115,4 +115,11 @@ privileged aspect OwnerBatchService_Roo_GvNIXJpaBatch {
         return delete.where(baseFilterPredicate).execute();
     }
     
+    @Transactional
+    public void OwnerBatchService.delete(List<Owner> owners) {
+        for( Owner owner : owners) {
+            owner.remove();
+        }
+    }
+    
 }

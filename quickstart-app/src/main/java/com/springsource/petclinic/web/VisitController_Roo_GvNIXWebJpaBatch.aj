@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,16 @@ import org.springframework.web.context.request.WebRequest;
 
 privileged aspect VisitController_Roo_GvNIXWebJpaBatch {
     
+    @Autowired
+    public ConversionService VisitController.conversionService_batch;
+    
     public static Logger VisitController.LOGGER_BATCH = LoggerFactory.getLogger(VisitController.class);;
     
     @Autowired
     public VisitBatchService VisitController.batchService;
     
     @RequestMapping(value = "/delete", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<Object> VisitController.delete(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Visit visit, WebRequest request) {
+    public ResponseEntity<Object> VisitController.deleteBatch(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Visit visit, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         long count = 0;
@@ -74,11 +78,11 @@ privileged aspect VisitController_Roo_GvNIXWebJpaBatch {
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.PUT, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Visit>> VisitController.update(@RequestBody @Valid List<Visit> visits, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Visit>> VisitController.updateBatch(@RequestBody @Valid List<Visit> visits, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Visit>> jsonResponse = new JsonResponse<List<Visit>>();
+        jsonResponse.setValue(visits);
         if (bindingResult.hasErrors()) {
             jsonResponse.setBindingResult(bindingResult);
-            jsonResponse.setValue(visits);
             jsonResponse.setStatus("ERROR");
             return jsonResponse;
         }
@@ -86,23 +90,23 @@ privileged aspect VisitController_Roo_GvNIXWebJpaBatch {
             visits = batchService.update(visits);
         }
         catch(Exception ex) {
-            jsonResponse.setValue(visits);
             jsonResponse.setStatus("ERROR");
             jsonResponse.setExceptionMessage(ex.getLocalizedMessage());
             return jsonResponse;
         }
         jsonResponse.setValue(visits);
+        jsonResponse.setOid(getOIDList(visits));
         jsonResponse.setStatus("SUCCESS");
         return jsonResponse;
     }
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Visit>> VisitController.create(@RequestBody @Valid List<Visit> visits, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Visit>> VisitController.createBatch(@RequestBody @Valid List<Visit> visits, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Visit>> jsonResponse = new JsonResponse<List<Visit>>();
+        jsonResponse.setValue(visits);
         if (bindingResult.hasErrors()) {
             jsonResponse.setBindingResult(bindingResult);
-            jsonResponse.setValue(visits);
             jsonResponse.setStatus("ERROR");
             return jsonResponse;
         }
@@ -110,14 +114,21 @@ privileged aspect VisitController_Roo_GvNIXWebJpaBatch {
             batchService.create(visits);
         }
         catch(Exception ex) {
-            jsonResponse.setValue(visits);
             jsonResponse.setStatus("ERROR");
             jsonResponse.setExceptionMessage(ex.getLocalizedMessage());
             return jsonResponse;
         }
-        jsonResponse.setValue(visits);
+        jsonResponse.setOid(getOIDList(visits));
         jsonResponse.setStatus("SUCCESS");
         return jsonResponse;
+    }
+    
+    public List<String> VisitController.getOIDList(List<Visit> visits) {
+        List<String> result = new ArrayList<String>(visits.size());
+        for (Visit visit : visits) {
+            result.add(conversionService_batch.convert(visit.getId(), String.class));
+        }
+        return result;
     }
     
     public Map<String, Object> VisitController.getRequestPropertyValues(Visit visit, Iterator<String> propertyNames) {

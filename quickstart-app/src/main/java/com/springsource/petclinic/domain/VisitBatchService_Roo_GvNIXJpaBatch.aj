@@ -115,4 +115,11 @@ privileged aspect VisitBatchService_Roo_GvNIXJpaBatch {
         return delete.where(baseFilterPredicate).execute();
     }
     
+    @Transactional
+    public void VisitBatchService.delete(List<Visit> visits) {
+        for( Visit visit : visits) {
+            visit.remove();
+        }
+    }
+    
 }

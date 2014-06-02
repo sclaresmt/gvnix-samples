@@ -115,4 +115,11 @@ privileged aspect VetBatchService_Roo_GvNIXJpaBatch {
         return delete.where(baseFilterPredicate).execute();
     }
     
+    @Transactional
+    public void VetBatchService.delete(List<Vet> vets) {
+        for( Vet vet : vets) {
+            vet.remove();
+        }
+    }
+    
 }
