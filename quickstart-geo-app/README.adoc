@@ -29,7 +29,7 @@ This guide teaches you how to:
 
 . <<configure-persistence, Configure Persistence>>
 . <<add-spatial-support, Add Spatial Support>>
-. <<geo-fields, Add Geo Entity Fields>>
+. <<add-geo-entity-fields, Add Geo Entity Fields>>
 . <<geo-finders, Generate Geo Entity Finders>>
 . <<map-views, Generate Map Views>>
 . <<geo-web-layer, Add entities to Map Views>>
@@ -74,3 +74,21 @@ Execute the following command on your gvNIX shell to add spatial support:
 jpa geo setup --provider HIBERNATE_SPATIAL 
 
 NOTE: _This Spatial Provider is only available if your provider persistence is HIBERNATE and you select https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#configure-persistence[a valid DB]_
+
+[[add-geo-entity-fields]]
+== Add Geo Entity Fields
+
+Now, you can add new fields to your generated Entites. (If you don't generate entities before you should check https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#create-the-domain-entities[quickstart-app guide])
+
+You can add some different field types: POLYGON, POINT, LINESTRING, MULTILINESTRING, GEOMETRY, etc...
+
+You should execute the following to add new fields on Owner entity:
+
+[source,shell]
+field geo --fieldName location --type POINT --class ~.domain.Owner
+field geo --fieldName distance --type LINESTRING --class ~.domain.Owner
+field geo --fieldName area --type POLYGON --class ~.domain.Owner
+
+
+NOTE: _Geo Field commands will not be available until you install Hibernate Spatial Provider._
+
