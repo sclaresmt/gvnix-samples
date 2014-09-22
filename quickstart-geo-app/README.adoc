@@ -53,11 +53,24 @@ That's why we need to configure our project with some valid Spatial DB. We can c
 
 To follow this guide, you should configure a POSTGRES database on your system and add POSTGIS functionalities. To make that possible you can read http://trac.osgeo.org/postgis/[postgis documentation].
 
-When you have a valid POSTGIS Database configured on your system, you can execute the following command:
-+
+When you have a valid POSTGIS Database configured on your system, you can execute the following command with your database configuration:
 
 [source,shell]
 jpa setup --provider HIBERNATE --database POSTGRES --userName USERNAME --databaseName DATABASENAME --password PASSWORD --hostName HOSTNAME
 
 
 Now, you have your project configured to use a valid Spatial Database.
+
+[[spatial-suppot]]
+== Spatial Support
+
+Your Database is configured to accept GEO types and GEO functionalities, but not your project. 
+
+To do that, you need to configure your project persistence with some valid Spatial Provider like http://www.hibernatespatial.org[Hibernate Spatial].
+
+Execute the following command on your gvNIX shell to add spatial support:
+
+[source,shell]
+jpa geo setup --provider HIBERNATE_SPATIAL 
+
+NOTE: _This Spatial Provider is only available if your provider persistence is HIBERNATE and you select https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#configure-persistence[a valid DB]_
