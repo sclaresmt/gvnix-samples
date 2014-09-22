@@ -2,19 +2,19 @@
 <div xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:layer="urn:jsptagdir:/WEB-INF/tags/geo/layers" xmlns:tool="urn:jsptagdir:/WEB-INF/tags/geo/tools" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-<geo:map id="ps_org_gvnix_geo_component_web_Mapview" projection="EPSG3857" z="fKpv4Ai4TEd7cvYTpXaiRsYggKg=">
-        <geo:toc id="ps_org_gvnix_geo_component_web_Mapview_toc" z="yqH9bdkCGGlLgmgHtC857B61eHY=">
-            <layer:entity filterType="auto" id="l_org_gvnix_geo_component_domain_Owner" path="/owners" pk="id" z="KKHHW2CLDFsYEZFBR03IeTO/VEU=">
-                <layer:entity-field field="location" icon="glyphicon-home" iconColor="white" iconLibrary="glyphicon" id="l_org_gvnix_geo_component_domain_Owner_location" markerColor="purple" z="Fb0q4P+ef5h8vr3JSzhj6otFRv4="/>
-                <layer:entity-field field="distance" iconColor="white" id="l_org_gvnix_geo_component_domain_Owner_distance" markerColor="orange" z="9rYdMM9oZ9eYWqBJ9EknkwXB4c8="/>
-                <layer:entity-field field="area" iconColor="white" id="l_org_gvnix_geo_component_domain_Owner_area" markerColor="red" z="AytuBvAPrj/GtWtbRyyiYjf+zSI="/>
+<geo:map id="ps_com_springsource_petclinic_web_Mapview" projection="EPSG3857" z="j4vEuc4wCAAADPl/fMnOqWSG358=">
+        <geo:toc id="ps_com_springsource_petclinic_web_Mapview_toc" z="YpKTYjQzut/zC96UI52ho3hliRk=">
+            <layer:entity filterType="auto" id="l_com_springsource_petclinic_domain_Owner" path="/owners" pk="id" z="nWPaEnqhLlf4IK4LpCT/Sovgspk=">
+                <layer:entity-field field="location" icon="glyphicon-home" iconColor="white" iconLibrary="glyphicon" id="l_com_springsource_petclinic_domain_Owner_location" markerColor="green" z="MNyysuJU6Ggn0De6RSdKUWrCYrU="/>
+                <layer:entity-field field="distance" iconColor="white" id="l_com_springsource_petclinic_domain_Owner_distance" markerColor="blue" z="ZjIMGgZ/76Ypr7eOHEMcFp2pDLI="/>
+                <layer:entity-field field="area" iconColor="white" id="l_com_springsource_petclinic_domain_Owner_area" markerColor="orange" z="6pTlMwiOZ4dChAznmX0hcECk4EY="/>
             </layer:entity>
-        <layer:tile id="ps_org_gvnix_geo_component_web_Mapview_satellit" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="YgHCjIA/U0mI5xqbuX8ndzgREM0="/>
-        <layer:wms crs="EPSG4326" format="image/png" id="ps_org_gvnix_geo_component_web_Mapview_geological_map_of_valencia" layers="0,1,2,3" transparent="true" url="http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" version="1.1.1" z="Nwf1WzppVB/IjAVhwdomKgMxl7A="/>
+        <layer:tile id="ps_com_springsource_petclinic_web_Mapview_satellit" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="LXeVDIUuNmjts0AATIyPaUtUjFo="/>
+        <layer:wms crs="EPSG4326" format="image/png" id="ps_com_springsource_petclinic_web_Mapview_geological_map_of_valencia" layers="0,1,2,3" transparent="true" url="http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" version="1.1.1" z="x4Y0Lybb1rhzqYQ+IqtuiNMJAl4="/>
         </geo:toc>
-        <geo:toolbar id="ps_org_gvnix_geo_component_web_Mapview_toolbar" z="Q8rTW7ELoFhXQ86bmlEGMX00aF4=">
-            <tool:measure id="ps_org_gvnix_geo_component_web_Mapview_measure" z="da5ZwIxZWLet+LoePx+Xp1ty5vo="/>
-        <tool:custom actionTool="false" activateFunction="activateLatLngTool" deactivateFunction="deactivateLatLngTool" icon="fa-location-arrow" iconLibrary="fa" id="ps_org_gvnix_geo_component_web_Mapview_latlng" z="2ZBdGx88h5u4VMWPpeudPE0O8H0="/>
+        <geo:toolbar id="ps_com_springsource_petclinic_web_Mapview_toolbar" z="M08eqz3oB26Dz4Gz9Fo5Zy2W8Tc=">
+            <tool:measure id="ps_com_springsource_petclinic_web_Mapview_measure" z="GDFVN/pXPdwTe/wwCFUCuX73QDA="/>
+        <tool:custom actionTool="false" activateFunction="activateLatLngTool" deactivateFunction="deactivateLatLngTool" icon="fa-location-arrow" iconLibrary="fa" id="ps_com_springsource_petclinic_web_Mapview_latlng" z="71RWTHLr6dLF5yZsiphw5u1NX0E="/>
         </geo:toolbar>
     </geo:map>
 </div>

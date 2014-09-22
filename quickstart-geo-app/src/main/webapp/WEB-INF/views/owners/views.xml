@@ -13,4 +13,7 @@
 <definition extends="default" name="owners/update">
         <put-attribute name="body" value="/WEB-INF/views/owners/update.jspx"/>
     </definition>
+<definition extends="default" name="owners/report_owners">
+        <put-attribute name="body" value="/WEB-INF/views/owners/report_owners.jspx"/>
+    </definition>
 </tiles-definitions>

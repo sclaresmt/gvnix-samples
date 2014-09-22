@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.gvnix.geo.component</groupId>
-    <artifactId>component</artifactId>
+    <groupId>com.springsource.petclinic</groupId>
+    <artifactId>petclinic</artifactId>
     <packaging>war</packaging>
     <version>0.1.0.BUILD-SNAPSHOT</version>
-    <name>component</name>
+    <name>petclinic</name>
     <properties>
         <aspectj.version>1.7.4</aspectj.version>
         <java.version>1.6</java.version>
@@ -14,6 +14,12 @@
         <slf4j.version>1.7.5</slf4j.version>
         <spring.version>3.2.6.RELEASE</spring.version>
     <querydsl.version>3.4.3</querydsl.version>
+    <gvnix.version>1.4.0-SNAPSHOT</gvnix.version>
+    <spring-security.version>3.1.0.RELEASE</spring-security.version>
+    <jasperreports.version>5.0.1</jasperreports.version>
+    <jasperreportsfonts.version>4.0.0</jasperreportsfonts.version>
+    <apachepoi.version>3.9</apachepoi.version>
+    <cxf.version>2.7.3</cxf.version>
     </properties>
     <repositories>
         <repository>
@@ -156,11 +162,6 @@
             <artifactId>spring-aspects</artifactId>
             <version>${spring.version}</version>
         </dependency>
-    <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.1-901-1.jdbc4</version>
-        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -236,35 +237,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-    <dependency>
-            <groupId>org.gvnix</groupId>
-            <artifactId>org.gvnix.addon.jpa</artifactId>
-            <version>1.4.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-    <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>${querydsl.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>${querydsl.version}</version>
-        </dependency>
-    <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-spatial</artifactId>
-            <version>${querydsl.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.geolatte</groupId>
-                    <artifactId>geolatte-geom</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    <dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
@@ -322,42 +295,186 @@
             <artifactId>commons-codec</artifactId>
             <version>1.5</version>
         </dependency>
-    <dependency>
+        <dependency>
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-jsp</artifactId>
             <version>2.2.2</version>
         </dependency>
-    <dependency>
+        <dependency>
+            <groupId>org.gvnix</groupId>
+            <artifactId>org.gvnix.addon.jpa</artifactId>
+            <version>1.4.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>${querydsl.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>${querydsl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-spatial</artifactId>
+            <version>${querydsl.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.geolatte</groupId>
+                    <artifactId>geolatte-geom</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.addon.web.mvc</artifactId>
             <version>1.4.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-    <dependency>
+        <dependency>
+            <groupId>org.gvnix</groupId>
+            <artifactId>org.gvnix.web.json.binding</artifactId>
+            <version>1.4.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.addon.datatables</artifactId>
             <version>1.4.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-    <dependency>
+        <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.datatables.tags</artifactId>
             <version>1.4.0-SNAPSHOT</version>
         </dependency>
-    <dependency>
+        <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.web.datatables</artifactId>
             <version>1.4.0-SNAPSHOT</version>
         </dependency>
-    <dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-spatial</artifactId>
             <version>4.3</version>
         </dependency>
-    <dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.gvnix</groupId>
-            <artifactId>org.gvnix.web.json.binding</artifactId>
+            <artifactId>org.gvnix.web.report.roo.addon</artifactId>
             <version>1.4.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>${jasperreports.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${apachepoi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>${jasperreportsfonts.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gvnix</groupId>
+            <artifactId>org.gvnix.occ.roo.addon</artifactId>
+            <version>1.4.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.gvnix</groupId>
+            <artifactId>org.gvnix.service.roo.addon</artifactId>
+            <version>1.4.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-core</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-soap</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-databinding-jaxb</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <version>2.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
         </dependency>
     <dependency>
             <groupId>org.opengeo</groupId>
@@ -522,6 +639,73 @@
                     </webAppConfig>
                 </configuration>
             </plugin>
+        <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>selenium-maven-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                <browser>*firefox</browser>
+                <suite>src/main/webapp/selenium/test-suite.xhtml</suite>
+                <results>${project.build.directory}/selenium.html</results>
+                <startURL>http://localhost:4444/</startURL>
+            </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.seleniumhq.selenium</groupId>
+                        <artifactId>selenium-server</artifactId>
+                        <version>2.25.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+                <version>${cxf.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                        <version>${cxf.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-frontend-simple</artifactId>
+                        <version>${cxf.version}</version>
+                    </dependency>
+                </dependencies>
+            <executions>
+                    <execution>
+                        <id>${project.basedir}/src/test/resources/generated/wsdl/PetsServices.wsdl</id>
+                        <phase>test</phase>
+                        <configuration>
+                            <className>com.springsource.petclinic.services.PetsServices</className>
+                            <outputFile>${project.basedir}/src/test/resources/generated/wsdl/PetsServices.wsdl</outputFile>
+                            <genWsdl>true</genWsdl>
+                            <verbose>true</verbose>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+    <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+<profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <log4j.rootLogger>ERROR</log4j.rootLogger>
+            </properties>
+        </profile>
+    </profiles>
 </project>

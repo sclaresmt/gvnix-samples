@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
                 
     <!-- The controllers are autodetected POJOs labeled with the @Controller annotation. -->
-    <context:component-scan base-package="org.gvnix.geo.component" use-default-filters="false">
+    <context:component-scan base-package="com.springsource.petclinic" use-default-filters="false">
         <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
     </context:component-scan>
     
@@ -29,6 +29,7 @@
     </mvc:interceptors>
 
     <!-- Selects a static view for rendering without the need for an explicit controller -->
+    <mvc:view-controller path="/login"/>
     <mvc:view-controller path="/" view-name="index"/>
     <mvc:view-controller path="/uncaughtException"/>
     <mvc:view-controller path="/resourceNotFound"/>
@@ -76,8 +77,9 @@
       </list>
     </property>
   </bean>
-<bean class="org.gvnix.geo.component.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService"/>
+<bean class="com.springsource.petclinic.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService"/>
 
+<bean class="org.springframework.web.servlet.view.XmlViewResolver" id="jasperReportsXmlViewResolver" p:location="/WEB-INF/spring/jasper-views.xml" p:order="0"/>
 <bean class="org.gvnix.web.json.Jackson2RequestMappingHandlerAdapter" id="dataBinderRequestMappingHandlerAdapter" p:order="1">
         <property name="objectMapper">
             <bean class="org.gvnix.web.json.ConversionServiceObjectMapper"/>
