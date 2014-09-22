@@ -21,9 +21,9 @@ purpose, we will build an application based on https://github.com/DISID/gvnix-sa
 
 == Guide
 
-You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-app/quickstart.roo[quickstart.roo] file and creates a petclinic example application. 
+You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-geo-app/quickstart-geo.roo[quickstart-geo.roo] file and creates a petclinic example application with GEO components.
 
-If you don't have experience using gvNIX, you can follow the next Guide to generate a petclinic example application.
+If you don't have experience using gvNIX, you can follow the https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] Guide and then follow the next Guide to generate additional GEO components.
 
 This guide teaches you how to:
 
