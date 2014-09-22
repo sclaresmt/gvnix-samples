@@ -1,4 +1,3 @@
-// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev 20197e5] log opened at 2014-09-22 09:35:18
 project --topLevelPackage org.gvnix.geo.component
 jpa setup --provider HIBERNATE --database POSTGRES --userName postgres --databaseName postgis_example --password admin --hostName localhost
 enum type --class ~.reference.PetType
@@ -62,6 +61,3 @@ web mvc geo tilelayer --name satellit --url "http://maptile.maps.svc.ovi.com/map
 web mvc geo wmslayer --name "geological map of valencia" --url "http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" --format "image/png" --transparent true --version "1.1.1" --crs EPSG4326 --layers "0,1,2,3"
 web mvc geo tool measure --name measure
 web mvc geo tool custom --name latlng --icon fa-location-arrow --activateFunction activateLatLngTool --deactivateFunction deactivateLatLngTool --iconLibrary fa
-// script geo.roo
-exit
-// Spring Roo 1.2.6.BUILD-SNAPSHOT [rev 20197e5] log closed at 2014-09-22 09:37:37
