@@ -156,5 +156,5 @@ Previous commands add to your Map views Owner entity. You can display or hide it
 
 image:images/map_entities.png[width="100%"]
 image:images/map_entity_0.png[width="100%"]
-image:images/map_entity_1.png[width="100%"]
+image:images/map_entities_1.png[width="100%"]
 
