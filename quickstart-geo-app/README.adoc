@@ -128,5 +128,5 @@ web mvc geo controller --class ~.web.MapController --preferredMapping map
 
 The previous commands generate different map views and different entries on top menu:
 
-image:images/menu.png[width="45%"]
+image:images/menu.png[width="25%"]
 image:images/simple_map.png[width="100%"]
