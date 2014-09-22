@@ -35,7 +35,7 @@ This guide teaches you how to:
 . <<add-geo-entity-fields, Add Geo Entity Fields>>
 . <<generate-geo-entity-finders, Generate Geo Entity Finders>>
 . <<generate-map-views, Generate Map Views>>
-. <<geo-web-layer, Add entities to Map Views>>
+. <<add-entities-to-map-views, Add entities to Map Views>>
 . <<web-geo-fields, Use Map Control on CRU>>
 . <<base-layers, Add Base Layers to Map Views>>
 . <<base-tools, Add Tools to Map Views>>
@@ -132,5 +132,26 @@ image:images/menu.png[width="25%"]
 image:images/simple_map.png[width="100%"]
 
 NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/mappath/show.jspx** file_
+
+[add-entities-to-map-views]
+== Add entities to Map Views
+
+gvNIX provides you the possibility to display entity data on map views. 
+
+On the https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-geo-entity-fields[third point] of this guide we added 3 new geo fields on Owner entity. 
+
+If you want to display all GEO entities on every maps, you need to execute the following commands:
+
+[source, shell]
+web mvc geo entity all
+
+NOTE: _If you want to display all GEO entities in an specific map, you can use **--map** param selecting the map where you want to display them_
+
+However, if you want to add only one geo entity to every map, you need to execute the following command:
+
+[source, shell]
+web mvc geo entity add --controller ~.web.OwnerController
+
+NOTE: _If you want to display only one geo entity in an specific map, you can use **--map** param selecting the map where you want to display it_
 
 
