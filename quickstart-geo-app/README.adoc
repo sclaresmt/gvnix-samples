@@ -126,7 +126,7 @@ You can generate all maps you want on your application. To do that, you need to 
 web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview --projection EPSG4326
 web mvc geo controller --class ~.web.MapController --preferredMapping map
 
-The previous commands generate different map views and different entries on top menu. The first map generated is configured with EPSG4326 projection. By default all generated maps are generated with EPSG3857 projection.
+Previous commands generate different map views and different entries on top menu. The first map generated is configured with EPSG4326 projection. By default all generated maps are generated with EPSG3857 projection.
 
 image:images/menu.png[width="25%"]
 image:images/simple_map.png[width="100%"]
@@ -145,13 +145,16 @@ If you want to display all GEO entities on every maps, you need to execute the f
 [source, shell]
 web mvc geo entity all
 
-NOTE: _If you want to display all GEO entities in an specific map, you can use **--map** param selecting the map where you want to display them_
-
 However, if you want to add only one geo entity to every map, you need to execute the following command:
 
 [source, shell]
 web mvc geo entity add --controller ~.web.OwnerController
 
-NOTE: _If you want to display only one geo entity in an specific map, you can use **--map** param selecting the map where you want to display it_
+NOTE: _If you want to display only one geo entity or all entities in an specific map, you can use **--map** param selecting the map where you want to display them_
 
+Previous commands add to your Map views Owner entity. You can display or hide its fields using checkbox as see on the next images:
+
+image:images/map_entities.png[width="100%"]
+image:images/map_entity_0.png[width="100%"]
+image:images/map_entity_1.png[width="100%"]
 
