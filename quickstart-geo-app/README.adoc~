@@ -129,8 +129,8 @@ web mvc geo controller --class ~.web.MapController --preferredMapping map
 The previous commands generate different map views and different entries on top menu. The first map generated is configured with EPSG4326 projection. By default all generated maps are generated with EPSG3857 projection.
 
 image:images/menu.png[width="25%"]
-image:images/simple_map.png[width="75%"]
+image:images/simple_map.png[width="100%"]
 
-NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/mappath/show.jspx file_
+NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/mappath/show.jspx** file_
 
 
