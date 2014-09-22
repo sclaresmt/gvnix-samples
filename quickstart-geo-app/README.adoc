@@ -118,5 +118,16 @@ NOTE: _If you execute finder geo add command on a entity that not has geo fields
 [generate-map-views]
 == Generate Map Views
 
+gvNIX uses http://www.leafletjs.com[leaflet library] to generate map views. 
 
+You can generate all maps you want on your application. To do that, you need to execute the following command:
+
+[source, shell]
+web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview
+web mvc geo controller --class ~.web.MapController --preferredMapping map
+
+The previous commands generate different map views and different entries on top menu:
+
+image:images/simple_map.png[width="100%"]
+image:images/menu.png[width="100%"]
 
