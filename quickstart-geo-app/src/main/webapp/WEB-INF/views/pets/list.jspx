@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" xmlns:table="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_gvnix_geo_component_domain_Pet" items="${pets}" z="Rqg6ZidLXEvPx1Vw7wpVb0epKrM=">
+        <table:table data="${pets}" id="l_org_gvnix_geo_component_domain_Pet" path="/pets" z="grfWujhhNhjgqhzTI63eMtLJH+w=">
+            <table:column id="c_org_gvnix_geo_component_domain_Pet_sendReminders" property="sendReminders" z="OdMb+HLcSnYZtLtDzNQphu55Ezw="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Pet_name" property="name" z="AbFBWYMBHF0V8XQvunOoPwRcmgo="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Pet_weight" property="weight" z="5RdDWd9rzslQubAVcnkS3v0yxuo="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Pet_owner" property="owner" z="wwMOXcPxuPqjY9oKX3zwUKiM3Fg="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Pet_type" property="type" z="aw3BBBgiVDTveB4qSHb10DT+31U="/>
+        </table:table>
+    </page:list>
+</div>

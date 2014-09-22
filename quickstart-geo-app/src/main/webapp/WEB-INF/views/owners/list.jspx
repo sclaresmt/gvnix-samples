@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" xmlns:table="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_gvnix_geo_component_domain_Owner" items="${owners}" z="vHTqyG0NP1G7bkuhPlJja0CBIf0=">
+        <table:table data="${owners}" id="l_org_gvnix_geo_component_domain_Owner" path="/owners" z="A17hNrCpEQdC2iEif5ujz5IZW6E=">
+            <table:column id="c_org_gvnix_geo_component_domain_Owner_firstName" property="firstName" z="2S20yZQd1Zlrhf7whlBjsS+sXqU="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Owner_lastName" property="lastName" z="2kfsrkGKeZOQXqlqYFPYxPSMY7w="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Owner_address" property="address" z="9Micbn/1fUue4tw+7IRdhwVIYS4="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Owner_city" property="city" z="q/x8UdmIcjYObbDm3fklDS3mWas="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Owner_telephone" property="telephone" z="FPmc8ZlaNiPnovwhp224WxJhbPY="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Owner_homePage" property="homePage" z="po29c7pUAZ/geAbXCsQrN4pwzbI="/>
+        </table:table>
+    </page:list>
+</div>

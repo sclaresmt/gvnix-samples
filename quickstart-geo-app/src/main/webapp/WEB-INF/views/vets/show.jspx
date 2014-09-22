@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/jquery/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_gvnix_geo_component_domain_Vet" object="${vet}" path="/vets" z="Fe+r0DIEKQ+L5f3Ckod/taXgglI=">
+        <field:display field="firstName" id="s_org_gvnix_geo_component_domain_Vet_firstName" object="${vet}" z="Wt4qo14Sj/BxrbVhBf/Z+inzdVY="/>
+        <field:display field="lastName" id="s_org_gvnix_geo_component_domain_Vet_lastName" object="${vet}" z="SyoT7yjcGMZXA80Xsc8JpFfCyms="/>
+        <field:display field="address" id="s_org_gvnix_geo_component_domain_Vet_address" object="${vet}" z="lUmQiwFWRbvL7wQc+8eAd32VYwA="/>
+        <field:display field="city" id="s_org_gvnix_geo_component_domain_Vet_city" object="${vet}" z="bX/TYBldGDBFJgQmIJFKwaUmBoE="/>
+        <field:display field="telephone" id="s_org_gvnix_geo_component_domain_Vet_telephone" object="${vet}" z="qLR2VND6DEtOq8IZfa7Tw64QTMk="/>
+        <field:display field="homePage" id="s_org_gvnix_geo_component_domain_Vet_homePage" object="${vet}" z="Bn/PAh6Nt284iAw8REmo9w7e2cU="/>
+        <field:display field="email" id="s_org_gvnix_geo_component_domain_Vet_email" object="${vet}" z="DSfYw64CA1uaN7MfQC1DZ8Qv2g4="/>
+        <field:display date="true" dateTimePattern="${vet_birthday_date_format}" field="birthDay" id="s_org_gvnix_geo_component_domain_Vet_birthDay" object="${vet}" z="pvlYVucRiz9k6RZ4wMW3Tu+/J6U="/>
+        <field:display calendar="true" dateTimePattern="${vet_employedsince_date_format}" field="employedSince" id="s_org_gvnix_geo_component_domain_Vet_employedSince" object="${vet}" z="uYlICVqMB8tcEFA7sLdMvPJN2vs="/>
+        <field:display field="specialty" id="s_org_gvnix_geo_component_domain_Vet_specialty" object="${vet}" z="WygfeBxecmIVdwsCETV9E801RBE="/>
+    </page:show>
+</div>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/jquery/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/datatables" xmlns:geofield="urn:jsptagdir:/WEB-INF/tags/geo/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_org_gvnix_geo_component_domain_Owner" modelAttribute="owner" path="/owners" versionField="Version" z="VK/8u8pXw51AP4FsO56x6aFhV8g=">
+        <field:input field="firstName" id="c_org_gvnix_geo_component_domain_Owner_firstName" max="30" min="3" required="true" z="tNZnuv1kmYc8XSRzDj3lAGr6qec="/>
+        <field:input field="lastName" id="c_org_gvnix_geo_component_domain_Owner_lastName" max="30" min="3" required="true" z="eXGjheHKGWTPh0aElYpi9Fv/sqU="/>
+        <field:textarea field="address" id="c_org_gvnix_geo_component_domain_Owner_address" required="true" z="cbaDyjczMoZFm8cVVERhWMAiDzM="/>
+        <field:input field="city" id="c_org_gvnix_geo_component_domain_Owner_city" max="30" required="true" z="C39lREHa76wz8hXtYpvG+MZbjMg="/>
+        <field:input field="telephone" id="c_org_gvnix_geo_component_domain_Owner_telephone" required="true" z="RX30aoRmIpBV9fXn7SwwSvR4vcE="/>
+        <field:input field="homePage" id="c_org_gvnix_geo_component_domain_Owner_homePage" max="30" z="m1Q7L67GcViu8f0qTUdMtPeDm0U="/>
+        <field:input field="email" id="c_org_gvnix_geo_component_domain_Owner_email" max="30" min="6" required="true" validationMessageCode="field_invalid_email" z="5hWfaVh4N46FHsBUWQBRhtQD/L0="/>
+        <field:datetime dateTimePattern="${owner_birthday_date_format}" field="birthDay" id="c_org_gvnix_geo_component_domain_Owner_birthDay" required="true" z="RMwoyRvK0Oi0AS/aHtP4zztxaNE="/>
+        <field:simple field="pets" id="c_org_gvnix_geo_component_domain_Owner_pets" messageCode="entity_reference_not_managed" messageCodeAttribute="Pet" z="CzZiLXGWBZ/ukGONiy0KEG/y/6Y="/>
+        
+        <geofield:map-point field="location" id="c_org_gvnix_geo_component_domain_Owner_location" z="user-managed"/>
+        <geofield:map-line field="distance" id="c_org_gvnix_geo_component_domain_Owner_distance" z="user-managed"/>
+    <geofield:map-polygon field="area" id="c_org_gvnix_geo_component_domain_Owner_area" z="user-managed"/>
+    </form:update>
+</div>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" xmlns:table="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_gvnix_geo_component_domain_Vet" items="${vets}" z="tFxh4C3t7TzGbTD0c252lPIOs3o=">
+        <table:table data="${vets}" id="l_org_gvnix_geo_component_domain_Vet" path="/vets" z="6IA/0WKxUmizADGMDyy1oU6ETLU=">
+            <table:column id="c_org_gvnix_geo_component_domain_Vet_firstName" property="firstName" z="tsGZR1SfSvQDv0tEF7+UTImApPQ="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Vet_lastName" property="lastName" z="9ZHExYsDpx/Q718AREcdvhl9jBs="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Vet_address" property="address" z="GiCszZsK007qTrOao9WUMbRphso="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Vet_city" property="city" z="vPUm+7HO0DnDQIiDzfE8HjVyQ7w="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Vet_telephone" property="telephone" z="mNe6Zr2/9sKqETlqVzZjBucBgsk="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Vet_homePage" property="homePage" z="8sEPTjEcTl1HXMadtwxrQRMRhMg="/>
+        </table:table>
+    </page:list>
+</div>

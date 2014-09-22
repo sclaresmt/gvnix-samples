@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" xmlns:table="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_gvnix_geo_component_domain_Visit" items="${visits}" z="yJtxKMUnkiuilvNrSL1vUD0RyZM=">
+        <table:table data="${visits}" id="l_org_gvnix_geo_component_domain_Visit" path="/visits" z="a8KoIORo7j+H7O84RbJNgcpUb24=">
+            <table:column id="c_org_gvnix_geo_component_domain_Visit_description" property="description" z="bZLbTOFs1TjW3PVJGeF1xiiG4ik="/>
+            <table:column date="true" dateTimePattern="${visit_visitdate_date_format}" id="c_org_gvnix_geo_component_domain_Visit_visitDate" property="visitDate" z="E++m4PaI/IA7Y6yFHFEmBUc1WcE="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Visit_pet" property="pet" z="+E421nkMHYnDlORifD2HcBTMa3Q="/>
+            <table:column id="c_org_gvnix_geo_component_domain_Visit_vet" property="vet" z="uhlEd4G9yyrsBU1j6LsYptE29Lg="/>
+        </table:table>
+    </page:list>
+</div>

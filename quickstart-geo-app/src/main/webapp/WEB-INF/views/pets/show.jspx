@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/jquery/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_gvnix_geo_component_domain_Pet" object="${pet}" path="/pets" z="NzgMHy7PLSMJqamQ8b8W6s2797Y=">
+        <field:display field="sendReminders" id="s_org_gvnix_geo_component_domain_Pet_sendReminders" object="${pet}" z="IodrH2edmccpCuwzw+RlHU9WA+Q="/>
+        <field:display field="name" id="s_org_gvnix_geo_component_domain_Pet_name" object="${pet}" z="S0gzruG6K31Ik2X63/CjzX8DuO0="/>
+        <field:display field="weight" id="s_org_gvnix_geo_component_domain_Pet_weight" object="${pet}" z="bn9sXnw5EDOKeUC2Fcz92njDEzM="/>
+        <field:display field="owner" id="s_org_gvnix_geo_component_domain_Pet_owner" object="${pet}" z="FkN5b9ISbqcx6bHGHSrhEtDIw6I="/>
+        <field:display field="type" id="s_org_gvnix_geo_component_domain_Pet_type" object="${pet}" z="QsoDVuh5JcFW1wDyJ0jzu++PL5E="/>
+    </page:show>
+</div>

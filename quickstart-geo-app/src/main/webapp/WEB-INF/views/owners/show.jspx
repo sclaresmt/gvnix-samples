@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/jquery/form/fields" xmlns:geofield="urn:jsptagdir:/WEB-INF/tags/geo/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_gvnix_geo_component_domain_Owner" object="${owner}" path="/owners" z="/TMsS3T6NZchHMa5Qbvdg+Y8oNI=">
+        <field:display field="firstName" id="s_org_gvnix_geo_component_domain_Owner_firstName" object="${owner}" z="hlnfq6HZlC/5ohMtfPtU3X51VAY="/>
+        <field:display field="lastName" id="s_org_gvnix_geo_component_domain_Owner_lastName" object="${owner}" z="q7u/BvsLyU2+gXHvww558Ropaic="/>
+        <field:display field="address" id="s_org_gvnix_geo_component_domain_Owner_address" object="${owner}" z="O3B+RYJyeZ1xuNUR13zQYSeCh1o="/>
+        <field:display field="city" id="s_org_gvnix_geo_component_domain_Owner_city" object="${owner}" z="8tNXATPbkst7tIoNZs5zOJ5ScMI="/>
+        <field:display field="telephone" id="s_org_gvnix_geo_component_domain_Owner_telephone" object="${owner}" z="bPpE7Na6CyPfGGeh2gfh92PPA/8="/>
+        <field:display field="homePage" id="s_org_gvnix_geo_component_domain_Owner_homePage" object="${owner}" z="SkrhlARxppNNli9m2WwCRf9YODs="/>
+        <field:display field="email" id="s_org_gvnix_geo_component_domain_Owner_email" object="${owner}" z="u/pcIjZY7VaFQfjyfWA2k6HOGAA="/>
+        <field:display date="true" dateTimePattern="${owner_birthday_date_format}" field="birthDay" id="s_org_gvnix_geo_component_domain_Owner_birthDay" object="${owner}" z="AkB8wGIZSbTd9BoXuhF1KWnhfLo="/>
+        
+        <geofield:map-display field="location" id="s_org_gvnix_geo_component_domain_Owner_location" object="${owner}" z="user-managed"/>
+        <geofield:map-display field="distance" id="s_org_gvnix_geo_component_domain_Owner_distance" object="${owner}" z="user-managed"/>
+    <geofield:map-display field="area" id="s_org_gvnix_geo_component_domain_Owner_area" object="${owner}" z="user-managed"/>
+    </page:show>
+</div>

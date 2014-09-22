@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/jquery/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/datatables" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_org_gvnix_geo_component_domain_Vet" modelAttribute="vet" path="/vets" render="${empty dependencies}" z="ktnw8+jHTaEov9iNJewxOQO6BUU=">
+        <field:input field="firstName" id="c_org_gvnix_geo_component_domain_Vet_firstName" max="30" min="3" required="true" z="23lVyxiY0wjVsaMXO/VRHlMqfjs="/>
+        <field:input field="lastName" id="c_org_gvnix_geo_component_domain_Vet_lastName" max="30" min="3" required="true" z="Ci6eHJ2UrCFvCsWR/2w0yEJ68Zs="/>
+        <field:textarea field="address" id="c_org_gvnix_geo_component_domain_Vet_address" required="true" z="PdIRpYyVVQWJ0AdciN6MEOtzoaE="/>
+        <field:input field="city" id="c_org_gvnix_geo_component_domain_Vet_city" max="30" required="true" z="KVRbbNTq97IvsS5yo4Q81U2ChKU="/>
+        <field:input field="telephone" id="c_org_gvnix_geo_component_domain_Vet_telephone" required="true" z="hXFLPkXHBcad0ycv1CA2ApRJp84="/>
+        <field:input field="homePage" id="c_org_gvnix_geo_component_domain_Vet_homePage" max="30" z="x4Fm4vpNuea3FTBe2QZNzSJ4toA="/>
+        <field:input field="email" id="c_org_gvnix_geo_component_domain_Vet_email" max="30" min="6" required="true" validationMessageCode="field_invalid_email" z="YF71f7/PrBCUlWMKl/zBSqWmLvA="/>
+        <field:datetime dateTimePattern="${vet_birthday_date_format}" field="birthDay" id="c_org_gvnix_geo_component_domain_Vet_birthDay" required="true" z="slVHTPIL+iIiJeGFOx4+llQ4/oA="/>
+        <field:datetime dateTimePattern="${vet_employedsince_date_format}" field="employedSince" id="c_org_gvnix_geo_component_domain_Vet_employedSince" past="true" required="true" z="/gn3NQO6E0miBbqWA92dXNmn84U="/>
+        <field:select field="specialty" id="c_org_gvnix_geo_component_domain_Vet_specialty" items="${specialtys}" path="specialtys" z="+0QSre+/o0gdKJGq7YXXOCh9vWw="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_org_gvnix_geo_component_domain_Vet" render="${not empty dependencies}" z="OhcOM9jrGYFUd2ilHZPOeyhubLg="/>
+</div>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:layer="urn:jsptagdir:/WEB-INF/tags/geo/layers" xmlns:tool="urn:jsptagdir:/WEB-INF/tags/geo/tools" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+<geo:map id="ps_org_gvnix_geo_component_web_Map" projection="EPSG3857" z="bfC7bUWsYjfSTn4wd6JLu6ADtlY=">
+        <geo:toc id="ps_org_gvnix_geo_component_web_Map_toc" z="shRN47PlawKMp3cuEqm4/nMWMFw=">
+            <layer:entity filterType="auto" id="l_org_gvnix_geo_component_domain_Owner" path="/owners" pk="id" z="KKHHW2CLDFsYEZFBR03IeTO/VEU=">
+                <layer:entity-field field="location" icon="glyphicon-home" iconColor="white" iconLibrary="glyphicon" id="l_org_gvnix_geo_component_domain_Owner_location" markerColor="orange" z="U+ztvr2W4dJPE+sURI4cgUtGjRk="/>
+                <layer:entity-field field="distance" iconColor="white" id="l_org_gvnix_geo_component_domain_Owner_distance" markerColor="red" z="jsvpgJTbIX4NArF8rTkwxJvBTHI="/>
+                <layer:entity-field field="area" iconColor="white" id="l_org_gvnix_geo_component_domain_Owner_area" markerColor="orange" z="bFbwcN+SXEQr4Le1PpVVCKHAFsA="/>
+            </layer:entity>
+        <layer:tile id="ps_org_gvnix_geo_component_web_Map_satellit" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="DWwGUAAsQqej+gzgNgyclTmSSvE="/>
+        <layer:wms crs="EPSG4326" format="image/png" id="ps_org_gvnix_geo_component_web_Map_geological_map_of_valencia" layers="0,1,2,3" transparent="true" url="http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" version="1.1.1" z="M36zQaYBA5SrpK4gLUTi2lKKwV4="/>
+        </geo:toc>
+        <geo:toolbar id="ps_org_gvnix_geo_component_web_Map_toolbar" z="f3CGSBRziGb70EuoTupI3v43ki0=">
+            <tool:measure id="ps_org_gvnix_geo_component_web_Map_measure" z="V4xKUkW7WbZ+EVUyHq3YdIA7Xmo="/>
+        <tool:custom actionTool="false" activateFunction="activateLatLngTool" deactivateFunction="deactivateLatLngTool" icon="fa-location-arrow" iconLibrary="fa" id="ps_org_gvnix_geo_component_web_Map_latlng" z="8eHRLMtZqLpyV7isuafHGgso5NY="/>
+        </geo:toolbar>
+    </geo:map>
+</div>
