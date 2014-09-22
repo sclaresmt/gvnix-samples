@@ -95,7 +95,7 @@ NOTE: _Geo Field commands will not be available until you install Hibernate Spat
 
 
 [generate-geo-entity-finders]
-==Generate Geo Entity Finders
+== Generate Geo Entity Finders
 
 To get GEO fields values on a map view we need to generate some different methods with Spatial functionalities. 
 
