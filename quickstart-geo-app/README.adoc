@@ -6,18 +6,17 @@ Getting started with gvNIX
 :download: http://code.google.com/p/gvnix/
 :installguide: http://code.google.com/p/gvnix/wiki/InstallGvnix
 :download: http://code.google.com/p/gvnix/downloads/
-:quickstart: https://github.com/DISID/gvnix-samples/tree/master/quickstart-app
 
 gvNIX is a Spring Roo distribution that focuses both enterprise knowledge and 
 enterprise standards to build Java applications.
 
-If you don't know _What is gvNIX?_ you should start with {basic gvNIX application}[quickstart] tutorial.
+If you don't know _What is gvNIX?_ you should start with https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial.
 
 You must {download}[download], unpack and {installguide}[install] the 
 development environment for gvNIX 1.4+, to be able to follow this guide.
 
 The goal of this quick start geo app guide is to familiarize you with GEO apps generated using gvNIX. For this 
-purpose, we will build an application based on {quickstart-app}[quickstart] tutorial.
+purpose, we will build an application based on https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial.
 
 
 == Guide
