@@ -28,7 +28,7 @@ If you don't have experience using gvNIX, you can follow https://github.com/DISI
 This guide teaches you how to:
 
 . <<configure-persistence, Configure Persistence>>
-. <<spatial-support, Add Spatial Support>>
+. <<add-spatial-support, Add Spatial Support>>
 . <<geo-fields, Add Geo Entity Fields>>
 . <<geo-finders, Generate Geo Entity Finders>>
 . <<map-views, Generate Map Views>>
@@ -61,8 +61,8 @@ jpa setup --provider HIBERNATE --database POSTGRES --userName USERNAME --databas
 
 Now, you have your project configured to use a valid Spatial Database.
 
-[[spatial-suppot]]
-== Spatial Support
+[[add-spatial-suppot]]
+== Add Spatial Support
 
 Your Database is configured to accept GEO types and GEO functionalities, but not your project. 
 
