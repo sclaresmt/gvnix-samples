@@ -30,7 +30,7 @@ This guide teaches you how to:
 . <<configure-persistence, Configure Persistence>>
 . <<add-spatial-support, Add Spatial Support>>
 . <<add-geo-entity-fields, Add Geo Entity Fields>>
-. <<geo-finders, Generate Geo Entity Finders>>
+. <<generate-geo-entity-finders, Generate Geo Entity Finders>>
 . <<map-views, Generate Map Views>>
 . <<geo-web-layer, Add entities to Map Views>>
 . <<web-geo-fields, Use Map Control on CRU>>
@@ -75,6 +75,7 @@ jpa geo setup --provider HIBERNATE_SPATIAL
 
 NOTE: _This Spatial Provider is only available if your provider persistence is HIBERNATE and you select https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#configure-persistence[a valid DB]_
 
+
 [[add-geo-entity-fields]]
 == Add Geo Entity Fields
 
@@ -91,4 +92,22 @@ field geo --fieldName area --type POLYGON --class ~.domain.Owner
 
 
 NOTE: _Geo Field commands will not be available until you install Hibernate Spatial Provider._
+
+
+[generate-geo-entity-finders]
+==Generate Geo Entity Finders
+
+To get GEO fields values on a map view we need to generate some different methods with Spatial functionalities. 
+
+You can make it possible generating all finder methods for all entities with GEO fields. To do that, you need to execute the following command:
+
+[source, shell]
+finder geo all
+
+On the other hand, if you want to generate finder methods of an specific entity with geo fields, you need to execute the following command:
+
+[source, shell]
+finder geo add --class ~.domain.Owner
+
+NOTE: _If you execute finder geo add command on a entity that not has geo fileds, you are going to get an error message._
 
