@@ -123,10 +123,14 @@ gvNIX uses http://www.leafletjs.com[leaflet library] to generate map views.
 You can generate all maps you want on your application. To do that, you need to execute the following command:
 
 [source, shell]
-web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview
+web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview --projection EPSG4326
 web mvc geo controller --class ~.web.MapController --preferredMapping map
 
-The previous commands generate different map views and different entries on top menu:
+The previous commands generate different map views and different entries on top menu. The first map generated is configured with EPSG4326 projection. By default all generated maps are generated with EPSG3857 projection.
 
 image:images/menu.png[width="25%"]
-image:images/simple_map.png[width="100%"]
+image:images/simple_map.png[width="75%"]
+
+NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/mappath/show.jspx file_
+
+
