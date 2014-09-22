@@ -27,22 +27,15 @@ If you don't have experience using gvNIX, you can follow https://github.com/DISI
 
 This guide teaches you how to:
 
-. <<create-a-new-project, Create a new project>>
-. <<persistence-setup, Persistence Setup>>
-. <<build-the-domain-model, Build the domain model>>
-. <<finder-methods, Finder methods>>
-. <<web-layers, Web layers>>
-. <<jquery-datatables-and-bootstrap-setup, JQuery Datatables and Bootstrap Setup >>
-. <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
-. <<run-application, Run application >>
-. <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
-. <<loupe-fields, Loupe Components >>
-. <<menu-setup, Menu Setup >>
-. <<spring-security, Spring Security >>
-. <<reports, Reports >>
-. <<optimistic-concurrency-control, Optimistic Concurrency Control >>
-. <<junit-and-selenium-tests, JUnit and Selenium Tests >>
-. <<webservices, WebServices >>
+. <<configure-persistence, Configure Persistence>>
+. <<spatial-support, Add Spatial Support>>
+. <<geo-fields, Add Geo Entity Fields>>
+. <<geo-finders, Generate Geo Entity Finders>>
+. <<map-views, Generate Map Views>>
+. <<geo-web-layer, Add entities to Map Views>>
+. <<web-geo-fields, Use Map Control on CRU>>
+. <<base-layers, Add Base Layers to Map Views>>
+. <<base-tools, Add Tools to Map Views>>
 
 [[create-a-new-project]]
 == Create a new project
