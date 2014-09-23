@@ -39,7 +39,7 @@ This guide teaches you how to:
 . <<generate-map-views, Generate Map Views>>
 . <<add-entities-to-map-views, Add entities to Map Views>>
 . <<add-base-layers-to-map-views, Add Base Layers to Map Views>>
-. <<base-tools, Add Tools to Map Views>>
+. <<add-tools-to-map-views, Add Tools to Map Views>>
 . <<advanced-functionalities, Advanced Functionalities>>
 ** <<filtering-map-data-using-datatables, Filtering Map Data using Datatables>> 
 
@@ -205,3 +205,48 @@ web mvc geo wmslayer --name "geological map of valencia" --url "http://mapas.igm
 NOTE: _When you add new WMS layer, you need to get it using the same projection than your current map views. If you don't do like this, you can see your wms layer on invalid map position._
 
 NOTE: _If you add **--map** command option, you are going to add the new base layer only on the selected map instead of every map_
+
+
+[add-tools-to-map-views]
+== Add Tools to Map Views
+
+By default, _as you can see on the previous images_, when you generate new map view appears a **toolbar** on bottom right position. This toolbar contains a basic **Hand Tool** that indicates that you can move the map view.
+
+At the moment, you can add two tool types using gvNIX commands:
+
+- **Measure Tool**: Get distances between some points.
+- **Custom Tool**: Customize it to generate new custom tools with custom functionalities on your map view.
+
+If you want to add new measure tool on your map views you need to execute the next simple command:
+
+[source, shell]
+web mvc geo tool measure --name measure
+
+If you want to add new custom tool on your map views you need to execute the following command:
+
+[source, shell]
+web mvc geo tool custom --name latlng --icon fa-location-arrow --activateFunction activateLatLngTool --deactivateFunction deactivateLatLngTool --iconLibrary fa
+
+At now, we added new custom tool on toolbar but without any functionality. This tool will gets you the Latitude and Longitude from selected Point.
+
+To add custom functionality you need to implement **activateFunction** and **deactivateFunction** like the following:
+
+[source, javascript]
+function activateLatLngTool(element, instance, map){
+        map.on("click", function(e){
+	         alert(e.latlng);
+        });
+}
+[source, javascript]
+function deactivateLatLngTool(element, instance, map){
+	map.off("click");
+}
+
+When you finish this steps you're going to have the following toolbar:
+
+image:images/toolbar.png[width="100%"]
+
+
+NOTE: _If you add **--map** command option, you are going to add the new tool only on the selected map instead of every map_
+
+
