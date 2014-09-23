@@ -244,7 +244,7 @@ function deactivateLatLngTool(element, instance, map){
 
 When you finish this steps you're going to have the following toolbar:
 
-image:images/toolbar.png[width="100%"]
+image:images/toolbar.png[width="30%"]
 
 
 NOTE: _If you add **--map** command option, you are going to add the new tool only on the selected map instead of every map_
