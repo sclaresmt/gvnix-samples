@@ -266,16 +266,19 @@ image:images/filter_icon.png[width="30%"]
 
 With this functionality, you can filter your entity map data using his Datatable. Here's an example:
 
-At first, you are displaying all your _Owner_ records on map:
+At first, you are displaying all your _Owner_ records on map.
+
 image:images/filter_0.png[width="100%"]
 
 If you filter Datatable, you are going to show only filtered records and filter icon change as selected.
+
 image:images/filter_1.png[width="100%"]
 
 If you filter Datatable with other value, you are going to show different filtered records and filter icon change as selected.
+
 image:images/filter_2.png[width="100%"]
 
-NOTE: _You can change filter type of an entity modifying **filterType** attribute on **src/main/webapp/WEB-INF/views/mappath/show.jspx**. If you set to **auto**, when you filter datatable, Map data is going to reload automatically. If you set to **manual**, you need to refresh Map View page to display filtered data. If you set to **none** filter button disappear and get all entity records without filter. _
+NOTE: _You can change filter type of an entity modifying **filterType** attribute on **src/main/webapp/WEB-INF/views/mappath/show.jspx**. If you set to **auto**, when you filter datatable, Map data is going to reload automatically. If you set to **manual**, you need to refresh Map View page to display filtered data. If you set to **none** filter button disappear and get all entity records without filter._
 
 [select-map-data-using-datatables]
 === Select Map Data using Datatables
