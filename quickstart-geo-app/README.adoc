@@ -31,13 +31,20 @@ If you want to preview this GEO sample application, follow the next steps:
 . Add Postgis extensions on generated DB:
 
 image:images/postgis_db.png[width="30%"]
-
 . Clone github repository
 [source, shell]
 $ git clone https://github.com/DISID/gvnix-samples.git
 
+. Acces to quickstart-geo-app
+[source, shell]
+$ cd quickstart-geo-app
 
-. Acces 
+. Execute application using maven:
+[source, shell]
+$ mvn clean compile tomcat:run
+
+. Open your browser on http://localhost:8080/petclinic/
+. Access using _admin_ | _admin_ credentials
 
 == Guide
 
