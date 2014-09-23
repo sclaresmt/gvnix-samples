@@ -155,7 +155,7 @@ Previous commands generate different map views and different entries on top menu
 image:images/menu.png[width="25%"]
 image:images/simple_map.png[width="100%"]
 
-NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/mappath/show.jspx** file_
+NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/{mappath}/show.jspx** file_
 
 [add-entities-to-map-views]
 == Add entities to Map Views
@@ -278,7 +278,7 @@ If you filter Datatable with other value, you are going to show different filter
 
 image:images/filter_2.png[width="100%"]
 
-NOTE: _You can change filter type of an entity modifying **filterType** attribute on **src/main/webapp/WEB-INF/views/mappath/show.jspx**. If you set to **auto**, when you filter datatable, Map data is going to reload automatically. If you set to **manual**, you need to refresh Map View page to display filtered data. If you set to **none** filter button disappear and get all entity records without filter._
+NOTE: _You can change filter type of an entity modifying **filterType** attribute on **src/main/webapp/WEB-INF/views/{mappath}/show.jspx**. If you set to **auto**, when you filter datatable, Map data is going to reload automatically. If you set to **manual**, you need to refresh Map View page to display filtered data. If you set to **none** filter button disappear and get all entity records without filter._
 
 [select-map-data-using-datatables]
 === Select Map Data using Datatables
@@ -291,7 +291,7 @@ image:images/selection_map.png[width="100%"]
 
 This functionality is compatible with Filter Map Data, you can filter your map data using Datatables and then select some record.
 
-NOTE: _You can modify selection style editing entity-field **selection attributes** on **src/main/webapp/WEB-INF/views/mappath/show.jspx**_
+NOTE: _You can modify selection style editing entity-field **selection attributes** on **src/main/webapp/WEB-INF/views/{mappath}/show.jspx**_
 
 
 [group-map-markers]
