@@ -297,7 +297,7 @@ NOTE: _You can modify selection style editing entity-field **selection attribute
 [group-map-markers]
 === Group Map Markers
 
-If you have some close icons when you change zoom, gvNIX is going to **group** them to improve map navigation as you can see on the following image:
+If you have some close markers when you change zoom, gvNIX is going to **group** them to improve map navigation as you can see on the following image:
 
 image:images/grouped_markers.png[width="100%"]
 
