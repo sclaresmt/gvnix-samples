@@ -42,6 +42,7 @@ This guide teaches you how to:
 . <<add-tools-to-map-views, Add Tools to Map Views>>
 . <<advanced-functionalities, Advanced Functionalities>>
 ** <<filtering-map-data-using-datatables, Filtering Map Data using Datatables>> 
+** <<select-map-data-using-datatables, Select Map Data using Datatables>> 
 
 [[configure-persistence]]
 == Configure Persistence
@@ -237,7 +238,6 @@ function activateLatLngTool(element, instance, map){
 	         alert(e.latlng);
         });
 }
-[source, javascript]
 function deactivateLatLngTool(element, instance, map){
 	map.off("click");
 }
@@ -248,5 +248,12 @@ image:images/toolbar.png[width="30%"]
 
 
 NOTE: _If you add **--map** command option, you are going to add the new tool only on the selected map instead of every map_
+
+[advanced-functionalities] 
+== Advanced Functionalities
+
+At this moment you have a complete gvNIX GEO application. But... _Which posibilities I have with this GEO application?_
+
+Here there's some functionalities that you can implement/modify on your generated map view.
 
 
