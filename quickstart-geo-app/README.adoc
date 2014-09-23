@@ -38,7 +38,7 @@ This guide teaches you how to:
 . <<use-map-control-on-cru, Use Map Control on CRU>>
 . <<generate-map-views, Generate Map Views>>
 . <<add-entities-to-map-views, Add entities to Map Views>>
-. <<base-layers, Add Base Layers to Map Views>>
+. <<add-base-layers-to-map-views, Add Base Layers to Map Views>>
 . <<base-tools, Add Tools to Map Views>>
 . <<advanced-functionalities, Advanced Functionalities>>
 ** <<filtering-map-data-using-datatables, Filtering Map Data using Datatables>> 
@@ -133,7 +133,7 @@ web mvc geo field --controller ~.web.OwnerController --field area
 
 With the previous commands, you generate a Map Components on CRU views like the following. 
 
-image:images/CRU_map.png[width="70%", align="center"]
+image:images/CRU_map.png[width="100%"]
 
 Now you can manage easly GEO fields values.
 
@@ -150,15 +150,15 @@ web mvc geo controller --class ~.web.MapController --preferredMapping map
 
 Previous commands generate different map views and different entries on top menu. The first map generated is configured with **_EPSG4326_** projection. By default all generated maps are generated with **_EPSG3857_** projection.
 
-image:images/menu.png[width="25%", align="center"]
-image:images/simple_map.png[width="70%", align="center"]
+image:images/menu.png[width="25%"]
+image:images/simple_map.png[width="100%"]
 
 NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/mappath/show.jspx** file_
 
 [add-entities-to-map-views]
 == Add entities to Map Views
 
-gvNIX provides you the possibility to display entity data on map views. 
+gvNIX provides you the possibility to display entity data on your map views. 
 
 On the https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-geo-entity-fields[third point] of this guide we added 3 new geo fields on Owner entity. 
 
@@ -176,7 +176,32 @@ NOTE: _If you want to display only one geo entity or all entities in an specific
 
 Previous commands add to your Map views Owner entity. You can display or hide its fields using checkbox as see on the next images:
 
-image:images/map_entities.png[width="70%",align="center"]
-image:images/map_entity_0.png[width="70%",align="center"]
-image:images/map_entities_1.png[width="70%",float="center"]
+image:images/map_entities.png[width="100%"]
+image:images/map_entity_0.png[width="100%"]
+image:images/map_entities_1.png[width="100%"]
 
+
+[add-base-layers-to-map-views]
+== Add Base Layers to Map Views
+
+gvNIX provides you the possibility to display extra base layers on your map views.
+
+Exists more than one type of base layers. At the moment, gvNIX provides you this two types:
+
+- http://wiki.openstreetmap.org/wiki/Tiles[TileLayer]
+- http://wiki.openstreetmap.org/wiki/WMS[WMS Layer]
+
+If you want to add Tile Layer on your map views, you need to execute the following command. On this example, you are going to add a Satellit base layer from http://www.ovi.com[OVI]:
+
+[source, shell]
+web mvc geo tilelayer --name satellit --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --index 1 --opacity 0.5
+
+
+If you want to add WMS Layer on your map views, you need to execute the following command. On this example, you are going to add a _geological map of Valencia (Spain)_ from http://www.igme.es/actividadesIGME/lineas/cartoGeo.htm[IGME] 
+
+[source, shell]
+web mvc geo wmslayer --name "geological map of valencia" --url "http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" --format "image/png" --transparent true --version "1.1.1" --crs EPSG4326 --layers "0,1,2,3"
+
+NOTE: _When you add new WMS layer, you need to get it using the same projection than your current map views. If you don't do like this, you can see your wms layer on invalid map position._
+
+NOTE: _If you add **--map** command option, you are going to add the new base layer only on the selected map instead of every map_
