@@ -137,7 +137,7 @@ remote service define ws --class ~.services.PetsServices --serviceName ws_get_al
 remote service operation --name ws_list_pets --service ~.services.PetsServices
 
 // Modifying persistence to use POSTRGRES database with geo spatial support
-jpa setup --provider HIBERNATE --database POSTGRES --userName gvnix --databaseName gvnixgeo_sample --password gvnix --hostName localhost
+jpa setup --provider HIBERNATE --database POSTGRES --userName gvnix --databaseName postgis_example --password gvnix --hostName localhost
 
 // Adding spatial support to our project
 jpa geo setup --provider HIBERNATE_SPATIAL 
