@@ -176,7 +176,7 @@ NOTE: _If you want to display only one geo entity or all entities in an specific
 
 Previous commands add to your Map views Owner entity. You can display or hide its fields using checkbox as see on the next images:
 
-image:images/map_entities.png[width="70%", align="center"]
+image:images/map_entities.png[width="70%",align="center"]
 image:images/map_entity_0.png[width="70%",align="center"]
-image:images/map_entities_1.png[width="70%", align="center"]
+image:images/map_entities_1.png[width="70%",float="center"]
 
