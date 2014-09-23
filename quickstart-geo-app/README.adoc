@@ -326,3 +326,14 @@ If you have some close markers when you change zoom, gvNIX is going to **group**
 image:images/grouped_markers.png[width="100%"]
 
 If you click on **grouped marker** map will zoom on markers area to view all markers without group.
+
+== Related libraries, projects, etc..
+
+gvNIX is based on https://github.com/spring-projects/spring-roo[Spring Roo] project. 
+
+To implement GEO functionalities gvNIX uses http://www.leafletjs.com[Leaflet project] and different Leaflet Plugins like:
+
+- https://github.com/mapbox/leaflet-omnivore[Leaflet Omnivore]
+- https://github.com/Leaflet/Leaflet.draw[Leaflet Draw Plugin]
+- ...
+
