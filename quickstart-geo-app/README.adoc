@@ -256,4 +256,5 @@ At this moment you have a complete gvNIX GEO application. But... _Which posibili
 
 Here there's some functionalities that you can implement/modify on your generated map view.
 
-
+[filtering-map-data-using-datatables]
+=== Filtering Map Data using Datatables
