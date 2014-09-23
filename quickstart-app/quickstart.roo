@@ -100,12 +100,6 @@ web mvc datatables detail add --type ~.web.PetController --property visits
 // Pattern: master table Owner > detail table Vet > detail table Visit
 web mvc datatables detail add --type ~.web.VetController --property visits
 
-// Installing Loupe components, adding loupe functions and using loupe fields
-web mvc loupe setup
-web mvc loupe set --controller ~.web.VisitController
-web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
-web mvc loupe field --controller ~.web.VisitController --field vet
-
 // Setup menu
 menu setup
 

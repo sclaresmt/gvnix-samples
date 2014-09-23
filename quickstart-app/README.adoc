@@ -29,6 +29,25 @@ The application presented in this guide is the Spring PetClinic application. The
 Note this sample isn't a real application which normally needs additional work
 like UI customization, performance improvement, database queries tunning, etc.
 
+== Run from Git
+
+If you want to preview this sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#guide[gvNIX Sample application Guide]
+
+- Clone github repository
+[source, shell]
+$ git clone https://github.com/DISID/gvnix-samples.git
+
+- Acces to quickstart-app
+[source, shell]
+$ cd quickstart-app
+
+- Execute application using maven:
+[source, shell]
+$ mvn clean compile tomcat:run
+
+- Open your browser on http://localhost:8080/petclinic/
+- Access using _admin_ as username and _admin_ as password.
+
 == Guide
 
 You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-app/quickstart.roo[quickstart.roo] file and creates a petclinic example application. 
@@ -452,3 +471,14 @@ image:images/sample-application-pet-creation.png[width="45%"]
 image:images/sample-application-pet-list.png[width="45%"]
 image:images/sample-application-visit-inline.png[width="45%"]
 image:images/sample-application-visit-inline-edit.png[width="45%"]
+
+== Related libraries, projects, etc..
+
+gvNIX is based on https://github.com/spring-projects/spring-roo[Spring Roo] project. 
+
+To implement some previous functionalities gvNIX uses different libraries like:
+
+- https://github.com/DataTables/DataTables[Datatables]
+- http://dandelion.github.io/datatables/[Dandelion Datatables]
+- http://getbootstrap.com/[Bootstrap]
+- ...
