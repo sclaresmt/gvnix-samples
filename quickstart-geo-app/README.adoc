@@ -27,7 +27,7 @@ gvNIX uses http://www.leafletjs.com[Leaflet project] to generate map views.
 If you want to preview this GEO sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#guide[gvNIX GEO Guide]
 
 - Install http://www.postgresql.org/[PostgreSql] and http://postgis.net/[PostGIS]
-- Create new Database with name _postgis_example_. Use _postgres_ as username and _admin_ as password.
+- Create new Database with name _gvnixgeo_sample_. Use _gvnix_ as username and _gvnix_ as password.
 - Add Postgis extensions on generated DB:
 
 image:images/postgis_db.png[width="30%"]
