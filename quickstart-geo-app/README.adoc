@@ -43,9 +43,10 @@ This guide teaches you how to:
 . <<advanced-functionalities, Advanced Functionalities>>
 ** <<filtering-map-data-using-datatables, Filtering Map Data using Datatables>> 
 ** <<select-map-data-using-datatables, Select Map Data using Datatables>> 
+** <<group-map-markers, Group Map Markers>>
 
 [[configure-persistence]]
-=== Configure Persistence
+== Configure Persistence
 
 All DataBases are not valid to use Spatial Operations. 
 
@@ -68,7 +69,7 @@ jpa setup --provider HIBERNATE --database POSTGRES --userName USERNAME --databas
 Now, you have your project configured to use a valid Spatial Database.
 
 [[add-spatial-suppot]]
-=== Add Spatial Support
+== Add Spatial Support
 
 Your Database is configured to accept GEO types and GEO functionalities, but not your project. 
 
@@ -83,7 +84,7 @@ NOTE: _This Spatial Provider is only available if your provider persistence is H
 
 
 [[add-geo-entity-fields]]
-=== Add Geo Entity Fields
+== Add Geo Entity Fields
 
 Now, you can add new fields to your generated Entites. (If you don't generate entities before you should check https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#create-the-domain-entities[quickstart-app guide])
 
@@ -101,7 +102,7 @@ NOTE: _Geo Field commands will not be available until you install Hibernate Spat
 
 
 [generate-geo-entity-finders]
-=== Generate Geo Entity Finders
+== Generate Geo Entity Finders
 
 To get GEO fields values on a map view we need to generate some different methods with Spatial functionalities. 
 
@@ -119,7 +120,7 @@ NOTE: _If you execute finder geo add command on a entity that not has geo fields
 
 
 [use-map-control-on-cru]
-=== Use Map Control on CRU
+== Use Map Control on CRU
 
 At this step your project has https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#configure-persistence[a valid GEO Database], https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-spatial-support[Spatial Support configured], https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-geo-entity-fields[GEO fields on your entities] and https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#generate-geo-entity-finders[necessary finders].
 
@@ -141,7 +142,7 @@ Now you can manage easly GEO fields values.
 NOTE: _If you don't apply this Map Components on CRU views, you need to use http://en.wikipedia.org/wiki/Well-known_text[WKT] on input fields to save valid values_
 
 [generate-map-views]
-=== Generate Map Views
+== Generate Map Views
 
 You can generate all maps you want on your application. To do that, you need to execute the following commands:
 
@@ -157,7 +158,7 @@ image:images/simple_map.png[width="100%"]
 NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/mappath/show.jspx** file_
 
 [add-entities-to-map-views]
-=== Add entities to Map Views
+== Add entities to Map Views
 
 gvNIX provides you the possibility to display entity data on your map views. 
 
@@ -183,7 +184,7 @@ image:images/map_entities_1.png[width="100%"]
 
 
 [add-base-layers-to-map-views]
-=== Add Base Layers to Map Views
+== Add Base Layers to Map Views
 
 gvNIX provides you the possibility to display extra base layers on your map views.
 
@@ -209,7 +210,7 @@ NOTE: _If you add **--map** command option, you are going to add the new base la
 
 
 [add-tools-to-map-views]
-=== Add Tools to Map Views
+== Add Tools to Map Views
 
 By default, _as you can see on the previous images_, when you generate new map view appears a **toolbar** on bottom right position. This toolbar contains a basic **Hand Tool** that indicates that you can move the map view.
 
@@ -250,11 +251,30 @@ image:images/toolbar.png[width="30%"]
 NOTE: _If you add **--map** command option, you are going to add the new tool only on the selected map instead of every map_
 
 [advanced-functionalities] 
-=== Advanced Functionalities
+== Advanced Functionalities
 
 At this moment you have a complete gvNIX GEO application. But... _Which posibilities I have with this GEO application?_
 
 Here there's some functionalities that you can implement/modify on your generated map view.
 
 [filtering-map-data-using-datatables]
-==== Filtering Map Data using Datatables
+=== Filtering Map Data using Datatables
+
+By default, all entities that you add to Map View are filterable. You can identify a filterable entity by the filter icon that appears on layers panel (http://en.wikipedia.org/wiki/Table_of_contents[_TOC_])
+
+image:images/filter_icon.png[width="30%"]
+
+With this functionality, you can filter your entity map data using his Datatable. Here's an example:
+
+. At first, you are displaying all your _Owner_ records on map:
+
+image:images/filter_0.png[width="100%"]
+
+. If you filter Datatable, you are going to show only filtered records.
+image:images/filter_1.png[width="100%"]
+
+. If you filter Datatable with other value, you are going to show different filtered records.
+image:images/filter_2.png[width="100%"]
+
+
+
