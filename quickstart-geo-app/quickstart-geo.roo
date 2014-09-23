@@ -150,17 +150,17 @@ field geo --fieldName area --type POLYGON --class ~.domain.Owner
 // Generating geo entity finders
 finder geo all
 
+// Modifying entity field to use Geo component
+web mvc geo field --controller ~.web.OwnerController --field location
+web mvc geo field --controller ~.web.OwnerController --field distance
+web mvc geo field --controller ~.web.OwnerController --field area
+
 // Creating different map views
 web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview
 web mvc geo controller --class ~.web.MapController --preferredMapping map
 
 // Generating all entities geo web layer
 web mvc geo entity all
-
-// Modifying entity field to use Geo component
-web mvc geo field --controller ~.web.OwnerController --field location
-web mvc geo field --controller ~.web.OwnerController --field distance
-web mvc geo field --controller ~.web.OwnerController --field area
 
 // Adding base layers to our maps views
 web mvc geo tilelayer --name satellit --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8"
