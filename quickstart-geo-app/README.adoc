@@ -26,25 +26,26 @@ gvNIX uses http://www.leafletjs.com[Leaflet project] to generate map views.
 
 If you want to preview this GEO sample application, follow the next steps:
 
-. Install http://www.postgresql.org/[PostgreSql] and http://postgis.net/[PostGIS]
-. Create new Database with name _postgis_example_. Use _postgres_ as username and _admin_ as password.
-. Add Postgis extensions on generated DB:
+- Install http://www.postgresql.org/[PostgreSql] and http://postgis.net/[PostGIS]
+- Create new Database with name _postgis_example_. Use _postgres_ as username and _admin_ as password.
+- Add Postgis extensions on generated DB:
 
 image:images/postgis_db.png[width="30%"]
-. Clone github repository
+
+- Clone github repository
 [source, shell]
 $ git clone https://github.com/DISID/gvnix-samples.git
 
-. Acces to quickstart-geo-app
+- Acces to quickstart-geo-app
 [source, shell]
 $ cd quickstart-geo-app
 
-. Execute application using maven:
+- Execute application using maven:
 [source, shell]
 $ mvn clean compile tomcat:run
 
-. Open your browser on http://localhost:8080/petclinic/
-. Access using _admin_ | _admin_ credentials
+- Open your browser on http://localhost:8080/petclinic/
+- Access using _admin_ as username and _admin_ as password.
 
 == Guide
 
