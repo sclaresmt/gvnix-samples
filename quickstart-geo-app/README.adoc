@@ -266,15 +266,35 @@ image:images/filter_icon.png[width="30%"]
 
 With this functionality, you can filter your entity map data using his Datatable. Here's an example:
 
-. At first, you are displaying all your _Owner_ records on map:
-
+At first, you are displaying all your _Owner_ records on map:
 image:images/filter_0.png[width="100%"]
 
-. If you filter Datatable, you are going to show only filtered records.
+If you filter Datatable, you are going to show only filtered records and filter icon change as selected.
 image:images/filter_1.png[width="100%"]
 
-. If you filter Datatable with other value, you are going to show different filtered records.
+If you filter Datatable with other value, you are going to show different filtered records and filter icon change as selected.
 image:images/filter_2.png[width="100%"]
 
+NOTE: _You can change filter type of an entity modifying **filterType** attribute on **src/main/webapp/WEB-INF/views/mappath/show.jspx**. If you set to **auto**, when you filter datatable, Map data is going to reload automatically. If you set to **manual**, you need to refresh Map View page to display filtered data. If you set to **none** filter button disappear and get all entity records without filter. _
 
+[select-map-data-using-datatables]
+=== Select Map Data using Datatables
+
+Another functionality added by default on map entities is selection. 
+
+With this functionality you can select some records (_is possible to select more than one_) from Datatables and "mark as selected" on your map views as you can see on the following image:
+
+image:images/selection_map.png[width="100%"]
+
+This functionality is compatible with Filter Map Data, you can filter your map data using Datatables and then select some record.
+
+NOTE: _You can modify selection style editing entity-field **selection attributes** on **src/main/webapp/WEB-INF/views/mappath/show.jspx**_
+
+
+[group-map-markers]
+=== Group Map Markers
+
+If you have some close icons when you change zoom, gvNIX is going to **group** them to improve map navigation as you can see on the following image:
+
+image:images/grouped_markers.png[width="100%"]
 
