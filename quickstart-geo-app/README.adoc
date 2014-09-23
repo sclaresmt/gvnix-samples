@@ -301,3 +301,4 @@ If you have some close markers when you change zoom, gvNIX is going to **group**
 
 image:images/grouped_markers.png[width="100%"]
 
+If you click on **grouped marker** map will zoom on markers area to view all markers without group.
