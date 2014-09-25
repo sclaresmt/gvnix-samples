@@ -3,9 +3,9 @@ Getting started with gvNIX
 :page-layout: base
 :toc-placement: manual
 :homepage: http://gvnix.org
-:download: http://code.google.com/p/gvnix/
+:download: http://sourceforge.net/projects/gvnix/
 :installguide: http://code.google.com/p/gvnix/wiki/InstallGvnix
-:download: http://code.google.com/p/gvnix/downloads/
+:download: http://sourceforge.net/projects/gvnix/
 
 gvNIX is a Spring Roo distribution that focuses both enterprise knowledge and 
 enterprise standards to build Java applications.
@@ -24,7 +24,7 @@ gvNIX uses http://www.leafletjs.com[Leaflet project] to generate map views.
 
 == Run from Git
 
-If you want to preview this GEO sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#guide[gvNIX GEO Guide]
+If you want to preview this GEO sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#build-your-own-geo-app[gvNIX GEO Guide]
 
 - Install http://www.postgresql.org/[PostgreSql] and http://postgis.net/[PostGIS]
 - Create new Database with name _postgis_example_. Use _gvnix_ as username and _gvnix_ as password.
@@ -47,11 +47,11 @@ $ mvn clean compile tomcat:run
 - Open your browser on http://localhost:8080/petclinic/
 - Access using _admin_ as username and _admin_ as password.
 
-== Guide
+== Build your own geo app 
 
 You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-geo-app/quickstart-geo.roo[quickstart-geo.roo] file and creates a petclinic example application with GEO components.
 
-If you don't have experience using gvNIX, you can follow https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#guide[quickstart-app guide] and then follow this to generate additional GEO components and functionalities.
+If you don't have experience using gvNIX, you can follow https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#build-your-own-app[quickstart-app guide] and then follow this to generate additional GEO components and functionalities.
 
 This guide teaches you how to:
 

@@ -3,9 +3,9 @@ Getting started with gvNIX
 :page-layout: base
 :toc-placement: manual
 :homepage: http://gvnix.org
-:download: http://code.google.com/p/gvnix/
+:download: http://sourceforge.net/projects/gvnix/
 :installguide: http://code.google.com/p/gvnix/wiki/InstallGvnix
-:download: http://code.google.com/p/gvnix/downloads/
+:download: http://sourceforge.net/projects/gvnix/
 
 gvNIX is a Spring Roo distribution that focuses both enterprise knowledge and 
 enterprise standards to build Java applications.
@@ -48,7 +48,7 @@ $ mvn clean compile tomcat:run
 - Open your browser on http://localhost:8080/petclinic/
 - Access using _admin_ as username and _admin_ as password.
 
-== Guide
+==  Build your own app
 
 You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-app/quickstart.roo[quickstart.roo] file and creates a petclinic example application. 
 
