@@ -98,9 +98,15 @@ web mvc datatables detail add --type ~.web.VetController --property visits
 
 // Adding Loupe Components
 web mvc loupe setup
+
+// Adding loupe fields on Visit fields
 web mvc loupe set --controller ~.web.VisitController
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
 web mvc loupe field --controller ~.web.VisitController --field vet
+
+// Adding loupe fields on Pet fields
+web mvc loupe set --controller ~.web.PetController
+web mvc loupe field --controller ~.web.PetController --field owner
 
 // Setup menu
 menu setup
