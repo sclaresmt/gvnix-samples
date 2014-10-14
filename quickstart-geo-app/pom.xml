@@ -10,7 +10,7 @@
         <aspectj.version>1.7.4</aspectj.version>
         <java.version>1.6</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <roo.version>1.2.6.BUILD-SNAPSHOT</roo.version>
+        <roo.version>1.2.5.RELEASE</roo.version>
         <slf4j.version>1.7.5</slf4j.version>
         <spring.version>3.2.6.RELEASE</spring.version>
     <querydsl.version>3.4.3</querydsl.version>
@@ -475,11 +475,6 @@
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.1-901-1.jdbc4</version>
-        </dependency>
-    <dependency>
-            <groupId>org.opengeo</groupId>
-            <artifactId>geodb</artifactId>
-            <version>0.8</version>
         </dependency>
     <dependency>
             <groupId>org.gvnix</groupId>
