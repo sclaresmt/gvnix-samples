@@ -31,4 +31,7 @@
         <menu-item hidden="false" id="i_map_menu_category_mapview_map_menu_entry" labelCode="menu_item_map_menu_category_mapview_map_menu_entry_label" messageCode="global_generic" roles="" url="/mapview"/>
     <menu-item hidden="false" id="i_map_menu_category_map_map_menu_entry" labelCode="menu_item_map_menu_category_map_map_menu_entry_label" messageCode="global_generic" roles="" url="/map"/>
     </menu-item>
+<menu-item id="c_monitoring_menu_category" labelCode="menu_category_monitoring_menu_category_label" name="monitoring_menu_category">
+        <menu-item hidden="false" id="i_monitoring_menu_category_monitoring_menu_entry" labelCode="menu_item_monitoring_menu_category_monitoring_menu_entry_label" messageCode="global_generic" roles="" url="/monitoring"/>
+    </menu-item>
 </gvnix-menu>

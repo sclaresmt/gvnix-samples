@@ -9,7 +9,6 @@ enum type --class ~.reference.PetType
 enum constant --name Dog
 enum constant --name Cat
 enum constant --name Bird
-
 enum type --class ~.reference.Specialty
 enum constant --name Cardiology
 enum constant --name Dentistry
@@ -87,16 +86,12 @@ web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController --inline true --ajax true
 
 /////// At this point, the application is complete, and you can run
-
 // Pattern: master table Owner > detail table Pet
 web mvc datatables detail add --type ~.web.OwnerController --property pets
-
 // Pattern: master table Owner > detail table Vet
 web mvc datatables detail add --type ~.web.OwnerController --property vets
-
 // Pattern: master table Owner > detail table Pet > detail table Visit
 web mvc datatables detail add --type ~.web.PetController --property visits
-
 // Pattern: master table Owner > detail table Vet > detail table Visit
 web mvc datatables detail add --type ~.web.VetController --property visits
 
@@ -105,7 +100,6 @@ menu setup
 
 // Adding Spring security
 security setup
-web mvc bootstrap update
 
 // Adding reports
 web report setup
@@ -140,7 +134,7 @@ remote service operation --name ws_list_pets --service ~.services.PetsServices
 jpa setup --provider HIBERNATE --database POSTGRES --userName gvnix --databaseName postgis_example --password gvnix --hostName localhost
 
 // Adding spatial support to our project
-jpa geo setup --provider HIBERNATE_SPATIAL 
+jpa geo setup --provider HIBERNATE_SPATIAL
 
 // Adding new geo fields to Owner entity
 field geo --fieldName location --type POINT --class ~.domain.Owner
@@ -169,3 +163,6 @@ web mvc geo wmslayer --name "geological map of valencia" --url "http://mapas.igm
 // Adding tools to our maps views
 web mvc geo tool measure --name measure
 web mvc geo tool custom --name latlng --icon fa-location-arrow --activateFunction activateLatLngTool --deactivateFunction deactivateLatLngTool --iconLibrary fa
+
+// Adding monitoring
+monitoring setup

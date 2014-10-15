@@ -88,6 +88,14 @@
     <script src="${jquery_validate_i18n_js_url}" type="text/javascript">
         <!--required for FF3 and Opera-->
     </script>
+    <spring:url value="/resources/scripts/jquery/hashtable.js" var="hashtable_js_url"/>
+    <script src="${hashtable_js_url}" type="text/javascript">
+        <!--required for FF3 and Opera-->
+    </script>
+    <spring:url value="/resources/scripts/jquery/jquery.numberformatter.min.js" var="jquery_numberformatter_js_url"/>
+    <script src="${jquery_numberformatter_js_url}" type="text/javascript">
+        <!--required for FF3 and Opera-->
+    </script>
 <spring:url value="/resources/styles/datatables/jquery.dataTables.css" var="css_jquery_datatables_url"/>
     <link href="${css_jquery_datatables_url}" media="screen" rel="stylesheet" type="text/css"/>
     <spring:url value="/resources/styles/datatables/gvnix.dataTables.css" var="css_gvnix_datatables_url"/>
@@ -118,6 +126,10 @@
     </script>
     <spring:url value="/resources/scripts/datatables/jquery.dataTables.ext.gvnix.js" var="js_jquery_datatables_custom_api_url"/>
     <script src="${js_jquery_datatables_custom_api_url}" type="text/javascript">
+        <!--required for FF3 and Opera-->
+    </script>
+    <spring:url value="/resources/scripts/datatables/jquery.dataTables.ext.gvnix.advancedfilter.js" var="js_jquery_datatables_advancedfilter_url"/>
+    <script src="${js_jquery_datatables_advancedfilter_url}" type="text/javascript">
         <!--required for FF3 and Opera-->
     </script>
 <spring:url value="/resources/scripts/leaflet/leaflet_bootstrap.js" var="js_leaflet_geo_js"/>

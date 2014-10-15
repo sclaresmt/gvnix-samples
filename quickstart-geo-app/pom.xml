@@ -361,6 +361,11 @@
             <version>4.3</version>
         </dependency>
         <dependency>
+            <groupId>org.gvnix</groupId>
+            <artifactId>org.gvnix.addon.bootstrap</artifactId>
+            <version>1.4.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${spring-security.version}</version>
@@ -477,14 +482,49 @@
             <version>9.1-901-1.jdbc4</version>
         </dependency>
     <dependency>
-            <groupId>org.opengeo</groupId>
-            <artifactId>geodb</artifactId>
-            <version>0.8</version>
-        </dependency>
-    <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.addon.geo</artifactId>
             <version>1.4.0-SNAPSHOT</version>
+        </dependency>
+    <dependency>
+            <groupId>org.gvnix</groupId>
+            <artifactId>org.gvnix.addon.monitoring</artifactId>
+            <version>1.4.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.bull.javamelody</groupId>
+            <artifactId>javamelody-core</artifactId>
+            <version>1.53.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>bouncycastle</groupId>
+                    <artifactId>bcmail-jdk14</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>bouncycastle</groupId>
+                    <artifactId>bcprov-jdk14</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>bouncycastle</groupId>
+                    <artifactId>bctsp-jdk14</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jrobin</groupId>
+            <artifactId>jrobin</artifactId>
+            <version>1.5.9</version>
         </dependency>
     </dependencies>
     <build>
