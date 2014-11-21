@@ -1,0 +1,68 @@
+// gvNIX install guide
+ 
+= gvNIX install guide
+:author: DISID Corporation S.L.
+:description: Steps to install gvNIX
+:copyright: CC BY-NC-SA 3.0
+:corpsite: www.disid.com
+
+== Pre-requisites
+
+To start with gvNIX you need:
+
+* JDK 1.6 or JDK 1.7 ( http://www.oracle.com/technetwork/java/javase/downloads/index.html )
+* Maven 3.2 or above ( http://maven.apache.org/download.html )
+* Internet access so that Maven can download required dependencies
+
+== Install Spring Tool Suite (STS)
+
+Install STS 3.6.2. Go to https://spring.io/tools/sts/all and follow the instructions.
+
+== Install Roo Extension
+
+Spring Roo is not longer included on http://spring.io/tools[STS] distributions.
+
+To include *Roo Support* on your STS, follow the next instructions:
+
+. Open your STS IDE
+. Open STS dashboard and search Spring Roo
+. Install _Spring Roo (current production release)_
+  +
+image:http://i.stack.imgur.com/gzsc0.jpg["Current production release"]
+
+. Install _Spring IDE - Roo Extension_
+  +
+image:http://i.stack.imgur.com/MOtHu.png["Roo Extension"]
+
+. Restart STS IDE
+
+== Install gvNIX Support
+
+Finally, install and setup _gvNIX_ as default Roo support:
+
+. Download the latest _gvNIX_ version from http://www.gvnix.org
+
+. Unzip downloaded file. For example, in Unix and Apple systems:
++
+[source,shell]
+---------------------------------------------------------------------
+bash:$HOME/software$ unzip gvNIX-X.X.X-RELEASE.zip
+---------------------------------------------------------------------
+
+. After unzip the file a new folder called _gvNIX-X.X.X-RELEASE_ will be
+  created (from now on we will refer to it as +$GVNIX_HOME+ instead).
+
+. Run _STS_ and go to +Window > Preferences+.
+
+. In the new window browse to +Spring > Roo Support+. Press +Add+ and write a
+  name for the configuration, then press +Browse...+ button and navigate to
+  _gvNIX_ folder (note if you have followed every single step, it should be at
+  +$GVNIX_HOME+).
+
+. Once you have selected _gvNIX_ folder, you can see _gvNIX_ version in
+  +Version:+ field.
+
+. After pressing +OK+ in parent windows you will complete _gvNIX_ installation
+  in your computer.
+
+
