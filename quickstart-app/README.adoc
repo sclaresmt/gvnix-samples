@@ -30,7 +30,7 @@ Note this sample isn't a real application which normally needs additional work
 like UI customization, performance improvement, database queries tunning, etc.
 
 You can see an example of a *generated web application* using gvNIX
-http://petclinic.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
+http://petclinic-gvnix.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
 
 == Run from Git
 
