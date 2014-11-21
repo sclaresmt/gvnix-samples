@@ -29,9 +29,12 @@ The application presented in this guide is the Spring PetClinic application. The
 Note this sample isn't a real application which normally needs additional work
 like UI customization, performance improvement, database queries tunning, etc.
 
+You can see an example of a *generated web application* using gvNIX
+http://petclinic.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
+
 == Run from Git
 
-If you want to preview this sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#guide[gvNIX Sample application Guide]
+If you want to preview this sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#build-your-own-app[gvNIX Sample application Guide]
 
 - Clone github repository
 [source, shell]
