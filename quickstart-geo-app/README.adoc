@@ -82,8 +82,7 @@ That's why we need to configure our project with some valid Spatial DB. We can c
 - http://www.postgresql.org/[PostgreSql] 	
 - http://www.oracle.com/us/products/database/overview/index.html[Oracle 10g/11g] 	
 - http://www.mysql.com/[MySQL] 	
-- http://www.microsoft.com/es-es/server-cloud/products/sql-server/[SqlServer] 	
-- https://github.com/jdeolive/geodb[GeoDB (H2)] 	
+- http://www.microsoft.com/es-es/server-cloud/products/sql-server/[SqlServer] 	 	
  	
 To follow this guide, you should configure a POSTGRES database on your system and add POSTGIS functionalities. To make that possible you can read http://trac.osgeo.org/postgis/[postgis documentation]. 	
  	
