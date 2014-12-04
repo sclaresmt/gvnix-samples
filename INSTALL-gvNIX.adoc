@@ -25,7 +25,8 @@ Spring Roo is not longer included on http://spring.io/tools[STS] distributions.
 To include *Roo Support* on your STS, follow the next instructions:
 
 . Open your STS IDE
-. Open STS dashboard and search Spring Roo
+. Open STS dashboard
+. Click on Extensions bottom tab and search Spring Roo on Find input
 . Install _Spring Roo (current production release)_
   +
 image:http://i.stack.imgur.com/gzsc0.jpg["Current production release"]
