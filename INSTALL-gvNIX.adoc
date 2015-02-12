@@ -29,11 +29,11 @@ To include *Roo Support* on your STS, follow the next instructions:
 . Click on Extensions bottom tab and search Spring Roo
 . Install _Spring Roo (current production release)_
   +
-image:http://i.stack.imgur.com/gzsc0.jpg["Current production release"]
+image:http://raw.githubusercontent.com/spring-projects/spring-roo/gh-pages/img/current-production-release.jpg["Current production release"]
 
 . Install _Spring IDE - Roo Extension_
   +
-image:http://i.stack.imgur.com/MOtHu.png["Roo Extension"]
+image:https://raw.githubusercontent.com/spring-projects/spring-roo/gh-pages/img/roo-extension.png["Roo Extension"]
 
 . Restart STS IDE
 
