@@ -263,7 +263,7 @@ var GvNIX_RowClick;
 		 *            force to execute callbacks
 		 * @returns true if selection has been change
 		 */
-		"fnSetLastClicked" : function(trId, redraw, force) {
+		"fnSetLastClicked" : function(trId, redraw, force, showNextDetail) {
 			var _d = this._data;
 			if ((trId == _d.lastClickedId) && !force) {
 				// is the same row: do nothing
@@ -281,6 +281,9 @@ var GvNIX_RowClick;
 			if (this.s.persistState) {
 				this.fnSaveState();
 			}
+			this.fnScrollDatatableBodyToClicked();
+			this.fnScrollToNextDetail(showNextDetail);
+			
 			return true;
 		},
 
@@ -324,10 +327,29 @@ var GvNIX_RowClick;
 		 */
 		"fnLoadState" : function(force) {
 			var dt = this._data.dt;
+			
+			// Generating hash location
+			var hashLocation = fnGetHashCode(window.location.pathname);
+			// Getting statePrefix
+			var statePrefix = jQuery(dt.nTable).data().stateprefix;
+			
+			// Generating unic sName
+			var sName = hashLocation + "_";
+			if(statePrefix != undefined){
+				sName +=  statePrefix + "_";
+			}
+			sName += "gvnixRowclk-"+dt.nTable.id;
 
-			var id = dt.oApi._fnReadCookie("gvnixRowclk-"+dt.nTable.id);
-			if (id) {
-				this.fnSetLastClicked(id, true,true);
+			if(!window.localStorage){
+				var id = dt.oApi._fnReadCookie(sName);
+				if (id) {
+					this.fnSetLastClicked(id, true,true);
+				}
+			}else{
+				var id = window.localStorage.getItem(sName);
+				if (id) {
+					this.fnSetLastClicked(id, true,true);
+				}
 			}
 		},
 
@@ -336,16 +358,82 @@ var GvNIX_RowClick;
 		 * the cookie
 		 *
 		 */
-		"fnSaveState" : function() {
+		"fnSaveState" : function(clear) {
 			var _d = this._data, dt = _d.dt;
 
-			dt.oApi._fnCreateCookie("gvnixRowclk-"+dt.nTable.id,
-					_d.lastClickedId,
-					10*60, // 10 minutes
-					"gvnixRowclk-",
-					null
-					);
+			// Generating hash location
+			var hashLocation = fnGetHashCode(window.location.pathname);
+			// Getting statePrefix
+			var statePrefix = jQuery(dt.nTable).data().stateprefix;
+			
+			// Generating unic sName
+			var sName = hashLocation + "_";
+			if(statePrefix != undefined){
+				sName +=  statePrefix + "_";
+			}
+			sName += "gvnixRowclk-"+dt.nTable.id;
+			
+			var sValue = "";
+			if(clear == undefined){
+				sValue = _d.lastClickedId;
+			}
+			
 
+			if(!window.localStorage){
+				dt.oApi._fnCreateCookie(sName,
+						sValue,
+						10*60, // 10 minutes
+						"gvnixRowclk-",
+						null
+						);
+			}else{
+				window.localStorage.setItem(sName,sValue);
+			}
+		},
+		
+		/**
+		 * This functions scrolls datatable scroll body 
+		 * to clicked record
+		 */
+		"fnScrollDatatableBodyToClicked": function() {
+			var _d = this._data;
+			var s = this.s;
+			
+			var $table = jQuery(_d.dt.nTable);
+			var clickedClassSelector = "." + s.classForClickedRow;
+			$table.parent(".dataTables_scrollBody").animate({scrollTop: 0}, 0);
+		    // Displaying always the clicked row
+		    if($table.find(clickedClassSelector).length > 0){
+		        var rowSelected = $table.find(clickedClassSelector);
+		        var scrollHeight = $table.parent(".dataTables_scrollBody").height();
+		        var rowHeight = rowSelected.height();
+		        var rowSelectedPosition = rowSelected[0].offsetTop + rowHeight + (scrollHeight / 2);
+		        if(rowSelectedPosition > scrollHeight){
+		        	$table.parent(".dataTables_scrollBody").animate({scrollTop:  rowSelectedPosition - scrollHeight}, 0);
+		        }
+		    }
+		},
+		
+		/**
+		 * This function scrolls page to next detail when
+		 * the user click a row
+		 * 
+		 */
+		"fnScrollToNextDetail": function(showDetails) {
+			if(showDetails){
+				var _d = this._data;
+				var s = this.s;
+			
+				var $table = jQuery(_d.dt.nTable);
+				var tableId = $table.attr("id");
+			
+				var divDetails = jQuery("div[id^="+tableId+"_][id$=detail]");
+
+				if(divDetails.length > 0){
+					jQuery('html, body').animate({ scrollTop: divDetails.offset().top });
+				}
+			}
+			
 		},
 
 
@@ -444,8 +532,8 @@ var GvNIX_RowClick;
 			var aTds = jQuery(sQuery,nRow);
 			// bind row click
 			jQuery.each(aTds, function (index,ntd){
-				jQuery(ntd).click(function() {
-					that.fnSetLastClicked(this.parentNode.id, true);
+				jQuery(ntd).dblclick(function() {
+					that.fnSetLastClicked(this.parentNode.id, true, undefined, true);
 				});
 			});
 			nRow.rowClick_binded = true;
@@ -672,7 +760,7 @@ var GvNIX_RowClick;
 	 * @type String
 	 * @default See code
 	 */
-	GvNIX_RowClick.VERSION = "1.3.0-SNAPSHOT";
+	GvNIX_RowClick.VERSION = "1.4.1.RELEASE";
 	GvNIX_RowClick.prototype.VERSION = GvNIX_RowClick.VERSION;
 
 	/** TODO Add as datatable feature * */
@@ -695,7 +783,7 @@ jQuery.fn.dataTableExt.oApi.fnRowClick = function(oSettings,
 
 	var rowClickSupport = oSettings.GvNIX_RowClick_support;
 
-	if (oSettings.GvNIX_RowClick_support === undefined) {
+	if (rowClickSupport === undefined) {
 		rowClickSupport = new GvNIX_RowClick(oSettings, iSettings);
 	} else {
 		// TODO adjust settings on already initialized selection support
@@ -704,4 +792,29 @@ jQuery.fn.dataTableExt.oApi.fnRowClick = function(oSettings,
 	oSettings.GvNIX_RowClick_support = rowClickSupport;
 
 	return rowClickSupport;
+};
+
+/**
+*
+* Checks if  gvnix RowClick support is initialized on a datatables
+*
+* @param oSettings
+* @param iSettings
+* @return GvNIX_RowClick object
+* @author gvNIX Team
+*/
+jQuery.fn.dataTableExt.oApi.fnHasRowClick = function(oSettings,
+		iSettings) {
+	
+	if (!oSettings) {
+		return false;
+	}
+
+	var rowClickSupport = oSettings.GvNIX_RowClick_support;
+
+	if (rowClickSupport === undefined) {
+		return false;
+	} else {
+		return true;
+	}
 };

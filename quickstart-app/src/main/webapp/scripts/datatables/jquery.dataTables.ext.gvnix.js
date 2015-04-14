@@ -1,10 +1,13 @@
 /**
  * gvNIX Datatables extended initialization
  *
- * @param datatable settings
+ * @param datatable
+ *            settings
  * @param tableId
- * @param options to initialize
- * @param count of tries-to-delay-initialize
+ * @param options
+ *            to initialize
+ * @param count
+ *            of tries-to-delay-initialize
  */
 function fnDatatablesExtInit(oSettings, tableId, options, count) {
 
@@ -12,7 +15,7 @@ function fnDatatablesExtInit(oSettings, tableId, options, count) {
 	var atables = $.fn.dataTable.fnTables(true);
 	for (i = 0; i < atables.length; i++) {
 		$table = jQuery(atables[i]).dataTable();
-		if ($table.fnSettings().sTableId == tableId){
+		if ($table.fnSettings().sTableId == tableId) {
 			break;
 		}
 		$table = null;
@@ -22,7 +25,9 @@ function fnDatatablesExtInit(oSettings, tableId, options, count) {
 		if (count) {
 			// Check number of tries
 			if (count > 12) {
-				log("Datatables " + tableId + " gvnix init ext is not loaded because it's currently not available (not visible tab)");
+				log("Datatables "
+						+ tableId
+						+ " gvnix init ext is not loaded because it's currently not available (not visible tab)");
 				return;
 			}
 			// increase tries count
@@ -32,8 +37,9 @@ function fnDatatablesExtInit(oSettings, tableId, options, count) {
 			count = 1;
 		}
 		// Try to load it delayed
-		log("Delay loading of '"+ tableId+"':"+count);
-		window.setTimeout(fnDatatablesExtInit, 100, oSettings, tableId, options,count);
+		log("Delay loading of '" + tableId + "':" + count);
+		window.setTimeout(fnDatatablesExtInit, 100, oSettings, tableId,
+				options, count);
 		return;
 	}
 	if (options.filterOnReturn) {
@@ -94,10 +100,55 @@ function fnDatatablesExtInit(oSettings, tableId, options, count) {
 		}
 	}
 
+	// Init gvNIX rowOnTop support. Note this function is in file
+	// 'jquery.dataTables.ext.gvnix.rowontop.js', so we must check if
+	// init function has been loaded
+	if (options.rowsOnTop && typeof ($table.fnRowOnTop) === "function") {
+		if (typeof options.rowsOnTop == "object") {
+			$table.fnRowOnTop(options.rowsOnTop);
+		} else {
+			$table.fnRowOnTop();
+		}
+	}
+
 	if (count) {
 		// If delay loading adjust column size
 		$table.fnAdjustColumnSizing();
 	}
+	
+	var st = $table.fnSettings();
+	
+	// Register Footer callback
+	st.oApi._fnCallbackReg(st, 'aoFooterCallback', 
+			function(row, data, start, end, display){
+		this.fnGvNIX_FooterCallback(row, data, start, end, display);
+	});
+	
+	// Register Draw callback
+	st.oApi._fnCallbackReg(st, 'aoDrawCallback', function( oSettings ) {
+		this.fnGvNIX_DrawCallback(oSettings);
+	});
+	
+	// Register CreatedRow Callback
+	st.oApi._fnCallbackReg(st, 'aoRowCreatedCallback', function(nRow, aData, iDataIndex){
+		this.fnGvNIX_RowCreatedCallback(nRow, aData, iDataIndex);
+	});
+	
+	// Calling at first time Footer Callback
+	updateDatatablesFilters($table.fnSettings());
+	
+	// Calling at first time RowCreatedCallback
+	var $tds = $table.find("td");
+	var sSearch = $table.fnSettings().oPreviousSearch.sSearch;
+	if($tds.length > 0 && sSearch.length > 0){
+		showSearchResultsHighLighted($tds, sSearch);
+	}
+	// Displaying always the clicked row if row click exists
+	fnScrollDatatableToRowClick($table);
+	
+	// Changing filter class when there's some
+	// filter value
+	fnChangeFilterClass($table);
 }
 
 /**
@@ -105,12 +156,12 @@ function fnDatatablesExtInit(oSettings, tableId, options, count) {
  *
  * @param sPanelId
  */
-function fnDisplayCreateForm(sTableId) {
+function fnDisplayCreateForm(sTableId, dataTablesMappedProperty, dataTablesMappedValue) {
 	var oTable = jQuery('#' + sTableId);
 	if (oTable.length == 0) {
-		throw "fnDisplayCreateForm : id not found '"+ sTableId + "'";
+		throw "fnDisplayCreateForm : id not found '" + sTableId + "'";
 	}
-	oTable.dataTable().fnEditing().fnBeginCreate(sTableId);
+	oTable.dataTable().fnEditing().fnBeginCreate(sTableId, dataTablesMappedProperty, dataTablesMappedValue);
 }
 
 /**
@@ -122,7 +173,7 @@ function fnDisplayCreateForm(sTableId) {
 function fnEditDatatableRow(sTableId, sRowId) {
 	var oTable = jQuery('#' + sTableId);
 	if (oTable.length == 0) {
-		throw "fnEditDatatableRow : id not found '"+ sTableId + "'";
+		throw "fnEditDatatableRow : id not found '" + sTableId + "'";
 	}
 	oTable.dataTable().fnEditing().fnEditRows(sRowId);
 }
@@ -236,6 +287,150 @@ jQuery.fn.dataTableExt.oApi.fnSetFilteringDelay = function(oSettings, iDelay) {
 };
 
 /**
+ * This function is executed after draw
+ * datatable element
+ */
+
+jQuery.fn.dataTableExt.oApi.fnGvNIX_DrawCallback = function(oSettings){
+	var _that = this;
+
+	// add fnScrollDatatableToRowClick in a timer to
+	// assure it is executed after all drawCallbacks are done
+	// (which can modify the row "offsetTop")
+
+	window.setTimeout(function() {
+
+		fnScrollDatatableToRowClick(_that);
+
+	}, 200);
+
+};
+
+
+/**
+ * This function checks filters on footerCallback
+ */
+jQuery.fn.dataTableExt.oApi.fnGvNIX_FooterCallback = function(nFoot, data, start, end, display){
+	var _that = this;
+	var oSettings = _that.fnSettings();
+
+	if (!oSettings) {
+		return;
+	}
+	updateDatatablesFilters(oSettings);
+	
+};
+
+/**
+ * This function is executed when a TR element is created
+ */
+
+jQuery.fn.dataTableExt.oApi.fnGvNIX_RowCreatedCallback = function(nRow, aData, iDataIndex){
+	var _that = this;
+	var st = _that.fnSettings();
+	// Getting sSearch
+	var sSearch = st.oPreviousSearch.sSearch;
+	// Getting all td in the new row
+	var oTds = jQuery(aData).children("td");
+	// highlight matching results
+	if(sSearch !== ""){
+		showSearchResultsHighLighted(oTds, sSearch);
+	}
+};
+
+/*
+ * This function highlight results that match with 
+ * the current search
+ */
+function showSearchResultsHighLighted($tds, sSearch){
+	jQuery.each($tds, function(index, td){
+		var $td = jQuery(td);
+		var tdClass = $td.attr("class");
+		// Excluding utilbox
+		if(tdClass !== "utilbox" && tdClass !== "dataTables_empty" && $td.children().length == 0){
+			var content = $td.html();
+			var contentToLower = content.toLowerCase();
+			var contentMatch = contentToLower.indexOf(sSearch.toLowerCase());
+			// If content match with search
+			if(contentMatch != -1){
+				var toHighLightString = content.substr(contentMatch, sSearch.length);
+				var highLighted = "<span class='search-match'>" + toHighLightString + "</span>";
+				var re = new RegExp(toHighLightString, 'g');
+				var finalContent = content.replace(re, highLighted);
+				// Setting new value
+				$td.html(finalContent);
+			}
+		}
+	});
+};
+
+/**
+ * This function updates datatables column filters
+ * 
+ * @param oSettings
+ */
+function updateDatatablesFilters(oSettings) {
+
+	var filters = oSettings.aoPreSearchCols;
+	var footer = jQuery(oSettings.aoFooter)[0];
+	
+	// If footer is defined
+	if(footer !== undefined){
+		
+		for ( var i=0, iLen=filters.length ; i<iLen ; i++ )
+	    {
+			if(footer[i] !== null && footer[i] !== undefined){
+				var $cell = jQuery(footer[i].cell);
+				var property = $cell.data().property;
+				var filterExpression = filters[i].sSearch;
+
+				// Gettting filter input
+				var filterInput = $cell.find('input');
+				
+				 // Adding data to current filter input
+                if(filterInput !== null && filterInput !== undefined){
+                	// Saving Parent Id
+                    filterInput.data("dataTableId", oSettings.sTableId);
+                    // Saving Parent Path
+                    var ajaxSource = oSettings.sAjaxSource;
+                    if(ajaxSource !== null && ajaxSource !== undefined){
+                        ajaxSource = ajaxSource.replace("/datatables/ajax","");
+                        filterInput.data("dataTablePath", ajaxSource);
+                    }
+                }
+
+				filterInput.css("width", "80%");
+
+				if(filterExpression != "")	{
+					// Mark as filtered
+					filterInput.addClass("filter_not_empty");
+					jQuery.ajax({
+						  url: "?checkFilters",
+						  data: {property: property, expression: filterExpression},
+						  type: "post",
+						  success: function(jsonResponse) {
+							  for(var i=0;i<footer.length;i++){
+								  if(property == jsonResponse.property){
+									  if(!jsonResponse.response){
+										  filterInput.css("background-color","#FA5858");
+									  }else{
+										  filterInput.css("background-color","#ffffff");
+									  }
+								  }
+							  }
+						  },
+						  error:function (xhr, ajaxOptions, thrownError) {
+						  }
+					});
+				}else{
+					filterInput.css("background-color","#ffffff");
+				}
+			}
+	    }
+	}
+};
+
+/**
  *
  * This plug-in removed the default behaviour of DataTables to filter on each
  * keypress, and replaces with it the requirement to press the enter key to
@@ -318,6 +513,7 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings, sNewSource,
 
 	// Server-side processing should just call fnDraw
 	if (oSettings.oFeatures.bServerSide) {
+		oSettings.bAjaxDataGet = true; // force perform ajax call
 		this.fnDraw();
 		return;
 	}
@@ -339,7 +535,7 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings, sNewSource,
 						._fnGetObjectDataFn(oSettings.sAjaxDataProp)(json)
 						: json;
 
-				for ( var i = 0; i < aData.length; i++) {
+				for (var i = 0; i < aData.length; i++) {
 					that.oApi._fnAddData(oSettings, aData[i]);
 				}
 
@@ -361,3 +557,126 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings, sNewSource,
 				}
 			}, oSettings);
 };
+
+/**
+ * Redraw the table (i.e. fnDraw) to take account of sorting and filtering, but
+ * retain the current pagination settings.
+ *
+ * from http://datatables.net/plug-ins/api#fnStandingRedraw
+ */
+$.fn.dataTableExt.oApi.fnStandingRedraw = function(oSettings) {
+	
+	if (oSettings.oFeatures.bServerSide === false) {
+		var before = oSettings._iDisplayStart;
+
+		oSettings.oApi._fnReDraw(oSettings);
+
+		// iDisplayStart has been reset to zero - so lets change it back
+		oSettings._iDisplayStart = before;
+		oSettings.oApi._fnCalculateEnd(oSettings);
+	} else {
+		oSettings.bAjaxDataGet = true; // force perform ajax call
+	}
+
+	// draw the 'current' page
+	oSettings.oApi._fnDraw(oSettings);
+};
+
+
+/**
+ * Move datatable scroll to show current row-clicked
+ * <p/>
+ * The scroll doen't be moved if any row is in 
+ * editing mode.
+ *
+ * @param $datatable the datatable instance
+ */
+
+function fnScrollDatatableToRowClick($datatable) {
+
+	if(!$datatable.fnHasRowClick()){
+		return false;
+	}
+
+	var hasRowInEditingMode = false;
+	if ($datatable.fnHasEditing()) {
+		var rowEditingClassSelector = "." + $datatable.fnEditing()._options.classForEditingRow;
+		hasRowInEditingMode = $datatable.find(rowEditingClassSelector).length > 0;
+	}
+
+	var rowClickedClassSelector = "." + $datatable.fnRowClick().s.classForClickedRow;
+
+	if(hasRowInEditingMode){
+		return false;
+	}
+
+	var $body = $datatable.parent(".dataTables_scrollBody");
+	$body.animate({scrollTop: 0}, 0);
+
+    // Displaying always the clicked row
+
+    if($datatable.find(rowClickedClassSelector).length > 0){
+
+        var rowSelected = $datatable.find(rowClickedClassSelector);
+        var scrollHeight = $body.height();
+        var rowHeight = rowSelected.height();
+        var rowSelectedPosition = rowSelected[0].offsetTop + rowHeight + (scrollHeight / 2);
+        
+        if(rowSelectedPosition > scrollHeight){
+        	$body.animate({scrollTop:  rowSelectedPosition - scrollHeight});
+        }
+
+    }
+
+}
+
+/**
+ * This method changes filter class and add
+ * callback to know if filter has value
+ */
+function fnChangeFilterClass(table){
+	
+	var tableId = table.attr("id");
+	var filterDiv = jQuery("#" + tableId + "_filter");
+	var filterInput = filterDiv.find("input");
+	
+	if(filterInput.length > 0){
+		// Setting class if value is not empty
+		var value = filterInput.val();
+		if(value !== ""){
+			filterInput.addClass("filter_not_empty");
+		}
+		
+		// Registering input click event
+		filterInput.on("keyup", function(){
+			var $input = jQuery(this);
+			var value = $input.val();
+
+			if(value !== ""){
+				filterInput.addClass("filter_not_empty");
+			}else{
+				filterInput.removeClass("filter_not_empty");
+			}
+		});
+	}
+	
+}
+
+
+/**
+ * This method returns a hashcode from
+ * a string.
+ * 
+ * @param str String to transform
+ * @return String
+ */
+function fnGetHashCode(str){
+	var hash = 0;
+    if (str.length == 0) return hash;
+    for (i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+	return hash.toString();
+}

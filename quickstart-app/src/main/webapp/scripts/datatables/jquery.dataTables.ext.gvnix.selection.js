@@ -91,7 +91,6 @@ var GvNIX_Selection;
 			 * @default null
 			 */
 			"infoMessage" : null
-
 		};
 
 		/**
@@ -516,6 +515,10 @@ var GvNIX_Selection;
 				_d.selectionChangeCallbacks.fireWith(this, [ this, 'select',
 						trId ]);
 			}
+			
+			// Save selected rows
+			this.fnSaveState();
+			
 			return changed;
 		},
 
@@ -541,6 +544,10 @@ var GvNIX_Selection;
 				}
 				_d.selectionChangeCallbacks.fireWith(this, [ this, 'deselect',
 						trId ]);
+				
+				// Save selected rows
+				this.fnSaveState();
+				
 				return true;
 			}
 			var changed = false;
@@ -573,6 +580,10 @@ var GvNIX_Selection;
 				_d.selectionChangeCallbacks.fireWith(this, [ this, 'deselect',
 						trId ]);
 			}
+			
+			// Save selected rows
+			this.fnSaveState();
+			
 			return changed;
 		},
 
@@ -596,6 +607,10 @@ var GvNIX_Selection;
 				this._fnUpdateInfo();
 			}
 			_d.selectionChangeCallbacks.fireWith(this, [ this, 'all', null ]);
+			
+			// Save selected rows
+			this.fnSaveState();
+			
 			return true;
 		},
 
@@ -625,6 +640,10 @@ var GvNIX_Selection;
 				}
 			}
 			_d.selectionChangeCallbacks.fireWith(this, [ this, 'none', null ]);
+			
+			// Save selected rows
+			this.fnSaveState();
+			
 			return true;
 		},
 
@@ -905,6 +924,106 @@ var GvNIX_Selection;
 
 			// Update visible rows
 			this.fnRedrawVisibleRows();
+			
+			// Load current state
+			this.fnLoadState();
+		},
+		
+		/**
+		 * Save current state of control to
+		 * the cookie
+		 *
+		 */
+		"fnSaveState" : function(clear) {
+			var _d = this._data, dt = _d.dt;
+			
+			// Generating hash location
+			var hashLocation = fnGetHashCode(window.location.pathname);
+			// Getting statePrefix
+			var statePrefix = jQuery(dt.nTable).data().stateprefix;
+			
+			// Generating unic sName
+			var sName = hashLocation + "_";
+			if(statePrefix != undefined){
+				sName +=  statePrefix + "_";
+			}
+			sName += "gvnixRowSelected-"+dt.nTable.id;
+			
+			var sValue = "";
+			if(clear == undefined){
+				var selectionInfo = this.fnGetSelectionInfo();
+				sValue = dt.oApi._fnJsonString(selectionInfo);
+			}
+			
+
+			if(!window.localStorage){
+				dt.oApi._fnCreateCookie(sName,
+						sValue,
+						10*60, // 10 minutes
+						"gvnixRowSelected-",
+						null
+						);
+			}else{
+				window.localStorage.setItem(sName,sValue);
+			}
+		},
+		
+		/**
+		 * Load previous state of control from
+		 * the cookie
+		 *
+		 *@param force force load
+		 */
+		"fnLoadState" : function(force) {
+			var dt = this._data.dt;
+			
+			// Generating hash location
+			var hashLocation = fnGetHashCode(window.location.pathname);
+			// Getting statePrefix
+			var statePrefix = jQuery(dt.nTable).data().stateprefix;
+			
+			// Generating unic sName
+			var sName = hashLocation + "_";
+			if(statePrefix != undefined){
+				sName +=  statePrefix + "_";
+			}
+			sName += "gvnixRowSelected-"+dt.nTable.id;
+
+			if(!window.localStorage){
+				var ids = dt.oApi._fnReadCookie(sName);
+				if(ids !== ""){
+					var object = JSON.parse(ids);
+					if(object !== null && object.all){
+						this.fnSelectAll();
+					}else if(object !== null && object.idListSelected){
+						for(i in object.idList){
+							this.fnSelect(object.idList[i], true,true);
+						}
+					}else if(object !== null){
+						this.fnSelectAll();
+						for(i in object.idList){
+							this.fnDeselect(object.idList[i], true,true);
+						}
+					}
+				}
+			}else{
+				var ids = window.localStorage.getItem(sName);
+				if(ids !== ""){
+					var object = JSON.parse(ids);
+					if(object !== null && object.all){
+						this.fnSelectAll();
+					}else if(object !== null && object.idListSelected){
+						for(i in object.idList){
+							this.fnSelect(object.idList[i], true,true);
+						}
+					}else if(object !== null){
+						this.fnSelectAll();
+						for(i in object.idList){
+							this.fnDeselect(object.idList[i], true,true);
+						}
+					}
+				}
+			}
 		}
 
 	};
@@ -1058,7 +1177,7 @@ var GvNIX_Selection;
 	 * @type StrFing
 	 * @default See code
 	 */
-	GvNIX_Selection.VERSION = "1.3.0-SNAPSHOT";
+	GvNIX_Selection.VERSION = "1.4.1.RELEASE";
 	GvNIX_Selection.prototype.VERSION = GvNIX_Selection.VERSION;
 
 	/** TODO Add as datatable feature * */

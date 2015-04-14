@@ -19,25 +19,35 @@ import com.github.dandelion.datatables.extras.export.poi.XlsExport;
 import com.github.dandelion.datatables.extras.export.poi.XlsxExport;
 import com.github.dandelion.datatables.extras.spring3.ajax.DatatablesParams;
 import com.mysema.query.BooleanBuilder;
+import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.path.PathBuilder;
 import com.springsource.petclinic.domain.Visit;
 import com.springsource.petclinic.web.VisitController;
 import com.springsource.petclinic.web.VisitController_Roo_Controller;
 import com.springsource.petclinic.web.VisitController_Roo_GvNIXDatatables;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.validation.Valid;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.gvnix.web.datatables.query.SearchResults;
 import org.gvnix.web.datatables.util.DatatablesUtils;
@@ -50,6 +60,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,6 +91,14 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         if (StringUtils.isNotBlank(parentId)) {
             uiModel.addAttribute("parentId", parentId);
         }
+        String rowOnTopIds = params.remove("dtt_row_on_top_ids");
+        if (StringUtils.isNotBlank(rowOnTopIds)) {
+            uiModel.addAttribute("dtt_row_on_top_ids", rowOnTopIds);
+        }
+        String tableHashId = params.remove("dtt_parent_table_id_hash");
+        if (StringUtils.isNotBlank(tableHashId)) {
+            uiModel.addAttribute("dtt_parent_table_id_hash", tableHashId);
+        }
         if (!params.isEmpty()) {
             uiModel.addAttribute("baseFilter", params);
         }
@@ -90,15 +109,15 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
     public void VisitController.populateDatatablesConfig(Model uiModel) {
         uiModel.addAttribute("datatablesHasBatchSupport", true);
         uiModel.addAttribute("datatablesUseAjax",true);
-        uiModel.addAttribute("datatablesInlineEditing",false);
-        uiModel.addAttribute("datatablesInlineCreating",false);
+        uiModel.addAttribute("datatablesInlineEditing",true);
+        uiModel.addAttribute("datatablesInlineCreating",true);
         uiModel.addAttribute("datatablesSecurityApplied",true);
         uiModel.addAttribute("datatablesStandardMode",true);
         uiModel.addAttribute("finderNameParam","ajax_find");
     }
     
     @RequestMapping(produces = "text/html")
-    public String VisitController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    public String VisitController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         // overrides the standard Roo list method and
         // delegates on datatables list method
         return listDatatables(uiModel, null);
@@ -128,11 +147,11 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         return allParams;
     }
     
-    public Map<String, Object> VisitController.getPropertyMap(Visit visit, Enumeration<Map<String, String>> propertyNames) {
+    public Map<String, Object> VisitController.getPropertyMap(Visit Visit, Enumeration<Map<String, String>> propertyNames) {
         Map<String, Object> propertyValuesMap = new HashMap<String, Object>();
         
         // If no entity or properties given, return empty Map
-        if(visit == null || propertyNames == null) {
+        if(Visit == null || propertyNames == null) {
             return propertyValuesMap;
         }
         
@@ -145,7 +164,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         }
         
         // Iterate over given properties to get each property value
-        BeanWrapper entityBean = new BeanWrapperImpl(visit);
+        BeanWrapper entityBean = new BeanWrapperImpl(Visit);
         for (String propertyName : properties) {
             if (entityBean.isReadableProperty(propertyName)) {
                 Object propertyValue = null;
@@ -161,9 +180,9 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         return propertyValuesMap;
     }
     
-    public Map<String, Object> VisitController.getPropertyMap(Visit visit, HttpServletRequest request) {
+    public Map<String, Object> VisitController.getPropertyMap(Visit Visit, HttpServletRequest request) {
         // URL parameters are used as base search filters
-        @SuppressWarnings("unchecked") Map<String, Object> propertyValuesMap = getPropertyMap(visit, request.getParameterNames());
+        @SuppressWarnings("unchecked") Map<String, Object> propertyValuesMap = getPropertyMap(Visit, request.getParameterNames());
         // Add to the property map the parameters used as query operators
         Map<String, Object> params = new HashMap<String, Object>(populateParametersMap(request));
         Set<String> keySet = params.keySet();
@@ -172,15 +191,158 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
                 propertyValuesMap.put(key, params.get(key));
             } else if (DatatablesUtils.ROWS_ON_TOP_IDS_PARAM.equals(key)) {
                 propertyValuesMap.put(key, request.getParameterMap().get(key));
+            } else if(DatatablesUtils.BOUNDING_BOX_PARAM.equals(key) || DatatablesUtils.BOUNDING_BOX_FIELDS_PARAM.equals(key)){
+                propertyValuesMap.put(key, request.getParameterMap().get(key));
             }
         }
         return propertyValuesMap;
     }
     
     public void VisitController.setDatatablesBaseFilter(Map<String, Object> propertyMap) {
-        // TODO: Add here your baseFilters to propertyMap.
-        //		 This code will be generated by gvNIX commands/annotation
-        //		 on future.
+        // Add here your baseFilters to propertyMap.
+    }
+    
+    @ResponseBody
+    @RequestMapping(headers = "Accept=application/json", params = "getColumnType")
+    public String VisitController.getColumnType(Model uiModel, HttpServletRequest request, @RequestParam(value = "_columnName_", required = false) String columnName) {
+        // Getting all declared fields
+        boolean fieldExists = false;
+        Field attr = null;
+        for(Field field : Visit.class.getDeclaredFields()){
+            if(field.getName().equals(columnName)){
+                attr = field;
+                fieldExists = true;
+                break;
+            }
+        }
+        // If current field not exists on entity, find on superclass
+        if(!fieldExists){
+            if(Visit.class.getSuperclass() != null){
+                for(Field field : Visit.class.getSuperclass().getDeclaredFields()){
+                    if(field.getName().equals(columnName)){
+                        attr = field;
+                        fieldExists = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(fieldExists){
+            // Getting field type
+            Object fieldType = null;
+            if (attr != null) {
+                fieldType = attr.getType();
+                String type = fieldType.toString();
+                // Returning value based on type
+                if ("String".equals(type)){
+                    return "{\"columnType\": \"string\"}";
+                } else if ("float".equals(type) || type.contains("Float")){
+                    return "{\"columnType\": \"number\"}";
+                } else if ("short".equals(type) || type.contains("Short")){
+                    return "{\"columnType\": \"number\"}";
+                } else if ("long".equals(type) || type.contains("Long")){
+                    return "{\"columnType\": \"number\"}";
+                } else if ("double".equals(type) || type.contains("Double")){
+                    return "{\"columnType\": \"number\"}";
+                } else if ("int".equals(type) || type.contains("Integer")){
+                    return "{\"columnType\": \"number\"}";
+                } else if ("Date".equals(type)){
+                    return "{\"columnType\": \"date\"}";
+                } else if ("boolean".equals(type) || type.contains("Boolean")){
+                    return "{\"columnType\": \"boolean\"}";
+                } else {
+                    // Returning by default
+                    return "{\"columnType\": \"undefined\"}";
+                }
+            }
+        }
+        // Returning by default
+        return "{\"columnType\": \"undefined\"}";
+    }
+    
+    @ResponseBody
+    @RequestMapping(headers = "Accept=application/json", params = "geti18nText")
+    public String VisitController.geti18nText(Model uiModel, HttpServletRequest request, @RequestParam(value = "_locale_", required = false) String locale) {
+        // Getting current locale
+        Locale defaultLocale = new Locale(locale);
+        // Building JSON response
+        StringBuilder json = new StringBuilder();
+        json.append("\"all_isnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.isnull", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"all_notnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.notnull", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"boolean_false\": \"" + messageSource_dtt.getMessage("global.filters.operations.boolean.false", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"boolean_true\": \"" + messageSource_dtt.getMessage("global.filters.operations.boolean.true", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_between\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.between", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_date\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.date", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_day\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.day", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_month\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.month", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_year\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.year", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"number_between\": \"" + messageSource_dtt.getMessage("global.filters.operations.number.between", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_contains\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.contains", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_ends\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.ends", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_isempty\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.isempty", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_isnotempty\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.isnotempty", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_starts\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.starts", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"button_find\": \"" + messageSource_dtt.getMessage("button_find", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_all_isnull\": \"" + messageSource_dtt.getMessage("help.all.isnull", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_all_notnull\": \"" + messageSource_dtt.getMessage("help.all.notnull", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_boolean_false\": \"" + messageSource_dtt.getMessage("help.boolean.false", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_boolean_true\": \"" + messageSource_dtt.getMessage("help.boolean.true", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_between\": \"" + messageSource_dtt.getMessage("help.date.between", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_date\": \"" + messageSource_dtt.getMessage("help.date.date", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_day\": \"" + messageSource_dtt.getMessage("help.date.day", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_month\": \"" + messageSource_dtt.getMessage("help.date.month", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_year\": \"" + messageSource_dtt.getMessage("help.date.year", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_between\": \"" + messageSource_dtt.getMessage("help.number.between", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_eq\": \"" + messageSource_dtt.getMessage("help.number.eq", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_neq\": \"" + messageSource_dtt.getMessage("help.number.neq", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_gt\": \"" + messageSource_dtt.getMessage("help.number.gt", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_lt\": \"" + messageSource_dtt.getMessage("help.number.lt", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_goe\": \"" + messageSource_dtt.getMessage("help.number.goe", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_loe\": \"" + messageSource_dtt.getMessage("help.number.loe", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_contains\": \"" + messageSource_dtt.getMessage("help.string.contains", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_ends\": \"" + messageSource_dtt.getMessage("help.string.ends", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_isempty\": \"" + messageSource_dtt.getMessage("help.string.isempty", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_isnotempty\": \"" + messageSource_dtt.getMessage("help.string.isnotempty", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_starts\": \"" + messageSource_dtt.getMessage("help.string.starts", null, defaultLocale) + "\"");
+        json.append("}");
+        // return JSON with locale strings
+        return json.toString();
     }
     
     @RequestMapping(produces = "text/html", value = "/list")
@@ -192,27 +354,39 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
     }
     
     @RequestMapping(produces = "text/html", method = RequestMethod.POST, params = "datatablesRedirect")
-    public String VisitController.createDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Visit visit, BindingResult bindingResult, RedirectAttributes uiModel, HttpServletRequest httpServletRequest) {
+    public String VisitController.createDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Visit visit, BindingResult bindingResult, Model uiModel, RedirectAttributes redirectModel, HttpServletRequest httpServletRequest) {
         // Do common create operations (check errors, populate, persist, ...)
         String view = create(visit, bindingResult, uiModel, httpServletRequest);
         // If binding errors or no redirect, return common create error view (remain in create form)
         if (bindingResult.hasErrors() || redirect == null || redirect.trim().isEmpty()) {
             return view;
         }
-        uiModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, visit.getId());
+        String[] paramValues = httpServletRequest.getParameterValues("dtt_table_id_hash");
+        if(paramValues != null && paramValues.length > 0) {
+            redirectModel.addFlashAttribute("dtt_table_id_hash", paramValues[0]);
+        }else{
+            redirectModel.addFlashAttribute("dtt_table_id_hash", "");
+        }
+        redirectModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, visit.getId());
         // If create success, redirect to given URL: master datatables
         return "redirect:".concat(redirect);
     }
     
     @RequestMapping(produces = "text/html", method = RequestMethod.PUT, params = "datatablesRedirect")
-    public String VisitController.updateDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Visit visit, BindingResult bindingResult, RedirectAttributes uiModel, HttpServletRequest httpServletRequest) {
+    public String VisitController.updateDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Visit visit, BindingResult bindingResult, Model uiModel, RedirectAttributes redirectModel, HttpServletRequest httpServletRequest) {
         // Do common update operations (check errors, populate, merge, ...)
         String view = update(visit, bindingResult, uiModel, httpServletRequest);
         // If binding errors or no redirect, return common update error view (remain in update form)
         if (bindingResult.hasErrors() || redirect == null || redirect.trim().isEmpty()) {
             return view;
         }
-        uiModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, visit.getId());
+        String[] paramValues = httpServletRequest.getParameterValues("dtt_table_id_hash");
+        if(paramValues != null && paramValues.length > 0) {
+            redirectModel.addFlashAttribute("dtt_table_id_hash", paramValues[0]);
+        }else{
+            redirectModel.addFlashAttribute("dtt_table_id_hash", "");
+        }
+        redirectModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, visit.getId());
         // If update success, redirect to given URL: master datatables
         return "redirect:".concat(redirect);
     }
@@ -273,7 +447,11 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         // Predicate expressions
         PathBuilder<Visit> entity = new PathBuilder<Visit>(Visit.class, "entity");
         
-        baseSearch.and(entity.getDate("visitDate", Date.class).between(minVisitDate,maxVisitDate));
+        if(minVisitDate != null && maxVisitDate != null){
+            baseSearch.and(entity.getDate("visitDate", Date.class).between(minVisitDate,maxVisitDate));
+        }else{
+            baseSearch.and(entity.getDate("visitDate", Date.class).isNull());
+        }
         
         SearchResults<Visit> searchResult = DatatablesUtils.findByCriteria(entity, Visit.entityManager(), criterias, baseSearch);
         
@@ -300,7 +478,11 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         // Predicate expressions
         PathBuilder<Visit> entity = new PathBuilder<Visit>(Visit.class, "entity");
         
-        baseSearch.and(entity.getString("description").toLowerCase().like("%".concat(description).concat("%")));
+        if(description != null){
+            baseSearch.and(entity.getString("description").toLowerCase().like("%".concat(description).toLowerCase().concat("%")));
+        }else{
+            baseSearch.and(entity.getString("description").isNull());
+        }
         
         SearchResults<Visit> searchResult = DatatablesUtils.findByCriteria(entity, Visit.entityManager(), criterias, baseSearch);
         
@@ -327,8 +509,16 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         // Predicate expressions
         PathBuilder<Visit> entity = new PathBuilder<Visit>(Visit.class, "entity");
         
-        baseSearch.and(entity.getString("description").eq(description));
-        baseSearch.and(entity.getDate("visitDate", Date.class).eq(visitDate));
+        if(description != null){
+            baseSearch.and(entity.getString("description").eq(description));
+        }else{
+            baseSearch.and(entity.getString("description").isNull());
+        }
+        if(visitDate != null){
+            baseSearch.and(entity.getDate("visitDate", Date.class).eq(visitDate));
+        }else{
+            baseSearch.and(entity.getDate("visitDate", Date.class).isNull());
+        }
         
         SearchResults<Visit> searchResult = DatatablesUtils.findByCriteria(entity, Visit.entityManager(), criterias, baseSearch);
         
@@ -371,7 +561,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         export(criterias, visit, ExportType.XML, new XmlExport(), request, response);
     }
     
-    private void VisitController.export(DatatablesCriterias criterias, Visit visit, ExportType exportType, DatatablesExport datatablesExport, HttpServletRequest request, HttpServletResponse response) throws ExportException {
+    public void VisitController.export(DatatablesCriterias criterias, Visit visit, ExportType exportType, DatatablesExport datatablesExport, HttpServletRequest request, HttpServletResponse response) throws ExportException {
         // Does the export process as is explained in http://dandelion.github.io/datatables/tutorials/export/controller-based-exports.html
         // 1. Retrieve the data
         List<Map<String, String>> data = retrieveData(criterias, visit, request);
@@ -383,11 +573,11 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         ExportUtils.renderExport(table, exportConf, response);
     }
     
-    private List<Map<String, String>> VisitController.retrieveData(DatatablesCriterias criterias, Visit visit, HttpServletRequest request) {
+    private List<Map<String, String>> VisitController.retrieveData(DatatablesCriterias criterias, Visit Visit, HttpServletRequest request) {
         // Cloned criteria in order to not paginate the results
         DatatablesCriterias noPaginationCriteria = new DatatablesCriterias(criterias.getSearch(), 0, null, criterias.getColumnDefs(), criterias.getSortingColumnDefs(), criterias.getInternalCounter());
         // Do the search to obtain the data
-        Map<String, Object> baseSearchValuesMap = getPropertyMap(visit, request);
+        Map<String, Object> baseSearchValuesMap = getPropertyMap(Visit, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
         org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Visit> searchResult = DatatablesUtils.findByCriteria(Visit.class, Visit.entityManager(), noPaginationCriteria, baseSearchValuesMap);
         org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
@@ -395,6 +585,132 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         Map<String, Object> datePattern = uiModel.asMap();
         // Use ConversionService with the obtained data
         return DatatablesUtils.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), datePattern, conversionService_dtt).getRows();
+    }
+    
+    @RequestMapping(value = "/datatables/createform", produces = "application/json", headers = "Accept=application/json")
+    @ResponseBody
+    public List<Map<String, String>> VisitController.createJsonForm(HttpServletRequest request, HttpServletResponse response, Model uiModel) throws ServletException, IOException {
+        
+        // Prepare result
+        List<Map<String, String>> result = new ArrayList<Map<String, String>>();
+        String controllerPath = "visits";
+        String pageToUse = "create";
+        String renderUrl = String.format("/WEB-INF/views/%s/%s.jspx", controllerPath, pageToUse);
+        
+        Map<String, String> item = new HashMap<String, String>();
+        final StringWriter buffer = new StringWriter();
+        
+        // Call JSP to render update form
+        RequestDispatcher dispatcher = request.getRequestDispatcher(renderUrl);
+        
+        // spring from:input tag uses BindingResult to locate property editors
+        // for each bean property. So, we add a request attribute (required key
+        // id BindingResult.MODEL_KEY_PREFIX + object name) with a correctly
+        // initialized bindingResult.
+        Visit Visit = new Visit();
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(Visit, "Visit");
+        bindingResult.initConversion(conversionService_dtt);
+        request.setAttribute(BindingResult.MODEL_KEY_PREFIX + "Visit", bindingResult);
+        
+        populateItemForRender(request, Visit, true);
+        
+        dispatcher.include(request, new HttpServletResponseWrapper(response) {
+            
+            private PrintWriter writer = new PrintWriter(buffer);
+            
+            @Override
+            public PrintWriter getWriter() throws IOException {
+                return writer;
+            }
+        });
+        String render = buffer.toString();
+        
+        // Put rendered content into first column
+        item.put("form", render);
+        result.add(item);
+        
+        return result;
+    }
+    
+    @RequestMapping(value = "/datatables/updateforms", produces = "application/json", headers = "Accept=application/json")
+    @ResponseBody
+    public List<Map<String, String>> VisitController.updateJsonForms(@RequestParam("id") Long[] ids, HttpServletRequest request, HttpServletResponse response, Model uiModel) throws ServletException, IOException {
+        if (ArrayUtils.isEmpty(ids)) {
+            return new ArrayList<Map<String, String>>();
+        }
+        
+        // Using PathBuilder, a cascading builder for Predicate expressions
+        PathBuilder entity = new PathBuilder(Visit.class, "entity");
+        // URL parameters are used as base search filters
+        Set set = new HashSet();
+        set.addAll(Arrays.asList(ids));
+        BooleanBuilder filterBy = QuerydslUtils.createPredicateByIn(entity, "id", set);
+        // Create a query with filter
+        JPAQuery query = new JPAQuery(Visit.entityManager());
+        query = query.from(entity);
+        // execute query
+        List<Visit> visits = query.where(filterBy).list(entity);
+        List<Map<String, String>> udpateForms = renderUpdateForm(visits, request, response);
+        return udpateForms;
+    }
+    
+    public List<Map<String, String>> VisitController.renderUpdateForm(List<Visit> visits, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Prepare result
+        List<Map<String, String>> result = new ArrayList<Map<String, String>>(visits.size());
+        String controllerPath = "visits";
+        String pageToUse = "update";
+        String renderUrl = String.format("/WEB-INF/views/%s/%s.jspx", controllerPath, pageToUse);
+        // For every element
+        for (Visit Visit : visits) {
+            Map<String, String> item = new HashMap<String, String>();
+            final StringWriter buffer = new StringWriter();
+            // Call JSP to render update form
+            RequestDispatcher dispatcher = request.getRequestDispatcher(renderUrl);
+            populateItemForRender(request, Visit, true);
+            dispatcher.include(request, new HttpServletResponseWrapper(response) {
+                
+                private PrintWriter writer = new PrintWriter(buffer);
+                
+                @Override
+                public PrintWriter getWriter() throws IOException {
+                    return writer;
+                }
+            });
+            String render = buffer.toString();
+            // Load item id
+            item.put("DT_RowId", conversionService_dtt.convert(Visit.getId(), String.class));
+            // Put rendered content into first column
+            item.put("form", render);
+            result.add(item);
+        }
+        return result;
+    }
+    
+    public void VisitController.populateItemForRender(HttpServletRequest request, Visit Visit, boolean editing) {
+        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
+        
+        request.setAttribute("Visit", Visit);
+        request.setAttribute("itemId", conversionService_dtt.convert(Visit.getId(),String.class));
+        
+        if (editing) {
+            // spring from:input tag uses BindingResult to locate property editors for each bean
+            // property. So, we add a request attribute (required key id BindingResult.MODEL_KEY_PREFIX + object name)
+            // with a correctly initialized bindingResult.
+            BeanPropertyBindingResult bindindResult = new BeanPropertyBindingResult(Visit, "Visit");
+            bindindResult.initConversion(conversionService_dtt);
+            request.setAttribute(BindingResult.MODEL_KEY_PREFIX + "Visit",bindindResult);
+            // Add date time patterns and enums to populate inputs
+            populateEditForm(uiModel, Visit);
+        } else {
+            // Add date time patterns
+            addDateTimeFormatPatterns(uiModel);
+        }
+        
+        // Load uiModel attributes into request
+        Map<String, Object> modelMap = uiModel.asMap();
+        for (String key : modelMap.keySet()){
+            request.setAttribute(key, modelMap.get(key));
+        }
     }
     
 }

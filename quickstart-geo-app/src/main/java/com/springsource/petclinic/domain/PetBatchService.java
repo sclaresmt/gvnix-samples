@@ -1,5 +1,5 @@
 package com.springsource.petclinic.domain;
-import org.gvnix.addon.jpa.batch.GvNIXJpaBatch;
+import org.gvnix.addon.jpa.addon.batch.GvNIXJpaBatch;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -21,8 +21,16 @@ privileged aspect VisitController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByDescriptionAndVisitDate", method = RequestMethod.GET)
-    public String VisitController.findVisitsByDescriptionAndVisitDate(@RequestParam("description") String description, @RequestParam("visitDate") @DateTimeFormat(style = "M-") Date visitDate, Model uiModel) {
-        uiModel.addAttribute("visits", Visit.findVisitsByDescriptionAndVisitDate(description, visitDate).getResultList());
+    public String VisitController.findVisitsByDescriptionAndVisitDate(@RequestParam("description") String description, @RequestParam("visitDate") @DateTimeFormat(style = "M-") Date visitDate, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("visits", Visit.findVisitsByDescriptionAndVisitDate(description, visitDate, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Visit.countFindVisitsByDescriptionAndVisitDate(description, visitDate) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("visits", Visit.findVisitsByDescriptionAndVisitDate(description, visitDate, sortFieldName, sortOrder).getResultList());
+        }
         addDateTimeFormatPatterns(uiModel);
         return "visits/list";
     }
@@ -33,8 +41,17 @@ privileged aspect VisitController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByDescriptionLike", method = RequestMethod.GET)
-    public String VisitController.findVisitsByDescriptionLike(@RequestParam("description") String description, Model uiModel) {
-        uiModel.addAttribute("visits", Visit.findVisitsByDescriptionLike(description).getResultList());
+    public String VisitController.findVisitsByDescriptionLike(@RequestParam("description") String description, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("visits", Visit.findVisitsByDescriptionLike(description, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Visit.countFindVisitsByDescriptionLike(description) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("visits", Visit.findVisitsByDescriptionLike(description, sortFieldName, sortOrder).getResultList());
+        }
+        addDateTimeFormatPatterns(uiModel);
         return "visits/list";
     }
     
@@ -45,8 +62,16 @@ privileged aspect VisitController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByVisitDateBetween", method = RequestMethod.GET)
-    public String VisitController.findVisitsByVisitDateBetween(@RequestParam("minVisitDate") @DateTimeFormat(style = "M-") Date minVisitDate, @RequestParam("maxVisitDate") @DateTimeFormat(style = "M-") Date maxVisitDate, Model uiModel) {
-        uiModel.addAttribute("visits", Visit.findVisitsByVisitDateBetween(minVisitDate, maxVisitDate).getResultList());
+    public String VisitController.findVisitsByVisitDateBetween(@RequestParam("minVisitDate") @DateTimeFormat(style = "M-") Date minVisitDate, @RequestParam("maxVisitDate") @DateTimeFormat(style = "M-") Date maxVisitDate, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("visits", Visit.findVisitsByVisitDateBetween(minVisitDate, maxVisitDate, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Visit.countFindVisitsByVisitDateBetween(minVisitDate, maxVisitDate) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("visits", Visit.findVisitsByVisitDateBetween(minVisitDate, maxVisitDate, sortFieldName, sortOrder).getResultList());
+        }
         addDateTimeFormatPatterns(uiModel);
         return "visits/list";
     }

@@ -32,7 +32,6 @@ div.dataTables_filter label {
 /* Smaller filter input field. */
 div.dataTables_filter input {
   width: 160px;
-  height: 14px;
   font-size: 12px;
 }
 
@@ -170,11 +169,20 @@ a.cancel_entity {
 	background: url("../../images/datatables/cancel.png") no-repeat scroll center center transparent;
 }
 
+a.open_wizard {
+	background: url("../../images/datatables/magic_wand.png") no-repeat scroll center center transparent;
+}
+
+/** RowClick and RowOnTop **/
 table.dataTable tr.row_clicked td[class*="sorting_"],
-table.dataTable tr.row_clicked td {
+table.dataTable tr.row_clicked td,
+table.dataTable tr.row_on_top td[class*="sorting_"],
+table.dataTable tr.row_on_top td
+ {
 	background-color: #baffb4;
 }
 
+/** RowEditing **/
 table.dataTable tr.row_editing_error td[class*="sorting_"],
 table.dataTable tr.row_editing_error td,
 table.table tr.row_editing_error td {
@@ -208,3 +216,18 @@ span.errors {
     float: left;
 }
 
+.search-match{
+	background-color: #FFFF35;
+	border: 1px solid #000000;
+}
+
+input.filter_not_empty{
+	background-color: #FFFF35!important;
+}
+.wizard-help{
+		margin-left: 9px;
+		font-size: 9px;
+		vertical-align:super;
+		font-weight: bold;
+		cursor: help;
+}

@@ -760,7 +760,7 @@ var GvNIX_RowClick;
 	 * @type String
 	 * @default See code
 	 */
-	GvNIX_RowClick.VERSION = "1.4.0-SNAPSHOT";
+	GvNIX_RowClick.VERSION = "1.4.1.RELEASE";
 	GvNIX_RowClick.prototype.VERSION = GvNIX_RowClick.VERSION;
 
 	/** TODO Add as datatable feature * */

@@ -1,16 +1,19 @@
 package com.springsource.petclinic.domain;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+
+import org.gvnix.addon.jpa.addon.geo.providers.hibernatespatial.GvNIXEntityMapLayer;
+import org.hibernate.annotations.Type;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
-import com.vividsolutions.jts.geom.Point;
-import org.hibernate.annotations.Type;
+
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
-import org.gvnix.addon.jpa.geo.providers.hibernatespatial.GvNIXEntityMapLayer;
 
 @RooJavaBean
 @RooToString

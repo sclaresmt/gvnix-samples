@@ -14,6 +14,8 @@ privileged aspect AbstractPerson_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager AbstractPerson.entityManager;
     
+    public static final List<String> AbstractPerson.fieldNames4OrderClauseFilter = java.util.Arrays.asList("firstName", "lastName", "address", "city", "telephone", "homePage", "email", "birthDay");
+    
     public static final EntityManager AbstractPerson.entityManager() {
         EntityManager em = new AbstractPerson() {
         }.entityManager;
@@ -29,6 +31,17 @@ privileged aspect AbstractPerson_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM AbstractPerson o", AbstractPerson.class).getResultList();
     }
     
+    public static List<AbstractPerson> AbstractPerson.findAllAbstractpeople(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM AbstractPerson o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, AbstractPerson.class).getResultList();
+    }
+    
     public static AbstractPerson AbstractPerson.findAbstractPerson(Long id) {
         if (id == null) return null;
         return entityManager().find(AbstractPerson.class, id);
@@ -36,6 +49,17 @@ privileged aspect AbstractPerson_Roo_Jpa_ActiveRecord {
     
     public static List<AbstractPerson> AbstractPerson.findAbstractPersonEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM AbstractPerson o", AbstractPerson.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<AbstractPerson> AbstractPerson.findAbstractPersonEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM AbstractPerson o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, AbstractPerson.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional
