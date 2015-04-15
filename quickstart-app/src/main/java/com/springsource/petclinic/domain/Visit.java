@@ -10,14 +10,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.ManyToOne;
-import org.gvnix.occ.roo.addon.GvNIXEntityOCCChecksum;
-import javax.persistence.Transient;
-import javax.persistence.Version;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord(sequenceName = "VISIT_SEQ", finders = { "findVisitsByDescriptionAndVisitDate", "findVisitsByVisitDateBetween", "findVisitsByDescriptionLike" })
-@GvNIXEntityOCCChecksum
 public class Visit {
 
     /**
@@ -43,8 +39,4 @@ public class Visit {
      */
     @ManyToOne
     private Vet vet;
-
-    @Version
-    @Transient
-    private String occChekcsum;
 }

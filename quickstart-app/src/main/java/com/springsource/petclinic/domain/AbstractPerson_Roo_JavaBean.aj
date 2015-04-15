@@ -72,12 +72,4 @@ privileged aspect AbstractPerson_Roo_JavaBean {
         this.birthDay = birthDay;
     }
     
-    public String AbstractPerson.getOccChekcsum() {
-        return this.occChekcsum;
-    }
-    
-    public void AbstractPerson.setOccChekcsum(String occChekcsum) {
-        this.occChekcsum = occChekcsum;
-    }
-    
 }

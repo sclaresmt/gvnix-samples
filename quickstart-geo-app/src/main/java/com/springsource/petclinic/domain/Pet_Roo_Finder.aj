@@ -69,14 +69,14 @@ privileged aspect Pet_Roo_Finder {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         if (weight == null) throw new IllegalArgumentException("The weight argument is required");
         EntityManager em = Pet.entityManager();
-        String jpaQuery = "SELECT o FROM Pet AS o WHERE o.name = :name AND o.weight = :weight";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Pet AS o WHERE o.name = :name AND o.weight = :weight");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Pet> q = em.createQuery(jpaQuery, Pet.class);
+        TypedQuery<Pet> q = em.createQuery(queryBuilder.toString(), Pet.class);
         q.setParameter("name", name);
         q.setParameter("weight", weight);
         return q;
@@ -93,14 +93,14 @@ privileged aspect Pet_Roo_Finder {
     public static TypedQuery<Pet> Pet.findPetsByOwner(Owner owner, String sortFieldName, String sortOrder) {
         if (owner == null) throw new IllegalArgumentException("The owner argument is required");
         EntityManager em = Pet.entityManager();
-        String jpaQuery = "SELECT o FROM Pet AS o WHERE o.owner = :owner";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Pet AS o WHERE o.owner = :owner");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Pet> q = em.createQuery(jpaQuery, Pet.class);
+        TypedQuery<Pet> q = em.createQuery(queryBuilder.toString(), Pet.class);
         q.setParameter("owner", owner);
         return q;
     }
@@ -117,14 +117,14 @@ privileged aspect Pet_Roo_Finder {
     public static TypedQuery<Pet> Pet.findPetsBySendRemindersAndWeightLessThan(boolean sendReminders, Float weight, String sortFieldName, String sortOrder) {
         if (weight == null) throw new IllegalArgumentException("The weight argument is required");
         EntityManager em = Pet.entityManager();
-        String jpaQuery = "SELECT o FROM Pet AS o WHERE o.sendReminders = :sendReminders AND o.weight < :weight";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Pet AS o WHERE o.sendReminders = :sendReminders AND o.weight < :weight");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Pet> q = em.createQuery(jpaQuery, Pet.class);
+        TypedQuery<Pet> q = em.createQuery(queryBuilder.toString(), Pet.class);
         q.setParameter("sendReminders", sendReminders);
         q.setParameter("weight", weight);
         return q;
@@ -158,14 +158,14 @@ privileged aspect Pet_Roo_Finder {
             name = name + "%";
         }
         EntityManager em = Pet.entityManager();
-        String jpaQuery = "SELECT o FROM Pet AS o WHERE o.type = :type AND LOWER(o.name) LIKE LOWER(:name)";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Pet AS o WHERE o.type = :type AND LOWER(o.name) LIKE LOWER(:name)");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Pet> q = em.createQuery(jpaQuery, Pet.class);
+        TypedQuery<Pet> q = em.createQuery(queryBuilder.toString(), Pet.class);
         q.setParameter("type", type);
         q.setParameter("name", name);
         return q;

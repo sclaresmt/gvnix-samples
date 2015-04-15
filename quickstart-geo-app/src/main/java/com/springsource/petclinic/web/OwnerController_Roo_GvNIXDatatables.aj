@@ -153,11 +153,11 @@ privileged aspect OwnerController_Roo_GvNIXDatatables {
         return allParams;
     }
     
-    public Map<String, Object> OwnerController.getPropertyMap(Owner owner, Enumeration<Map<String, String>> propertyNames) {
+    public Map<String, Object> OwnerController.getPropertyMap(Owner Owner, Enumeration<Map<String, String>> propertyNames) {
         Map<String, Object> propertyValuesMap = new HashMap<String, Object>();
         
         // If no entity or properties given, return empty Map
-        if(owner == null || propertyNames == null) {
+        if(Owner == null || propertyNames == null) {
             return propertyValuesMap;
         }
         
@@ -170,7 +170,7 @@ privileged aspect OwnerController_Roo_GvNIXDatatables {
         }
         
         // Iterate over given properties to get each property value
-        BeanWrapper entityBean = new BeanWrapperImpl(owner);
+        BeanWrapper entityBean = new BeanWrapperImpl(Owner);
         for (String propertyName : properties) {
             if (entityBean.isReadableProperty(propertyName)) {
                 Object propertyValue = null;
@@ -186,9 +186,9 @@ privileged aspect OwnerController_Roo_GvNIXDatatables {
         return propertyValuesMap;
     }
     
-    public Map<String, Object> OwnerController.getPropertyMap(Owner owner, HttpServletRequest request) {
+    public Map<String, Object> OwnerController.getPropertyMap(Owner Owner, HttpServletRequest request) {
         // URL parameters are used as base search filters
-        @SuppressWarnings("unchecked") Map<String, Object> propertyValuesMap = getPropertyMap(owner, request.getParameterNames());
+        @SuppressWarnings("unchecked") Map<String, Object> propertyValuesMap = getPropertyMap(Owner, request.getParameterNames());
         // Add to the property map the parameters used as query operators
         Map<String, Object> params = new HashMap<String, Object>(populateParametersMap(request));
         Set<String> keySet = params.keySet();
@@ -270,85 +270,85 @@ privileged aspect OwnerController_Roo_GvNIXDatatables {
     @RequestMapping(headers = "Accept=application/json", params = "geti18nText")
     public String OwnerController.geti18nText(Model uiModel, HttpServletRequest request, @RequestParam(value = "_locale_", required = false) String locale) {
         // Getting current locale
-        Locale defaultLocale = Locale.forLanguageTag(locale);
+        Locale defaultLocale = new Locale(locale);
         // Building JSON response
-        String JSON = "{";
-        JSON += "\"all_isnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.isnull", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"all_notnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.notnull", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"boolean_false\": \"" + messageSource_dtt.getMessage("global.filters.operations.boolean.false", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"boolean_true\": \"" + messageSource_dtt.getMessage("global.filters.operations.boolean.true", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"date_between\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.between", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"date_date\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.date", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"date_day\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.day", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"date_month\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.month", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"date_year\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.year", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"number_between\": \"" + messageSource_dtt.getMessage("global.filters.operations.number.between", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"string_contains\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.contains", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"string_ends\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.ends", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"string_isempty\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.isempty", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"string_isnotempty\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.isnotempty", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"string_starts\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.starts", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"button_find\": \"" + messageSource_dtt.getMessage("button_find", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_all_isnull\": \"" + messageSource_dtt.getMessage("help.all.isnull", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_all_notnull\": \"" + messageSource_dtt.getMessage("help.all.notnull", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_boolean_false\": \"" + messageSource_dtt.getMessage("help.boolean.false", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_boolean_true\": \"" + messageSource_dtt.getMessage("help.boolean.true", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_date_between\": \"" + messageSource_dtt.getMessage("help.date.between", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_date_date\": \"" + messageSource_dtt.getMessage("help.date.date", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_date_day\": \"" + messageSource_dtt.getMessage("help.date.day", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_date_month\": \"" + messageSource_dtt.getMessage("help.date.month", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_date_year\": \"" + messageSource_dtt.getMessage("help.date.year", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_number_between\": \"" + messageSource_dtt.getMessage("help.number.between", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_number_eq\": \"" + messageSource_dtt.getMessage("help.number.eq", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_number_neq\": \"" + messageSource_dtt.getMessage("help.number.neq", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_number_gt\": \"" + messageSource_dtt.getMessage("help.number.gt", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_number_lt\": \"" + messageSource_dtt.getMessage("help.number.lt", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_number_goe\": \"" + messageSource_dtt.getMessage("help.number.goe", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_number_loe\": \"" + messageSource_dtt.getMessage("help.number.loe", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_string_contains\": \"" + messageSource_dtt.getMessage("help.string.contains", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_string_ends\": \"" + messageSource_dtt.getMessage("help.string.ends", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_string_isempty\": \"" + messageSource_dtt.getMessage("help.string.isempty", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_string_isnotempty\": \"" + messageSource_dtt.getMessage("help.string.isnotempty", null, defaultLocale) + "\"";
-        JSON += ",";
-        JSON += "\"help_string_starts\": \"" + messageSource_dtt.getMessage("help.string.starts", null, defaultLocale) + "\"";
-        JSON += "}";
+        StringBuilder json = new StringBuilder();
+        json.append("\"all_isnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.isnull", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"all_notnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.notnull", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"boolean_false\": \"" + messageSource_dtt.getMessage("global.filters.operations.boolean.false", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"boolean_true\": \"" + messageSource_dtt.getMessage("global.filters.operations.boolean.true", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_between\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.between", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_date\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.date", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_day\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.day", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_month\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.month", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"date_year\": \"" + messageSource_dtt.getMessage("global.filters.operations.date.year", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"number_between\": \"" + messageSource_dtt.getMessage("global.filters.operations.number.between", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_contains\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.contains", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_ends\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.ends", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_isempty\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.isempty", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_isnotempty\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.isnotempty", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"string_starts\": \"" + messageSource_dtt.getMessage("global.filters.operations.string.starts", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"button_find\": \"" + messageSource_dtt.getMessage("button_find", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_all_isnull\": \"" + messageSource_dtt.getMessage("help.all.isnull", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_all_notnull\": \"" + messageSource_dtt.getMessage("help.all.notnull", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_boolean_false\": \"" + messageSource_dtt.getMessage("help.boolean.false", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_boolean_true\": \"" + messageSource_dtt.getMessage("help.boolean.true", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_between\": \"" + messageSource_dtt.getMessage("help.date.between", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_date\": \"" + messageSource_dtt.getMessage("help.date.date", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_day\": \"" + messageSource_dtt.getMessage("help.date.day", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_month\": \"" + messageSource_dtt.getMessage("help.date.month", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_date_year\": \"" + messageSource_dtt.getMessage("help.date.year", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_between\": \"" + messageSource_dtt.getMessage("help.number.between", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_eq\": \"" + messageSource_dtt.getMessage("help.number.eq", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_neq\": \"" + messageSource_dtt.getMessage("help.number.neq", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_gt\": \"" + messageSource_dtt.getMessage("help.number.gt", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_lt\": \"" + messageSource_dtt.getMessage("help.number.lt", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_goe\": \"" + messageSource_dtt.getMessage("help.number.goe", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_number_loe\": \"" + messageSource_dtt.getMessage("help.number.loe", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_contains\": \"" + messageSource_dtt.getMessage("help.string.contains", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_ends\": \"" + messageSource_dtt.getMessage("help.string.ends", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_isempty\": \"" + messageSource_dtt.getMessage("help.string.isempty", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_isnotempty\": \"" + messageSource_dtt.getMessage("help.string.isnotempty", null, defaultLocale) + "\"");
+        json.append(",");
+        json.append("\"help_string_starts\": \"" + messageSource_dtt.getMessage("help.string.starts", null, defaultLocale) + "\"");
+        json.append("}");
         // return JSON with locale strings
-        return JSON;
+        return json.toString();
     }
     
     @RequestMapping(produces = "text/html", value = "/list")
@@ -469,7 +469,7 @@ privileged aspect OwnerController_Roo_GvNIXDatatables {
         export(criterias, owner, ExportType.XML, new XmlExport(), request, response);
     }
     
-    private void OwnerController.export(DatatablesCriterias criterias, Owner owner, ExportType exportType, DatatablesExport datatablesExport, HttpServletRequest request, HttpServletResponse response) throws ExportException {
+    public void OwnerController.export(DatatablesCriterias criterias, Owner owner, ExportType exportType, DatatablesExport datatablesExport, HttpServletRequest request, HttpServletResponse response) throws ExportException {
         // Does the export process as is explained in http://dandelion.github.io/datatables/tutorials/export/controller-based-exports.html
         // 1. Retrieve the data
         List<Map<String, String>> data = retrieveData(criterias, owner, request);
@@ -481,11 +481,11 @@ privileged aspect OwnerController_Roo_GvNIXDatatables {
         ExportUtils.renderExport(table, exportConf, response);
     }
     
-    private List<Map<String, String>> OwnerController.retrieveData(DatatablesCriterias criterias, Owner owner, HttpServletRequest request) {
+    private List<Map<String, String>> OwnerController.retrieveData(DatatablesCriterias criterias, Owner Owner, HttpServletRequest request) {
         // Cloned criteria in order to not paginate the results
         DatatablesCriterias noPaginationCriteria = new DatatablesCriterias(criterias.getSearch(), 0, null, criterias.getColumnDefs(), criterias.getSortingColumnDefs(), criterias.getInternalCounter());
         // Do the search to obtain the data
-        Map<String, Object> baseSearchValuesMap = getPropertyMap(owner, request);
+        Map<String, Object> baseSearchValuesMap = getPropertyMap(Owner, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
         org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Owner> searchResult = DatatablesUtils.findByCriteria(Owner.class, Owner.entityManager(), noPaginationCriteria, baseSearchValuesMap);
         org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();

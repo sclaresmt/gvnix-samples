@@ -20,8 +20,16 @@ privileged aspect PetController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByNameAndWeight", method = RequestMethod.GET)
-    public String PetController.findPetsByNameAndWeight(@RequestParam("name") String name, @RequestParam("weight") Float weight, Model uiModel) {
-        uiModel.addAttribute("pets", Pet.findPetsByNameAndWeight(name, weight).getResultList());
+    public String PetController.findPetsByNameAndWeight(@RequestParam("name") String name, @RequestParam("weight") Float weight, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("pets", Pet.findPetsByNameAndWeight(name, weight, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Pet.countFindPetsByNameAndWeight(name, weight) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("pets", Pet.findPetsByNameAndWeight(name, weight, sortFieldName, sortOrder).getResultList());
+        }
         return "pets/list";
     }
     
@@ -32,8 +40,16 @@ privileged aspect PetController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByOwner", method = RequestMethod.GET)
-    public String PetController.findPetsByOwner(@RequestParam("owner") Owner owner, Model uiModel) {
-        uiModel.addAttribute("pets", Pet.findPetsByOwner(owner).getResultList());
+    public String PetController.findPetsByOwner(@RequestParam("owner") Owner owner, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("pets", Pet.findPetsByOwner(owner, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Pet.countFindPetsByOwner(owner) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("pets", Pet.findPetsByOwner(owner, sortFieldName, sortOrder).getResultList());
+        }
         return "pets/list";
     }
     
@@ -43,8 +59,16 @@ privileged aspect PetController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=BySendRemindersAndWeightLessThan", method = RequestMethod.GET)
-    public String PetController.findPetsBySendRemindersAndWeightLessThan(@RequestParam(value = "sendReminders", required = false) boolean sendReminders, @RequestParam("weight") Float weight, Model uiModel) {
-        uiModel.addAttribute("pets", Pet.findPetsBySendRemindersAndWeightLessThan(sendReminders, weight).getResultList());
+    public String PetController.findPetsBySendRemindersAndWeightLessThan(@RequestParam(value = "sendReminders", required = false) boolean sendReminders, @RequestParam("weight") Float weight, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("pets", Pet.findPetsBySendRemindersAndWeightLessThan(sendReminders, weight, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Pet.countFindPetsBySendRemindersAndWeightLessThan(sendReminders, weight) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("pets", Pet.findPetsBySendRemindersAndWeightLessThan(sendReminders, weight, sortFieldName, sortOrder).getResultList());
+        }
         return "pets/list";
     }
     
@@ -55,8 +79,16 @@ privileged aspect PetController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByTypeAndNameLike", method = RequestMethod.GET)
-    public String PetController.findPetsByTypeAndNameLike(@RequestParam("type") PetType type, @RequestParam("name") String name, Model uiModel) {
-        uiModel.addAttribute("pets", Pet.findPetsByTypeAndNameLike(type, name).getResultList());
+    public String PetController.findPetsByTypeAndNameLike(@RequestParam("type") PetType type, @RequestParam("name") String name, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("pets", Pet.findPetsByTypeAndNameLike(type, name, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Pet.countFindPetsByTypeAndNameLike(type, name) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("pets", Pet.findPetsByTypeAndNameLike(type, name, sortFieldName, sortOrder).getResultList());
+        }
         return "pets/list";
     }
     

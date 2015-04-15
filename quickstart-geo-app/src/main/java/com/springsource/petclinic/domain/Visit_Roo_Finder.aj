@@ -59,14 +59,14 @@ privileged aspect Visit_Roo_Finder {
         if (description == null || description.length() == 0) throw new IllegalArgumentException("The description argument is required");
         if (visitDate == null) throw new IllegalArgumentException("The visitDate argument is required");
         EntityManager em = Visit.entityManager();
-        String jpaQuery = "SELECT o FROM Visit AS o WHERE o.description = :description AND o.visitDate = :visitDate";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Visit AS o WHERE o.description = :description AND o.visitDate = :visitDate");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Visit> q = em.createQuery(jpaQuery, Visit.class);
+        TypedQuery<Visit> q = em.createQuery(queryBuilder.toString(), Visit.class);
         q.setParameter("description", description);
         q.setParameter("visitDate", visitDate);
         return q;
@@ -97,14 +97,14 @@ privileged aspect Visit_Roo_Finder {
             description = description + "%";
         }
         EntityManager em = Visit.entityManager();
-        String jpaQuery = "SELECT o FROM Visit AS o WHERE LOWER(o.description) LIKE LOWER(:description)";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Visit AS o WHERE LOWER(o.description) LIKE LOWER(:description)");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Visit> q = em.createQuery(jpaQuery, Visit.class);
+        TypedQuery<Visit> q = em.createQuery(queryBuilder.toString(), Visit.class);
         q.setParameter("description", description);
         return q;
     }
@@ -123,14 +123,14 @@ privileged aspect Visit_Roo_Finder {
         if (minVisitDate == null) throw new IllegalArgumentException("The minVisitDate argument is required");
         if (maxVisitDate == null) throw new IllegalArgumentException("The maxVisitDate argument is required");
         EntityManager em = Visit.entityManager();
-        String jpaQuery = "SELECT o FROM Visit AS o WHERE o.visitDate BETWEEN :minVisitDate AND :maxVisitDate";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Visit AS o WHERE o.visitDate BETWEEN :minVisitDate AND :maxVisitDate");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Visit> q = em.createQuery(jpaQuery, Visit.class);
+        TypedQuery<Visit> q = em.createQuery(queryBuilder.toString(), Visit.class);
         q.setParameter("minVisitDate", minVisitDate);
         q.setParameter("maxVisitDate", maxVisitDate);
         return q;

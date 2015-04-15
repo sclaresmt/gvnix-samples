@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Version;
 
 privileged aspect Visit_Roo_Jpa_Entity {
     
@@ -21,12 +22,24 @@ privileged aspect Visit_Roo_Jpa_Entity {
     @Column(name = "id")
     private Long Visit.id;
     
+    @Version
+    @Column(name = "version")
+    private Integer Visit.version;
+    
     public Long Visit.getId() {
         return this.id;
     }
     
     public void Visit.setId(Long id) {
         this.id = id;
+    }
+    
+    public Integer Visit.getVersion() {
+        return this.version;
+    }
+    
+    public void Visit.setVersion(Integer version) {
+        this.version = version;
     }
     
 }

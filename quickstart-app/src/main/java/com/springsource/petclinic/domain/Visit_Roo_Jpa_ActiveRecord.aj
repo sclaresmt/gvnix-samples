@@ -14,6 +14,8 @@ privileged aspect Visit_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Visit.entityManager;
     
+    public static final List<String> Visit.fieldNames4OrderClauseFilter = java.util.Arrays.asList("description", "visitDate", "pet", "vet");
+    
     public static final EntityManager Visit.entityManager() {
         EntityManager em = new Visit().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect Visit_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM Visit o", Visit.class).getResultList();
     }
     
+    public static List<Visit> Visit.findAllVisits(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Visit o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Visit.class).getResultList();
+    }
+    
     public static Visit Visit.findVisit(Long id) {
         if (id == null) return null;
         return entityManager().find(Visit.class, id);
@@ -35,6 +48,17 @@ privileged aspect Visit_Roo_Jpa_ActiveRecord {
     
     public static List<Visit> Visit.findVisitEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Visit o", Visit.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<Visit> Visit.findVisitEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Visit o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Visit.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

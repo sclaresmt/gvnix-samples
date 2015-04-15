@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 privileged aspect AbstractPerson_Roo_Jpa_Entity {
     
@@ -19,12 +20,24 @@ privileged aspect AbstractPerson_Roo_Jpa_Entity {
     @Column(name = "id")
     private Long AbstractPerson.id;
     
+    @Version
+    @Column(name = "version")
+    private Integer AbstractPerson.version;
+    
     public Long AbstractPerson.getId() {
         return this.id;
     }
     
     public void AbstractPerson.setId(Long id) {
         this.id = id;
+    }
+    
+    public Integer AbstractPerson.getVersion() {
+        return this.version;
+    }
+    
+    public void AbstractPerson.setVersion(Integer version) {
+        this.version = version;
     }
     
 }

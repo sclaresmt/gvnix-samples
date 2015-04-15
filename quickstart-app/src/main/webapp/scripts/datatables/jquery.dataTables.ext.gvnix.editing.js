@@ -123,7 +123,13 @@ var GvNIX_Editing;
 			 * @type string
 			 * @default null
 			 */
-			"toolbarId" : null
+			"toolbarId" : null,
+
+			/**
+			 * Show last created row at first row on first
+			 * table refresh (true by default)
+			 */
+			"showCreatedRowFirst": true
 		};
 
 		/**
@@ -186,7 +192,7 @@ var GvNIX_Editing;
 
 			/**
 			 * The panel that contains the create table
-			 * 
+			 *
 			 * @type object
 			 * @default empty
 			 */
@@ -194,7 +200,7 @@ var GvNIX_Editing;
 
 			/**
 			 * The create table
-			 * 
+			 *
 			 * @type object
 			 * @default empty
 			 */
@@ -575,53 +581,56 @@ var GvNIX_Editing;
 
 						// property is undefined for action columns
 						if(property !== undefined) {
+							property = this._fnUnscapePropertyName(property);
 
 							// Roo property id has the pattern "... _Vet_firstName_id"
-							var $ctrlGroup = $updateForm.find("div[id $= '_" + property + "_id'].control-group");
+							var $ctrlGroup = $updateForm.find("div[id $= '_" + property.replace(".","_") + "_id'].control-group");
 							var $editCtrls = $ctrlGroup.find("div.controls");
 							var $inputCtrl = $editCtrls.find(":input");
-							
-							// Update input class
-							if ($inputCtrl.attr('type') == 'checkbox') {
-								$editCtrls.attr('class', $editCtrls.attr('class') + ' checkbox');
-							} else {
-								var inputClass = $inputCtrl.attr('class');
-								if (inputClass !== undefined && inputClass) {
-									inputClass = inputClass + ' form-control input-sm';
-								} else {
-									inputClass = 'form-control input-sm';
-								}
-								$inputCtrl.attr('class', inputClass);
-							}
-							
 							if ($inputCtrl.length == 0) {
 								this.error("[fnEditRows] Input control for property '" + property + "' not found.");
 								continue;
 							}
 
-							// Make a new unique ID for the input to avoid
-							// collisions with other elements with same ID
-							$inputCtrl.attr('id', $inputCtrl.attr('id') + '_edit_' + rowId);
-							
-							var value = fnVal( $inputCtrl );
+							for(var k = 0; k < $inputCtrl.length; k++){
+								
+								// Update input class
+								if (jQuery($inputCtrl[k]).attr('type') == 'checkbox') {
+									$editCtrls.attr('class', $editCtrls.attr('class') + ' checkbox');
+								} else {
+									var inputClass = jQuery($inputCtrl[k]).attr('class');
+									if (inputClass !== undefined && inputClass) {
+										inputClass = inputClass + ' form-control input-sm';
+									} else {
+										inputClass = 'form-control input-sm';
+									}
+									jQuery($inputCtrl[k]).attr('class', inputClass);
+								}
 
-							// Store current value to be able to recover if user
-							// cancels editing
-							var originalData = aRowData[property];
-							if (originalData !== undefined) {
-								oEditRow.aOriginalData[ colIdx ] = originalData;
+								// Make a new unique ID for the input to avoid
+								// collisions with other elements with same ID
+								jQuery($inputCtrl[k]).attr('id', '_' + $updateForm.attr('id') + jQuery($inputCtrl[k]).attr('id') + '_edit_' + rowId);
+
+								var value = fnVal( jQuery($inputCtrl[k]) );
+
+								// Store current value to be able to recover if user
+								// cancels editing
+								var originalData = aRowData[property];
+								if (originalData !== undefined) {
+									oEditRow.aOriginalData[ colIdx ] = originalData;
+								}
+
+								// Store value received from server in array of
+								// values by column index
+								oEditRow.aEditingData[ colIdx ] = value;
+
+								// Store value received from server in Map of
+								// values by property name
+								oEditRow.oEditingData[ property ] = value;
+
+								// Store edit controls
+								oEditRow.aEditingControls[ colIdx ] = fnOuterHTML($editCtrls); // node HTML
 							}
-
-							// Store value received from server in array of
-							// values by column index
-							oEditRow.aEditingData[ colIdx ] = value;
-
-							// Store value received from server in Map of
-							// values by property name
-							oEditRow.oEditingData[ property ] = value;
-
-							// Store edit controls
-							oEditRow.aEditingControls[ colIdx ] = fnOuterHTML($editCtrls); // node HTML
 
 						} else {
 							// Store non-property values using index
@@ -635,7 +644,7 @@ var GvNIX_Editing;
 
 					// We need all values in received from to complete the
 					// the request to send to server (by example: version, other required fields, etc...)
-					jQuery.each($updateForm.find(":input"), function (index, input) {
+					jQuery.each($updateForm.find("form").find(":input"), function (index, input) {
 						var $input = jQuery(input);
 						var name = $input.attr('name');
 						if (name !== undefined && name) {
@@ -648,6 +657,19 @@ var GvNIX_Editing;
 				this.fnRedrawVisibleRows();
 
 				this.fnUpdateEditingTools();
+
+				// Initializing Loupe components
+				setTimeout(function(){
+					oTable.find(".loupe_control").each(function(index) {
+						new GvNIX_Loupe(jQuery(this));
+					});
+					oTable.find(".row_editing").each(function(index){
+						// Bind events for update inputs, focus cursor and initialize components
+						this.editing_binded = false;
+						oTable.fnEditing()._fnBindRowEvents(this);
+					});
+
+				},100);
 
 			}, this) );
 
@@ -825,7 +847,7 @@ var GvNIX_Editing;
 
 					// Redraw table
 					// XXX Redraw table or not (updated rows already are updated)
-					oTable.fnDraw();
+					oTable.fnStandingRedraw();
 
 					try {
 						_d.finishEditingCallbacks.fireWith(this, [ this ]);
@@ -864,16 +886,53 @@ var GvNIX_Editing;
 		},
 
 		/**
+		 * Hide toolbar (ONLY HIDES)
+		 */
+		"fnHideToolbar" : function() {
+			// Hidding Toolbar
+			var sTableId = this._data.oSettings.sTableId;
+			setTimeout(function(){
+				var toolBarLinks = jQuery("#"+ sTableId + "_gvnix_toolbar a");
+				toolBarLinks.hide();
+			},100);
+		},
+
+		/**
+		 * Hide util buttons
+		 */
+		"fnHideUtils" : function(){
+			var sTableId = this._data.oSettings.sTableId;
+			setTimeout(function(){
+				// Hidding td
+				jQuery("#"+ sTableId + " .utilbox").hide();
+				// Hidding th
+				jQuery("#"+ sTableId + "_wrapper .dataTables_scroll .dataTables_scrollHead th.utilbox").hide();
+			},100);
+		},
+
+		/**
+		 * Hide Details (ONLY HIDES)
+		 */
+
+		"fnHideDetails": function() {
+			var sTableId = this._data.oSettings.sTableId;
+			var details = jQuery("div[id$="+sTableId+"_detail]");
+			details.each(function(index, detail){
+				jQuery("#"+detail.id).hide();
+			});
+		},
+
+		/**
 		 * Begin create rows
 		 *
 		 * @param id the identifier
 		 */
-		"fnBeginCreate" : function(id) {
+		"fnBeginCreate" : function(id, dataTablesMappedProperty, dataTablesMappedValue) {
 			var createPanel = jQuery('#' + id + 'CreateForm');
 			if (createPanel.length == 0) {
 				throw "fnDisplayCreateForm : id not found '" + id + "CreateForm'";
 			}
-			
+
 			var _d = this._data;
 
 			// Request for create form
@@ -889,7 +948,8 @@ var GvNIX_Editing;
 				var sCreateForm = response[0].form;
 				var htmlCreateForm = jQuery.parseHTML(sCreateForm);
 				var $createForm = jQuery(htmlCreateForm);
-				
+
+
 				// Create empty form
 				var $form = $createForm.find("form");
 				var formHtml = '<form id="' + $form.attr('id') + 'CreateForm"'
@@ -903,23 +963,52 @@ var GvNIX_Editing;
 				var oCreateRow = jQuery.extend( true, {}, GvNIX_Editing.models.oCreatingRow );
 				var rowId = 0; // Currently only create one row
 				oCreateRow.sRowId = rowId;
-				
+
 				// Init data containers
 				oCreateRow.oCreatingData.id = rowId;
-				
+
+				// Building our pseudo aColumnField with composite PKField included
+				var controls =  $createForm.find('[class^=controls]')
+				var labels = $createForm.find('[class^=control-label]')
+				var columns = [undefined];
+				var columnNames = [undefined];
+				for(var i = 0; i < controls.length; i++){
+					if(jQuery(jQuery(controls[i]).find('[name][type!=hidden]')).length !== 0){
+						columns.push(jQuery(jQuery(controls[i]).find('[name][type!=hidden]')).attr('name'));
+						var label = jQuery(labels[i]).text();
+						if(label.lastIndexOf(":") > 0){
+							columnNames.push(label.substring(0,label.lastIndexOf(":")).trim());
+						} else {
+							columnNames.push(label.trim());
+						}
+					}
+					else if(jQuery(jQuery(controls[i]).find('[data-name]')).length !== 0){
+						columns.push(jQuery(jQuery(controls[i]).find('[data-name]')).attr('data-name'));
+						var label = jQuery(labels[i]).text();
+						if(label.lastIndexOf(":") > 0){
+							columnNames.push(label.substring(0,label.lastIndexOf(":")).trim());
+						} else {
+							columnNames.push(label.trim());
+						}
+					}
+				}
+
+
 				// Iterate over column fields to get create controls from
 				// entire create form
-				var aFields = _d.aColumnField;
+				var aFields = columns;
 				var aHeaderCells = [];
 				var aFormCells = [];
+
 				for (var colIdx = 0; colIdx < aFields.length; colIdx++) {
 					var property = aFields[colIdx];
 
 					// property is undefined for action columns
 					if (property !== undefined) {
-						
+						property = this._fnUnscapePropertyName(property);
+
 						// Roo property id has the pattern "... _Entity_propertyName_id"
-						var $ctrlGroup = $createForm.find("div[id $= '_" + property + "_id'].control-group");
+						var $ctrlGroup = $createForm.find("div[id $= '_" + property.replace(".","_") + "_id'].control-group");
 						var $createCtrls = $ctrlGroup.find("div.controls");
 						var $input = $createCtrls.find(":input");
 						if ($input.length == 0) {
@@ -927,50 +1016,63 @@ var GvNIX_Editing;
 							continue;
 						}
 
-						var value = fnVal($input);
-						
-						// Store value received from server in array of values by column index
-						oCreateRow.aCreatingData.push(value);
-
-						// Store value received from server in Map of values by property name
-						oCreateRow.oCreatingData[property] = value;
-						
-						// Store current value to be able to recover when redraw the create form
-						oCreateRow.aOriginalData.push(value);
-						oCreateRow.oOriginalData[property] = value;
-						
 						// Store property name in array of values by column index
 						_d.aCreateColumnField.push(property);
-						
+
 						// Create header cell
-						var headerCell = '<th>' + _d.oSettings.aoColumns[colIdx].sTitle + '</th>';
+						//var headerCell = '<th>' + _d.oSettings.aoColumns[colIdx].sTitle + '</th>';
+						var headerCell = '<th>' + columnNames[colIdx] + '</th>';
 						aHeaderCells.push(headerCell);
 
-						// Create form cell
-						
-						// Add proper CSS classes to contained and input
-						var divClass = 'controls';
-						if ($input.attr('type') == 'checkbox') {
-							divClass = divClass + ' checkbox';
-						} else {
-							var inputClass = $input.attr('class');
-							if (inputClass !== undefined && inputClass) {
-								inputClass = inputClass + ' form-control input-sm';
-							} else {
-								inputClass = 'form-control input-sm';
+						aFormCells.push("<td>");
+
+						for(var i = 0; i < $input.length; i++){
+							// Add proper CSS classes to contained and input
+							var fieldClass = jQuery($input[i]).attr("class");
+							if(fieldClass !== undefined && fieldClass.indexOf("loupe_control") !== -1){
+								var divClass = 'controls input-group';
+							}else{
+								var divClass = 'controls';
 							}
-							$input.attr('class', inputClass);
+
+
+							if (jQuery($input[i]).attr('type') == 'checkbox') {
+								divClass = divClass + ' checkbox';
+							} else {
+								var inputClass = jQuery($input[i]).attr('class');
+								if (inputClass !== undefined && inputClass) {
+									inputClass = inputClass + ' form-control input-sm';
+								} else {
+									inputClass = 'form-control input-sm';
+								}
+								jQuery($input[i]).attr('class', inputClass);
+							}
+
+							// Make a new unique ID for the input to avoid
+							// collisions with other elements with same ID
+							jQuery($input[i]).attr('id', '_' + $form.attr('id') + jQuery($input[i]).attr('id') + '_create_' + rowId);
+
+							var formCell = "";
+
+							if(i == 0){
+								formCell = '<div class="' + divClass + '">';
+							}
+
+							formCell+= fnOuterHTML(jQuery($input[i]));
+
+							if(i == $input.length){
+								formCell+= '</div>';
+							}
+
+							aFormCells.push(formCell);
+
+							formCell = "";
 						}
 
-						// Make a new unique ID for the input to avoid
-						// collisions with other elements with same ID
-						$input.attr('id', $input.attr('id') + '_create_' + rowId);
-						
-						var formCell = '<td><div class="' + divClass + '">' + fnOuterHTML($input) + '</div></td>';
-						aFormCells.push(formCell);
+						aFormCells.push("</td>");
 					}
 				}
-				
+
 				// Add a column to send button
 				aHeaderCells.push('<th></th>');
 				var oOpts = this._options;
@@ -983,18 +1085,18 @@ var GvNIX_Editing;
 
 				// Store create row
 				_d.oCreatingRows[rowId] = oCreateRow;
-				
+
 				// We need all values in received from to complete the
 				// request to send to server (by example: version, other
 				// required fields, etc...)
-				jQuery.each($createForm.find(":input"), function (index, input) {
+				jQuery.each($createForm.find("form").find(":input"), function (index, input) {
 					var $input = jQuery(input);
 					var name = $input.attr('name');
 					if (name !== undefined && name) {
 						oCreateRow.oAllItemData[name] = fnVal($input);
 					}
 				});
-				
+
 				// Make the create table
 				var createTable = '<table class="table table-condensed"><thead><tr>';
 				for (var i = 0; i < aHeaderCells.length; i++) {
@@ -1004,29 +1106,120 @@ var GvNIX_Editing;
 				for (var i = 0; i < aFormCells.length; i++) {
 					createTable = createTable + aFormCells[i];
 				}
-				
+
 				$emptyForm.append(createTable);
 				createPanel.append(fnOuterHTML($emptyForm));
-				
+
 				// Store createPanel and createTable into data
 				_d.oCreatePanel = jQuery(createPanel);
 				_d.oCreateTable = jQuery(jQuery('>form >table', createPanel));
-				
+
 				// Display createPanel
 				createPanel.show();
-				
-				// Bind events for create inputs, focus cursor and initialize components
-				this._fnBindCreateRowEvents(this.fnGetCreationRowById(oCreateRow.sRowId));
+
 				jQueryInitializeComponents(_d.oCreatePanel);
-				
+
 				// Handler submit button
 				jQuery('#' + sSubmitBtnId).click( function() {
 					jQuery('#' + id).dataTable().fnEditing().fnSendCreationForm(rowId);
 					return false;
 				});
+
+				// When all items are generated, build aCreatingData
+
+				// Getting new created form and fields
+				var newCreatedForm = jQuery("#" + $form.attr('id')+"CreateForm");
+				var fieldsWithName = newCreatedForm.find("div.controls :input[name]");
+
+				for (var colIdx = 0; colIdx < fieldsWithName.length; colIdx++) {
+					var property = fieldsWithName[colIdx].name;
+
+					// Getting field value
+					if(jQuery(fieldsWithName[colIdx]).prop("type") !== "checkbox"){
+						var value = fieldsWithName[colIdx].value;
+					}else{
+						var value = jQuery(fieldsWithName[colIdx]).prop("checked"); // Not the same for checkboxes
+					}
+
+					// Store value received from server in array of values by column index
+					oCreateRow.aCreatingData.push(value);
+
+					// Store value received from server in Map of values by property name
+					oCreateRow.oCreatingData[property] = value;
+
+					// Store current value to be able to recover when redraw the create form
+					if(property == dataTablesMappedProperty){
+						oCreateRow.aOriginalData.push(dataTablesMappedValue);
+						oCreateRow.oOriginalData[dataTablesMappedProperty] = dataTablesMappedValue;
+					}else{
+						oCreateRow.aOriginalData.push(value);
+						oCreateRow.oOriginalData[property] = value;
+					}
+				}
+
+				// Bind events for create inputs, focus cursor and initialize components
+				this._fnBindCreateRowEvents(this.fnGetCreationRowById(oCreateRow.sRowId));
+				
+				// Adding script to hide related properties
+				createPanel.append(this._fnHideRelatedFields(dataTablesMappedProperty, dataTablesMappedValue))
+
 			}, this));
-			
+
 			return true;
+		},
+		
+		/**
+		 * Function to hide related fields and set related value
+		 * 
+		 * @param dataTablesMappedProperty related property. 
+		 * @param dataTablesMappedValue related property value
+		 * @returns script string to append on inline create form
+		 */
+		"_fnHideRelatedFields": function(dataTablesMappedProperty, dataTablesMappedValue){
+			
+			var scriptText = "";
+			if(dataTablesMappedProperty !== ""){
+				scriptText = "<script type=\"text/javascript\">"
+					   + "jQuery(document).ready(function() {"
+					   + "	jQuery(\"select[id*='_"+dataTablesMappedProperty+"_id']\").each(function(index, node) {"
+					   + "		jQuery(node).val(\""+dataTablesMappedValue+"\");"
+					   + "		jQuery(node).change();"
+					   + "	});"
+					   + "	var select = jQuery(\"select[id*='_"+ dataTablesMappedProperty +"_id'] option[value='"+dataTablesMappedValue+"']\");"
+					   + "	if(select.length !== 0){"
+					   + "		select.parent().parent().parent().hide();"
+					   + "		var parent = select.parent().parent().parent().parent();"
+					   + "		var childrens = parent.children();"
+					   + "		var position;"
+					   + "		for(var i = 0; i < childrens.length; i++){"
+					   + "			if(jQuery(childrens[i]).css('display') == 'none'){"
+					   + " 				position = i;"
+					   + "				var headers = parent.parent().parent().find(\"th\");"
+					   + "				jQuery(headers.get(position)).hide();"
+					   + "			}"
+					   + "		}"
+					   + "	}else{"
+					   + "		var loupeHiddenInput = jQuery(\"input[id*='"+dataTablesMappedProperty+"_loupe_input']\");"
+					   + "		if(loupeHiddenInput.length !== 0){"
+					   + "			loupeHiddenInput.val(\""+dataTablesMappedValue+"\").trigger('change');"
+					   + "			loupeHiddenInput.parent().parent().hide();"
+					   + "			var parent = loupeHiddenInput.parent().parent().parent();"
+					   + "			var childrens = parent.children();"
+					   + "			var position;"
+					   + "			for(var i = 0; i < childrens.length; i++){"
+					   + "				if(jQuery(childrens[i]).css('display') == 'none'){"
+					   + " 					position = i;"
+					   + "					var headers = parent.parent().parent().find(\"th\");"
+					   + "					jQuery(headers.get(position)).hide();"
+					   + "				}"
+					   + "			}"
+					   + "		}"
+					   + "	}"
+					   + "});"
+					   + "</script>";
+			}
+
+		   return scriptText;
 		},
 
 		/**
@@ -1064,10 +1257,10 @@ var GvNIX_Editing;
 
 			// show processing
 			oTable.fnProcessingIndicator(true);
-			
+
 			// Prepare data for server update request
 			var dataToSend = this._fnPrepareDataToCreate(creatingIds);
-			
+
 			// Prepare Request
 			var jqxhr = jQuery.ajax(appCtx, {
 				contentType: "application/json",
@@ -1082,12 +1275,12 @@ var GvNIX_Editing;
 			jqxhr.done(jQuery.proxy(function(response) {
 				var _d = this._data, oCreatingRows = _d.oCreatingRows;
 				var oTable = _d.oSettings.oInstance;
-				
+				var _o = this._options;
+
 				// With proxy(), 'this' refers to the object encapsulates
 				// this function.
 				if (response.status == 'SUCCESS') {
 					var oCreateRow = oCreatingRows[trId];
-					
 					// Set original values
 					var aOriginalData = oCreateRow.aOriginalData;
 					var aCreatingData = oCreateRow.aCreatingData;
@@ -1101,36 +1294,47 @@ var GvNIX_Editing;
 						oCreatingData[key] = value;
 					});
 					oCreateRow.oCreatingData = oCreatingData;
-					
+
 					// Remove error class from row
 					var nRow = this.fnGetCreationRowById(trId);
 					jQuery(nRow).removeClass(this._options.classForEditingRowError);
-					
+
 					// Set original values, stored in 'aOriginalData', in each
 					// cell of given row
-					var $tds = jQuery('>td', nRow);
+					var $tds = jQuery(':input', nRow);
 					$tds.each(function(index) {
-						var $input = jQuery(':input', $tds[index]);
+						var $input = jQuery($tds[index]);
 						var originalValue = oCreateRow.aOriginalData[index];
-						$input.val(originalValue);
-						
+						if($input.prop("type") !== "checkbox"){
+							$input.val(originalValue);
+						}else{
+							$input.prop("checked", false); // Not the same for checkbox inputs
+						}
+
 						// Focus on the first input
 						if (index === 0) {
 							$input.focus();
 						}
-						
+
 						// Remove error messages from cells
-						var $div = jQuery("div", $tds[index]);
+						var $div = jQuery("div", $input.parent().parent());
 						var $span = jQuery("span.errors", $div);
 						if ($span.length) {
 							$span.remove();
 						}
 					});
 
-					// Redraw table
-					oTable.fnDraw();
+					// handle showCreatedRowFirst
+					if (_o.showCreatedRowFirst && oTable.fnHasRowOnTop()) {
+						// fnSetRowsOnTop will refresh the table, so we shouldn't redraw the table
+						oTable.fnRowOnTop().fnSetRowsOnTop(response.oid,true);
+					} else {
+						// Redraw table
+						oTable.fnStandingRedraw();
+					}
+
 				} else {
-					
+
 					// there are errors
 					if (response.exceptionMessage){
 						showMessage("Error",response.exceptionMessage); // TODO i18n
@@ -1287,6 +1491,30 @@ var GvNIX_Editing;
 		// UI components ---
 
 		/**
+		 * This method sets Datatable as no editable
+		 * hidding all editable elements
+		 *
+		 * <b>Note:</b> Not works on Datatable
+		 * mode show
+		 *
+		 */
+		"fnSetNoEditableDatatable" : function(delay) {
+			var oTable = this._data.oSettings.oInstance;
+			var eTable = oTable.fnEditing();
+			// Used to works with DOM and AJAX Datatables
+			if(delay){
+				oTable.on('draw',function(){
+					eTable.fnHideToolbar();
+					eTable.fnHideUtils();
+					eTable.fnHideDetails();
+				});
+			}else{
+				eTable.fnHideToolbar();
+				eTable.fnHideDetails();
+			}
+		},
+
+		/**
 		 * Show editing buttons in given toolbar panel
 		 */
 		"fnInitEditingTools": function () {
@@ -1374,18 +1602,35 @@ var GvNIX_Editing;
 		 */
 		"fnUpdateEditingTools" : function() {
 			if (this.fnHasEditingRow()) {
-				this._data.$submitButton.show();
-				this._data.$cancelButton.show();
+				if(this._data.$submitButton !== null) {
+					this._data.$submitButton.show();
+				}
+				if(this._data.$cancelButton !== null) {
+					this._data.$cancelButton.show();
+				}
 			} else {
-				this._data.$submitButton.hide();
-				this._data.$cancelButton.hide();
-
+				if(this._data.$submitButton !== null) {
+					this._data.$submitButton.hide();
+				}
+				if(this._data.$cancelButton !== null) {
+					this._data.$cancelButton.hide();
+				}
 			}
 			this._fnUpdateInfo();
 		},
 
 		// Private methods (they are of course public in JS, but recommended as
 		// private) * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+		/**
+		 * Unscape nested property chars on property names:
+		 * replaces "_~~_" by "."
+		 *
+		 * @para propertyName to unscape
+		 */
+		"_fnUnscapePropertyName" : function(propertyName) {
+			return propertyName.replace("_~~_",".");
+		},
 
 		/**
 		 * Prepares an array of data to send to server
@@ -1414,7 +1659,7 @@ var GvNIX_Editing;
 			});
 			return requestData;
 		},
-		
+
 		/**
 		 * Prepares an array of data to send to server to create a new value
 		 *
@@ -1424,6 +1669,16 @@ var GvNIX_Editing;
 			var oEditingRows = this._data.oCreatingRows;
 
 			var requestData = [];
+
+			// Check if compositePK
+			var isCompositePk = false;
+			for (var i = 0; i < this._data.aCreateColumnField.length;i++){
+				if(this._data.aCreateColumnField[i].indexOf(".") !== -1){
+					isCompositePk = true;
+					break;
+				}
+			}
+
 			// For each ids
 			jQuery.each(trIds, function(index, key) {
 				var item = {};
@@ -1437,10 +1692,27 @@ var GvNIX_Editing;
 				jQuery.each(oEditingRow.oCreatingData, function (property, value){
 					item[property] = value;
 				});
+				// Check if is composite pk
+				if(isCompositePk){
+					// Store item values
+					if(jQuery.base64) {
+		                var obj = new Object();
+		                jQuery("input[name^=\"id.\"]").each(function( index ) {
+		                  var $input = jQuery(this);
+		                  obj[$input.attr("name").substring('id'.length + 1)] = $input.val();
+		                });
+
+		                var json = JSON.stringify(obj);
+		                var encoded = jQuery.base64.encode(json);
+		                item["id"] = encoded;
+		             }
+				}
 				// Store item values
 				requestData.push(item);
 			});
+
 			return requestData;
+
 		},
 
 		/**
@@ -1487,7 +1759,7 @@ var GvNIX_Editing;
 		 * @param oErrors of the refered row
 		 */
 		"_fnShowBindingCreateErrors" : function(oCreatingRow, oErrors) {
-			var aCreateColumnField = this._data.aCreateColumnField;
+			var aColumnField = this._data.aCreateColumnField;
 			var fnErrorDrawer = this._options.bindingErrorDrawer;
 			var nRow = this.fnGetCreationRowById(oCreatingRow.sRowId);
 
@@ -1502,31 +1774,65 @@ var GvNIX_Editing;
 					$span.remove();
 				}
 			});
-			
+
 			// Put error messages in the right cells
 			jQuery.each(oErrors, jQuery.proxy(function (property, errorMessage) {
-				var colIndex = aCreateColumnField.indexOf(property);
-				if (colIndex > -1) {
-					if (fnErrorDrawer) {
-						try {
-							fnErrorDrawer(this,$tds[colIndex], property,  errorMessage);
-						} catch (e) {
-							this.error("[_fnShowBindingCreateErrors] error calling configured binding-error drawer: { property: '"+  property + "' errorMessage: '" + errorMessage +"'} exception: "+ e);
-						}
-					} else {
-						var $div = jQuery("div", $tds[colIndex]);
-						var $span = jQuery("span.errors", $div);
-						if (!$span.length) {
-							$div.append('<span class="errors">' + errorMessage + '</span>');
-						} else {
-							$span.html(errorMessage);
-						}
-					}
-				} else {
-					this.error("[_fnShowBindingErrors] find binding error of a proprerty ("+ property+ ") which has no column on table: '" + errorMessage+ "'");
+				if (errorMessage instanceof Object){
+					prefix = property;
+					var properties = Object.keys(errorMessage);
+					jQuery.each(properties, jQuery.proxy(function (index, propertyOfErrorMessage) {
+						var message = errorMessage[propertyOfErrorMessage];
+						this._fnPutErrorMessages(propertyOfErrorMessage, message, prefix, aColumnField, fnErrorDrawer, $tds);
+					}, this));
+				}else{
+					this._fnPutErrorMessages(property, errorMessage, null, aColumnField, fnErrorDrawer, $tds);
 				}
 			}, this));
 		},
+
+        /**
+         * Put error messages in the right cells
+         *
+         * @param property that has the error.
+         * @param errorMessage of the refered row.
+         * @param prefix class to which it belongs if it comes from an embedded in another class.
+         * @param columnField column fields.
+         * @param fnErrorDrawer __options.bindingErrorDrawer (See bindingErrorDrawer).
+         * @param $tds editing row td list (jQuery Objects).
+         */
+        "_fnPutErrorMessages" : function(property, errorMessage, prefix, columnField, fnErrorDrawer, $tds) {
+            if (prefix != null){
+                    var propertyAux = prefix.concat("_~~_").concat(property);
+                    property = prefix.concat(".").concat(property);
+            }
+            // Put error messages in the right cells
+            var colIndex = columnField.indexOf(property);
+            if (colIndex < 0){
+                    colIndex = columnField.indexOf(propertyAux);
+            }
+            if (colIndex > -1) {
+                    if (fnErrorDrawer) {
+                            try {
+                                    fnErrorDrawer(this,$tds[colIndex], property,  errorMessage);
+                            } catch (e) {
+                                    this.error("[_fnShowBindingCreateErrors] error calling configured binding-error drawer: { property: '"+  property + "' errorMessage: '" + errorMessage +"'} exception: "+ e);
+                            }
+                    } else {
+                            var $div = jQuery("div", $tds[colIndex]);
+                            var $span = jQuery("span.errors", $div);
+                            if (!$span.length) {
+                                    $div.append('<span class="errors">' + errorMessage + '</span>');
+                            } else {
+                                    $span.html(errorMessage);
+                            }
+                    }
+            } else {
+                    this.error("[_fnShowBindingErrors] find binding error of a proprerty ("+ property+ ") which has no column on table: '" + errorMessage+ "'");
+            }
+    	},
+
+
+
 
 		/**
 		 * For each cell which was edited in given row or editing rows, replaces
@@ -1890,20 +2196,23 @@ var GvNIX_Editing;
 				}
 
 				var $input = jQuery(':input', anTd[i]);
-				
+
 				// Focus cursor
-				if (i == 0) {
+				/*if (i == 0) {
 					$input.focus();
-				}
-				
+				}*/
+
 				$input.change( /* Event params*/ {'colIdx': i, 'rowId': rowId, 'property' : property},
 						jQuery.proxy( function(event){
 					var _d = this._data;
-
 					// prepare values needed
 					var oEventParams = event.data;
 					var $input = jQuery(event.currentTarget);
-					var value = $input.val(); // Use .val() to get new value
+					if($input.prop("type") !== "checkbox"){
+						var value = $input.val(); // Use .val() to get new value
+					}else{
+						var value = $input.prop("checked"); // val is not correct for checkbox inputs
+					}
 					var property = oEventParams.property;
 					var oCreatRow = _d.oCreatingRows[oEventParams.rowId];
 					var previousValue = oCreatRow.oCreatingData[property];
@@ -2052,7 +2361,7 @@ var GvNIX_Editing;
 
 		/**
 		 * Hold the row identifier
-		 * 
+		 *
 		 * @type integer
 		 * @default null
 		 */
@@ -2060,7 +2369,7 @@ var GvNIX_Editing;
 
 		/**
 		 * Hold the row identifier
-		 * 
+		 *
 		 * @type string
 		 * @default null
 		 */
@@ -2068,7 +2377,7 @@ var GvNIX_Editing;
 
 		/**
 		 * Informs if any row data has been modified.
-		 * 
+		 *
 		 * @type boolean
 		 * @default false
 		 */
@@ -2077,10 +2386,10 @@ var GvNIX_Editing;
 		/**
 		 * Data from the original data source for the row. This is an array of
 		 * values with one element for each column.
-		 * 
+		 *
 		 * Use this values to cancel editing, that is, on cancel just put this
 		 * values in given row.
-		 * 
+		 *
 		 * @type array
 		 * @default empty
 		 */
@@ -2089,7 +2398,7 @@ var GvNIX_Editing;
 		/**
 		 * Data being edited. This is an array of values with one element for
 		 * each column.
-		 * 
+		 *
 		 * @type array
 		 * @default empty
 		 */
@@ -2098,7 +2407,7 @@ var GvNIX_Editing;
 		/**
 		 * Data being edited. This is a Map of values with one element for
 		 * entity property.
-		 * 
+		 *
 		 * @type object
 		 * @default empty
 		 */
@@ -2106,7 +2415,7 @@ var GvNIX_Editing;
 
 		/**
 		 * Errors found on the last save request
-		 * 
+		 *
 		 * @type object
 		 * @default empty
 		 */
@@ -2115,7 +2424,7 @@ var GvNIX_Editing;
 		/**
 		 * Editing components. This is an array of HTML components with one
 		 * element for each column.
-		 * 
+		 *
 		 * @type array
 		 * @default empty
 		 */
@@ -2132,7 +2441,7 @@ var GvNIX_Editing;
 
 		/**
 		 * Hold the row identifier
-		 * 
+		 *
 		 * @type string
 		 * @default null
 		 */
@@ -2141,9 +2450,9 @@ var GvNIX_Editing;
 		/**
 		 * Data from the original data source for the row. This is an array of
 		 * values with one element for each column.
-		 * 
+		 *
 		 * Use this values to redraw the create table.
-		 * 
+		 *
 		 * @type array
 		 * @default empty
 		 */
@@ -2152,7 +2461,7 @@ var GvNIX_Editing;
 		/**
 		 * Data being created. This is an array of values with one element for
 		 * each column.
-		 * 
+		 *
 		 * @type array
 		 * @default empty
 		 */
@@ -2161,7 +2470,7 @@ var GvNIX_Editing;
 		/**
 		 * Data from the original data source for the row. This is a Map of
 		 * values with one element for entity property.
-		 * 
+		 *
 		 * @type object
 		 * @default empty
 		 */
@@ -2170,7 +2479,7 @@ var GvNIX_Editing;
 		/**
 		 * Data being created. This is a Map of values with one element for
 		 * entity property.
-		 * 
+		 *
 		 * @type object
 		 * @default empty
 		 */
@@ -2178,7 +2487,7 @@ var GvNIX_Editing;
 
 		/**
 		 * Errors found on the last save request
-		 * 
+		 *
 		 * @type object
 		 * @default empty
 		 */
@@ -2206,7 +2515,7 @@ var GvNIX_Editing;
 	 * @type String
 	 * @default See code
 	 */
-	GvNIX_Editing.VERSION = "1.3.0-SNAPSHOT";
+	GvNIX_Editing.VERSION = "1.4.1.RELEASE";
 	GvNIX_Editing.prototype.VERSION = GvNIX_Editing.VERSION;
 
 	/** TODO Add as datatable feature * */
@@ -2239,4 +2548,29 @@ jQuery.fn.dataTableExt.oApi.fnEditing = function(oSettings, iSettings) {
 	oSettings.GvNIX_Editing_support = editing;
 
 	return editing;
+};
+
+/**
+*
+* Checks if gvnix Editing support is initialized on a datatables
+*
+* @param oSettings
+* @param iSettings
+* @return boolean
+* @author gvNIX Team
+*/
+jQuery.fn.dataTableExt.oApi.fnHasEditing = function(oSettings,
+		iSettings) {
+
+	if (!oSettings) {
+		return false;
+	}
+
+	var editing = oSettings.GvNIX_Editing_support;
+
+	if (editing === undefined) {
+		return false;
+	} else {
+		return true;
+	}
 };

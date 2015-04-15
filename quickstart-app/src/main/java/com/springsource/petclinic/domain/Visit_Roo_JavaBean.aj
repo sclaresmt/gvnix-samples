@@ -42,12 +42,4 @@ privileged aspect Visit_Roo_JavaBean {
         this.vet = vet;
     }
     
-    public String Visit.getOccChekcsum() {
-        return this.occChekcsum;
-    }
-    
-    public void Visit.setOccChekcsum(String occChekcsum) {
-        this.occChekcsum = occChekcsum;
-    }
-    
 }
