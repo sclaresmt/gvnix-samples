@@ -21,9 +21,6 @@ sample following its _README.adoc_ file.
 The {homepage}[gvNIX] site contains several guides in spanish that show how to 
 use gvNIX.
 
-The gvNIX {googlecode}[Google Code] project contains quick starts and
-how tos in english.
-
 == Bug reporting
 
 If you find a bug in a sample, or have an enhancement request, create an issue 
