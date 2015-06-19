@@ -1,0 +1,43 @@
+<aspectj>
+<aspects>
+<aspect name="com.springsource.petclinic.service.VetServiceImpl_Roo_Service"/>
+<aspect name="com.springsource.petclinic.web.VetController_Roo_GvNIXDatatables"/>
+<aspect name="com.springsource.petclinic.domain.AbstractPerson_Roo_ToString"/>
+<aspect name="com.springsource.petclinic.repository.VetRepository_Roo_Jpa_Repository"/>
+<aspect name="com.springsource.petclinic.domain.Visit_Roo_ToString"/>
+<aspect name="com.springsource.petclinic.web.PetController_Roo_GvNIXDatatables"/>
+<aspect name="com.springsource.petclinic.domain.AbstractPerson_Roo_Jpa_Entity"/>
+<aspect name="com.springsource.petclinic.service.PetServiceImpl_Roo_Service"/>
+<aspect name="com.springsource.petclinic.service.AbstractPersonServiceImpl_Roo_Service"/>
+<aspect name="com.springsource.petclinic.domain.Owner_Roo_ToString"/>
+<aspect name="com.springsource.petclinic.service.OwnerService_Roo_Service"/>
+<aspect name="com.springsource.petclinic.domain.Vet_Roo_JavaBean"/>
+<aspect name="com.springsource.petclinic.web.VetController_Roo_Controller"/>
+<aspect name="com.springsource.petclinic.service.PetService_Roo_Service"/>
+<aspect name="com.springsource.petclinic.web.PetController_Roo_Controller"/>
+<aspect name="com.springsource.petclinic.repository.OwnerRepository_Roo_Jpa_Repository"/>
+<aspect name="com.springsource.petclinic.service.OwnerServiceImpl_Roo_Service"/>
+<aspect name="com.springsource.petclinic.domain.Pet_Roo_JavaBean"/>
+<aspect name="com.springsource.petclinic.domain.Visit_Roo_JavaBean"/>
+<aspect name="com.springsource.petclinic.domain.Vet_Roo_Jpa_Entity"/>
+<aspect name="com.springsource.petclinic.repository.VisitRepository_Roo_Jpa_Repository"/>
+<aspect name="com.springsource.petclinic.domain.Visit_Roo_Jpa_Entity"/>
+<aspect name="com.springsource.petclinic.repository.PetRepository_Roo_Jpa_Repository"/>
+<aspect name="com.springsource.petclinic.domain.Owner_Roo_Jpa_Entity"/>
+<aspect name="com.springsource.petclinic.web.VisitController_Roo_Controller"/>
+<aspect name="com.springsource.petclinic.web.ApplicationConversionServiceFactoryBean_Roo_ConversionService"/>
+<aspect name="com.springsource.petclinic.service.VetService_Roo_Service"/>
+<aspect name="com.springsource.petclinic.web.OwnerController_Roo_GvNIXDatatables"/>
+<aspect name="com.springsource.petclinic.service.AbstractPersonService_Roo_Service"/>
+<aspect name="com.springsource.petclinic.domain.AbstractPerson_Roo_JavaBean"/>
+<aspect name="com.springsource.petclinic.service.VisitServiceImpl_Roo_Service"/>
+<aspect name="com.springsource.petclinic.domain.Pet_Roo_ToString"/>
+<aspect name="com.springsource.petclinic.service.VisitService_Roo_Service"/>
+<aspect name="com.springsource.petclinic.domain.Pet_Roo_Jpa_Entity"/>
+<aspect name="com.springsource.petclinic.domain.Vet_Roo_ToString"/>
+<aspect name="com.springsource.petclinic.web.OwnerController_Roo_Controller"/>
+<aspect name="com.springsource.petclinic.domain.Owner_Roo_JavaBean"/>
+<aspect name="com.springsource.petclinic.repository.AbstractPersonRepository_Roo_Jpa_Repository"/>
+</aspects>
+</aspectj>
+
