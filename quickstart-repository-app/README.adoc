@@ -15,8 +15,12 @@ If you don't know _What is gvNIX?_ you should start with https://github.com/DISI
 You must {download}[download], unpack and {installguide}[install] the 
 development environment for gvNIX 2.0.0.M1, to be able to follow this guide.
 
-The goal of this quick start repository app guide is to familiarize you with repository apps generated using gvNIX. For this 
-purpose, we will build an application based on https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial.
+The goal of this quick start repository app guide is to familiarize you with how the repository and service layers are generated using gvNIX.
+For this purpose, we will build a simple application. This process includes the creation of an entity model, repository and service layer setup, web views generation, and finally we show how to setup Loupes and Datatables to work with the repository layer.
+
+The application presented in this guide is the Spring PetClinic application. The users of the application are employees of the clinic who, in the course of their work, need to view and manage information regarding veterinarians, the clients, and their pets.
+
+Note this sample isn’t a real application which normally needs additional work like UI customization, performance improvement, database queries tunning, etc.
 
 You can see an example of a *generated repository web application* using gvNIX
 http://repository-gvnix.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
