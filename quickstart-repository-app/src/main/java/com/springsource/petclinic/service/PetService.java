@@ -1,6 +1,5 @@
 package com.springsource.petclinic.service;
-import org.springframework.roo.addon.layers.service.RooService;
-import org.gvnix.service.roo.addon.annotations.GvNIXWebService;
+import org.springframework.roo.addon.layers.service.annotations.RooService;
 
 @RooService(domainTypes = { com.springsource.petclinic.domain.Pet.class })
 public interface PetService {

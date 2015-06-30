@@ -4,19 +4,16 @@
         <menu-item hidden="false" id="i_vet_new" labelCode="menu_item_vet_new_label" messageCode="global_menu_new" roles="" url="/vets?form"/>
     <menu-item hidden="false" id="i_vet_list" labelCode="menu_item_vet_list_label" messageCode="global_menu_list" roles="" url="/vets?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
     </menu-item>
-<menu-item id="c_visit" labelCode="menu_category_visit_label" name="Visit">
-        <menu-item hidden="false" id="i_visit_new" labelCode="menu_item_visit_new_label" messageCode="global_menu_new" roles="" url="/visits?form"/>
-    <menu-item hidden="false" id="i_visit_list" labelCode="menu_item_visit_list_label" messageCode="global_menu_list" roles="" url="/visits?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
-    </menu-item>
 <menu-item id="c_owner" labelCode="menu_category_owner_label" name="Owner">
         <menu-item hidden="false" id="i_owner_new" labelCode="menu_item_owner_new_label" messageCode="global_menu_new" roles="" url="/owners?form"/>
     <menu-item hidden="false" id="i_owner_list" labelCode="menu_item_owner_list_label" messageCode="global_menu_list" roles="" url="/owners?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
     </menu-item>
+<menu-item id="c_visit" labelCode="menu_category_visit_label" name="Visit">
+        <menu-item hidden="false" id="i_visit_new" labelCode="menu_item_visit_new_label" messageCode="global_menu_new" roles="" url="/visits?form"/>
+    <menu-item hidden="false" id="i_visit_list" labelCode="menu_item_visit_list_label" messageCode="global_menu_list" roles="" url="/visits?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
+    </menu-item>
 <menu-item id="c_pet" labelCode="menu_category_pet_label" name="Pet">
         <menu-item hidden="false" id="i_pet_new" labelCode="menu_item_pet_new_label" messageCode="global_menu_new" roles="" url="/pets?form"/>
     <menu-item hidden="false" id="i_pet_list" labelCode="menu_item_pet_list_label" messageCode="global_menu_list" roles="" url="/pets?page=1&amp;size=${empty param.size ? 10 : param.size}"/>
-    </menu-item>
-<menu-item id="c_seleniumtests" labelCode="menu_category_seleniumtests_label" name="SeleniumTests">
-        <menu-item hidden="false" id="si_seleniumtests_test" labelCode="menu_item_seleniumtests_test_label" messageCode="selenium_menu_test_suite" roles="" url="/resources/selenium/test-suite.xhtml"/>
     </menu-item>
 </gvnix-menu>

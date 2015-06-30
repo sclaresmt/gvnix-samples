@@ -10,11 +10,11 @@
         <aspectj.version>1.8.1</aspectj.version>
         <java.version>1.6</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <roo.version>1.3.1.RELEASE</roo.version>
+        <roo.version>2.0.0.M1</roo.version>
         <slf4j.version>1.7.5</slf4j.version>
         <spring.version>3.2.8.RELEASE</spring.version>
-    <gvnix.version>1.5.0.BUILD-SNAPSHOT</gvnix.version>
     <querydsl.version>3.6.3</querydsl.version>
+    <gvnix.version>2.0.0.M1</gvnix.version>
     <spring-security.version>3.2.5.RELEASE</spring-security.version>
     <jasperreports.version>5.0.1</jasperreports.version>
     <jasperreportsfonts.version>4.0.0</jasperreportsfonts.version>
@@ -41,14 +41,6 @@
             <id>gvNIX External Libraries repo</id>
             <url>http://repository.gvnix.org</url>
             <name>gvNIX External Libraries repo</name>
-        </repository>
-    <repository>
-            <id>OSGEO GeoTools repo</id>
-            <url>http://download.osgeo.org/webdav/geotools</url>
-        </repository>
-    <repository>
-            <id>Hibernate Spatial repo</id>
-            <url>http://www.hibernatespatial.org/repository</url>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -127,7 +119,7 @@
             <groupId>org.springframework.roo</groupId>
             <artifactId>org.springframework.roo.annotations</artifactId>
             <version>${roo.version}</version>
-            <scope>provided</scope>
+            <type>pom</type>
         </dependency>
         <!-- Spring dependencies -->
         <dependency>
@@ -311,6 +303,17 @@
             <version>2.2.2</version>
         </dependency>
     <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>${querydsl.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>${querydsl.version}</version>
+        </dependency>
+    <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.addon.jpa.annotations</artifactId>
             <version>${gvnix.version}</version>
@@ -319,13 +322,13 @@
     <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.addon.web.mvc.annotations</artifactId>
-            <version>1.5.0.BUILD-SNAPSHOT</version>
+            <version>2.0.0.M1</version>
             <scope>provided</scope>
         </dependency>
     <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.web.json.binding</artifactId>
-            <version>1.5.0.BUILD-SNAPSHOT</version>
+            <version>2.0.0.M1</version>
         </dependency>
     <dependency>
             <groupId>org.gvnix</groupId>
@@ -344,20 +347,10 @@
             <version>${gvnix.version}</version>
         </dependency>
     <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>${querydsl.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>${querydsl.version}</version>
-        </dependency>
-    <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.addon.loupefield.annotations</artifactId>
             <version>${gvnix.version}</version>
+            <scope>provided</scope>
         </dependency>
     <dependency>
             <groupId>org.springframework.security</groupId>
@@ -398,11 +391,6 @@
             <scope>provided</scope>
         </dependency>
     <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <version>${jasperreports.version}</version>
@@ -422,11 +410,6 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>${apachepoi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports-fonts</artifactId>
-            <version>${jasperreportsfonts.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
@@ -541,11 +524,11 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <!--
-                      Aspects in src/main/java and src/main/aspects are added as default in the 
+                      Aspects in src/main/java and src/main/aspects are added as default in the
                       compile goal.
-                      Aspects in src/test/java and src/test/aspects are added as default in the 
+                      Aspects in src/test/java and src/test/aspects are added as default in the
                       test-compile goal.
-                      Aspects in src/main/java are added in the test-compile goal 
+                      Aspects in src/main/java are added in the test-compile goal
                       if weaveWithAspectsInMainSourceFolder is set to true
                     -->
                     <weaveWithAspectsInMainSourceFolder>false</weaveWithAspectsInMainSourceFolder>
@@ -674,19 +657,6 @@
                 </dependencies>
             <executions>
                     <execution>
-                        <id>${project.basedir}/src/test/resources/generated/wsdl/PetsServices.wsdl</id>
-                        <phase>test</phase>
-                        <configuration>
-                            <className>com.springsource.petclinic.services.PetsServices</className>
-                            <outputFile>${project.basedir}/src/test/resources/generated/wsdl/PetsServices.wsdl</outputFile>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                <execution>
                         <id>${project.basedir}/src/test/resources/generated/wsdl/ClinicService.wsdl</id>
                         <phase>test</phase>
                         <configuration>

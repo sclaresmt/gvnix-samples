@@ -1,6 +1,6 @@
 /*
- * gvNIX. Spring Roo based RAD tool for Generalitat Valenciana
- * Copyright (C) 2013 Generalitat Valenciana
+ * gvNIX is an open source tool for rapid application development (RAD).
+ * Copyright (C) 2010 Generalitat Valenciana
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -283,7 +283,7 @@ var GvNIX_RowClick;
 			}
 			this.fnScrollDatatableBodyToClicked();
 			this.fnScrollToNextDetail(showNextDetail);
-			
+
 			return true;
 		},
 
@@ -327,12 +327,12 @@ var GvNIX_RowClick;
 		 */
 		"fnLoadState" : function(force) {
 			var dt = this._data.dt;
-			
+
 			// Generating hash location
 			var hashLocation = fnGetHashCode(window.location.pathname);
 			// Getting statePrefix
 			var statePrefix = jQuery(dt.nTable).data().stateprefix;
-			
+
 			// Generating unic sName
 			var sName = hashLocation + "_";
 			if(statePrefix != undefined){
@@ -365,19 +365,19 @@ var GvNIX_RowClick;
 			var hashLocation = fnGetHashCode(window.location.pathname);
 			// Getting statePrefix
 			var statePrefix = jQuery(dt.nTable).data().stateprefix;
-			
+
 			// Generating unic sName
 			var sName = hashLocation + "_";
 			if(statePrefix != undefined){
 				sName +=  statePrefix + "_";
 			}
 			sName += "gvnixRowclk-"+dt.nTable.id;
-			
+
 			var sValue = "";
 			if(clear == undefined){
 				sValue = _d.lastClickedId;
 			}
-			
+
 
 			if(!window.localStorage){
 				dt.oApi._fnCreateCookie(sName,
@@ -390,15 +390,15 @@ var GvNIX_RowClick;
 				window.localStorage.setItem(sName,sValue);
 			}
 		},
-		
+
 		/**
-		 * This functions scrolls datatable scroll body 
+		 * This functions scrolls datatable scroll body
 		 * to clicked record
 		 */
 		"fnScrollDatatableBodyToClicked": function() {
 			var _d = this._data;
 			var s = this.s;
-			
+
 			var $table = jQuery(_d.dt.nTable);
 			var clickedClassSelector = "." + s.classForClickedRow;
 			$table.parent(".dataTables_scrollBody").animate({scrollTop: 0}, 0);
@@ -413,27 +413,27 @@ var GvNIX_RowClick;
 		        }
 		    }
 		},
-		
+
 		/**
 		 * This function scrolls page to next detail when
 		 * the user click a row
-		 * 
+		 *
 		 */
 		"fnScrollToNextDetail": function(showDetails) {
 			if(showDetails){
 				var _d = this._data;
 				var s = this.s;
-			
+
 				var $table = jQuery(_d.dt.nTable);
 				var tableId = $table.attr("id");
-			
+
 				var divDetails = jQuery("div[id^="+tableId+"_][id$=detail]");
 
 				if(divDetails.length > 0){
 					jQuery('html, body').animate({ scrollTop: divDetails.offset().top });
 				}
 			}
-			
+
 		},
 
 
@@ -760,7 +760,7 @@ var GvNIX_RowClick;
 	 * @type String
 	 * @default See code
 	 */
-	GvNIX_RowClick.VERSION = "1.5.0.BUILD-SNAPSHOT";
+	GvNIX_RowClick.VERSION = "2.0.0.M1";
 	GvNIX_RowClick.prototype.VERSION = GvNIX_RowClick.VERSION;
 
 	/** TODO Add as datatable feature * */
@@ -776,7 +776,9 @@ var GvNIX_RowClick;
  * @param oSettings
  * @param iSettings
  * @return GvNIX_RowClick object
- * @author gvNIX Team
+ *
+ * @author <a href="http://www.disid.com">DISID Corporation S.L.</a> made for
+ *         <a href="http://www.dgti.gva.es">General Directorate for Information Technologies (DGTI)</a>
  */
 jQuery.fn.dataTableExt.oApi.fnRowClick = function(oSettings,
 		iSettings) {
@@ -801,11 +803,13 @@ jQuery.fn.dataTableExt.oApi.fnRowClick = function(oSettings,
 * @param oSettings
 * @param iSettings
 * @return GvNIX_RowClick object
-* @author gvNIX Team
+*
+* @author <a href="http://www.disid.com">DISID Corporation S.L.</a> made for
+*         <a href="http://www.dgti.gva.es">General Directorate for Information Technologies (DGTI)</a>
 */
 jQuery.fn.dataTableExt.oApi.fnHasRowClick = function(oSettings,
 		iSettings) {
-	
+
 	if (!oSettings) {
 		return false;
 	}

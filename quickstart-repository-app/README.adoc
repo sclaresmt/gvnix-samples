@@ -3,9 +3,9 @@ Getting started with gvNIX
 :page-layout: base
 :toc-placement: manual
 :homepage: http://gvnix.org
-:download: http://sourceforge.net/projects/gvnix/
+:download: http://projects.spring.io/spring-roo/#running-from-shell
 :installguide: https://github.com/DISID/gvnix-samples/blob/master/INSTALL-gvNIX.adoc
-:download: http://sourceforge.net/projects/gvnix/
+:download: http://projects.spring.io/spring-roo/#running-from-shell
 
 gvNIX is a Spring Roo distribution that focuses both enterprise knowledge and 
 enterprise standards to build Java applications.
@@ -13,7 +13,7 @@ enterprise standards to build Java applications.
 If you don't know _What is gvNIX?_ you should start with https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial.
 
 You must {download}[download], unpack and {installguide}[install] the 
-development environment for gvNIX 1.5+, to be able to follow this guide.
+development environment for gvNIX 2.0.0.M1, to be able to follow this guide.
 
 The goal of this quick start repository app guide is to familiarize you with repository apps generated using gvNIX. For this 
 purpose, we will build an application based on https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial.
@@ -48,15 +48,51 @@ If you don't have experience using gvNIX, you can follow https://github.com/DISI
  	
 This guide teaches you how to: 	
 
-. <<add-repository-functionality-to-entities, Add Repository Functionality to Entities>> 
+. <<create-a-new-project, Create a new project>>
+. <<persistence-setup, Persistence Setup>>
+. <<build-the-domain-model, Build the domain model>>
 . <<generate-repository-layer, Generate Repository Layer>> 	
-. <<generate-services, Generate Service Layer>> 	
-. <<configure-datatables-and-loupes, Configure Datatables And Loupes >> 	
+. <<generate-services, Generate Service Layer>> 
+. <<web-layers, Generate Web Layer>>
+. <<jquery-datatables-and-bootstrap-setup, JQuery Datatables and Bootstrap Setup >>
+. <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
+. <<loupe-fields, Loupe Components >>	
+. <<configure-datatables-and-loupes, Configure Datatables And Loupes >> 
+. <<more-functionalities, More functionalities >> 	
 
- 	
-[[add-repository-functionality-to-entities]] 	
-== Add Repository Functionality to Entities 	
-	
+[[create-a-new-project]]
+== Create a new project
+
+. Create a directory for the new project.
++
+
+[source,shell]
+$ mkdir clinic
+$ cd clinic
+
+. Start gvNIX
+. Execute command to create project:
++
+
+[source,shell]
+project --topLevelPackage com.springsource.petclinic --projectName petclinic
+
+
+[[persistence-setup]]
+== Persistence Setup
+
+Execute the following command to set up persistence in your gvNIX project:
+
+[source,shell]
+jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
+
+NOTE: _You can replace *provider* param and *database* param with your own configuration._
+
+[[build-the-domain-model]]
+== Build the domain model
+
+=== Create the domain entities
+
 By default Spring Roo uses Active record-style JPA Entities. To opt out of the default Active Record style, you have to create your entities with the activeRecord option set to false.
 
 [source,shell]
@@ -66,7 +102,49 @@ entity jpa --class ~.domain.Vet --activeRecord false
 entity jpa --class ~.domain.Owner --activeRecord false
 entity jpa --class ~.domain.AbstractPerson --activeRecord false
 
-This will add the @RooJpaEntity notation to your entities insted of the @RooJpaActiveRecord notation.
+NOTE: _This will add the @RooJpaEntity notation to your entities insted of the @RooJpaActiveRecord notation._
+
+. Create *PetType* and *Specialty* enumerates to use in petclinic application:
++
+
+[source,shell]
+enum type --class ~.reference.PetType
+enum constant --name Dog
+enum constant --name Cat
+enum constant --name Bird
+enum type --class ~.reference.Specialty
+enum constant --name Cardiology
+enum constant --name Dentistry
+enum constant --name Nutrition
+
+. Add fields to entities:
++
+
+[source,shell]
+field string --fieldName firstName --sizeMin 3 --sizeMax 30 --class ~.domain.AbstractPerson
+field string --fieldName lastName --notNull --sizeMin 3 --sizeMax 30
+field string --fieldName address --notNull --sizeMax 50 --sizeMin 1
+field string --fieldName city --notNull --sizeMax 30
+field string --fieldName telephone --notNull
+field string --fieldName homePage --sizeMax 30
+field string --fieldName email --sizeMax 30 --sizeMin 6
+field date --fieldName birthDay --type java.util.Date --notNull
+field string --fieldName description --sizeMax 255 --class ~.domain.Visit
+field date --fieldName visitDate --type java.util.Date --notNull --past
+field reference --fieldName pet --type ~.domain.Pet --notNull
+field reference --fieldName vet --type ~.domain.Vet
+field boolean --fieldName sendReminders --notNull --primitive --class ~.domain.Pet
+field string --fieldName name --notNull --sizeMin 1
+field number --fieldName weight --type java.lang.Float --notNull --min 0
+field reference --fieldName owner --type ~.domain.Owner
+field enum --fieldName type --type ~.reference.PetType --notNull
+field date --fieldName employedSince --type java.util.Calendar --notNull --past --class ~.domain.Vet
+field enum --fieldName specialty --type ~.reference.Specialty --notNull false
+field set --class ~.domain.Owner --fieldName pets --type ~.domain.Pet --mappedBy owner --notNull false --cardinality ONE_TO_MANY
+field set --class ~.domain.Vet --fieldName visits --type ~.domain.Visit --mappedBy vet --notNull false --cardinality ONE_TO_MANY
+field reference --fieldName owner --type ~.domain.Owner --class ~.domain.Vet
+field set --fieldName vets --type ~.domain.Vet --class ~.domain.Owner --cardinality ONE_TO_MANY --mappedBy owner
+field set --fieldName visits --type ~.domain.Visit --class ~.domain.Pet --cardinality ONE_TO_MANY --mappedBy pet
 
  	
 [[generate-repository-layer]] 	
@@ -98,11 +176,117 @@ service type --interface ~.service.OwnerService --entity ~.domain.Owner
 If a persistence-providing layer such as Roo's default entity layer or a repository layer is present for a given domain entity, the service layer will expose the CRUD functionality provided by this persistence layer through its interface and implementation.
 In your case, the service layer will call to the repository layer.
 
+[[web-layers]]
+== Generate Web Layer
+
+. Execute the following commands setup web layer: and generate web layer:
++
+
+[source,shell]
+web mvc setup
+
+. Execute the following commands to generate web layer for all application entities:
++
+
+[source,shell]
+web mvc all --package ~.web
+
+
+[[jquery-datatables-and-bootstrap-setup]]
+== JQuery, Datatables & Bootstrap Setup
+
+=== JQuery
+
+. To use jQuery components in your project, you must to execute the following command:
++
+
+[source,shell]
+web mvc jquery setup
+
+. Configure all your views to use jQuery components running the next command:
++
+
+[source,shell]
+web mvc jquery all
+
+. Optionally, you can convert view-by-view to jQuery
++
+
+[source,shell]
+web mvc jquery add --type ~.web.PetController
+
+=== Datatables
+
+To use Datatables to show data in your application, execute the following command:
+
+[source,shell]
+web mvc datatables setup 
+
+=== Bootstrap
+
+Implements Bootstrap in your application to modify its visual appearance executing the next command:
+
+[source,shell]
+web mvc bootstrap setup
+
+[[create-patterns-and-details-using-datatables]] 
+== Create Patterns and Details using Datatables
+
+=== Create master patterns 
+
+After setup Datatables components run the following commands to create master patterns with Datatable components:
+
+[source,shell]
+web mvc datatables add --type ~.web.VetController --mode show
+web mvc datatables add --type ~.web.PetController
+web mvc datatables add --type ~.web.OwnerController
+web mvc datatables add --type ~.web.VisitController  --ajax true
+
+
+NOTE: _Use *--mode* param with show value, to display only a record per page_. 
+
+=== Adding Datatables Details
+
+After create Datatables master patterns, you can add details to display related information about the selected row.
+
+[source,shell]
+web mvc datatables detail add --type ~.web.OwnerController --property pets
+web mvc datatables detail add --type ~.web.OwnerController --property vets
+web mvc datatables detail add --type ~.web.PetController --property visits
+web mvc datatables detail add --type ~.web.VetController --property visits
+
+[[loupe-fields]]
+== Loupe Fields
+
+The Loupe fields provide new functionality to search related data more easily than using combobox.
+
+To implement Loupe fields in your gvNIX application you need to execute the following commands:
+
+. Setup Loupe components:
++
+
+[source,shell]
+web mvc loupe setup
+
+. Add some necessary functions to the controller:
++
+
+[source,shell]
+web mvc loupe set --controller ~.web.VisitController
+
+. Convert related fields to loupe elements on create and update views:
++
+
+[source,shell]
+web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
+web mvc loupe field --controller ~.web.VisitController --field vet
+
+NOTE: _You can configure callbacks functions for fields above editing 'scripts/loupefield/loupe-callbacks.js'. You can add onDraw function and onSet function to manage that events._
 
 [[configure-datatables-and-loupes]] 	
 == Configure Datatables And Loupes
 
-Datatables and Loupe field need to access to an entity manager to perform the database operations. But, if you use a repository layer, the entitity manager is not avaliable. To solve this problem you have to follow this steps:
+Datatables and Loupe fields need to access to an entity manager to perform the database operations. But, if you use a repository layer, the entitity manager is not avaliable. To solve this problem you have to follow this steps:
 
 . Create a RepositoryCustom class, in the repository package, using this code:
 +
@@ -172,6 +356,19 @@ public class VisitRepositoryImpl implements RepositoryCustom{
     }
 }
 ====
+
+[[more-functionality]] 	
+== More functionality
+
+To add more functionality to this proyject, you can check out the https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial. There you can find examples about how to include and use other functionalities such as: 
+
+. WebServices
+
+. Reports
+
+. Tests 
+
+. ...
 
 
 

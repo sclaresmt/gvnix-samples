@@ -1,7 +1,7 @@
 package com.springsource.petclinic.domain;
-import org.springframework.roo.addon.javabean.RooJavaBean;
-import org.springframework.roo.addon.jpa.entity.RooJpaEntity;
-import org.springframework.roo.addon.tostring.RooToString;
+import org.springframework.roo.addon.javabean.annotations.RooJavaBean;
+import org.springframework.roo.addon.javabean.annotations.RooToString;
+import org.springframework.roo.addon.jpa.annotations.entity.RooJpaEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;

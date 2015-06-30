@@ -17,6 +17,6 @@ privileged aspect ClinicService_Roo_GvNix_WebService {
     
     declare @type: ClinicService: @SOAPBinding(style = Style.DOCUMENT, use = Use.LITERAL, parameterStyle = ParameterStyle.WRAPPED);
     
-    declare @method: public void ClinicService.ws_list_pets(): @WebMethod(exclude = true);
+    declare @method: public void ClinicService.ws_clinic(): @WebMethod(exclude = true);
     
 }
