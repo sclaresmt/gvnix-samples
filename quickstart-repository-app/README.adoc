@@ -23,7 +23,7 @@ http://repository-gvnix.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
 
 == Run from Git
 
-If you want to preview this Repository sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-repository-app#build-your-own-repository-app[gvNIX GEO Guide]
+If you want to preview this sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-repository-app#build-your-own-repository-app[gvNIX Repository Guide]
 
 - Clone github repository
 [source, shell]
@@ -40,11 +40,11 @@ $ mvn clean compile tomcat:run
 - Open your browser on http://localhost:8080/petclinic/
 - Access using _admin_ as username and _admin_ as password.
 
-== Build your own repository app 	
+== Build your own app 	
  	
-You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-repository-app/quickstart-repository.roo[quickstart-repository.roo] file and creates a petclinic example application with repository layer. 	
+You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-repository-app/quickstart-repository.roo[quickstart-repository.roo] file and creates a petclinic example application with both service and repository layers. 	
  	
-If you don't have experience using gvNIX, you can follow https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#build-your-own-app[quickstart-app guide] and then follow this to generate repository layers and services. 	
+If you don't have experience using gvNIX, you can follow https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#build-your-own-app[quickstart-app guide] and then follow the instructions below to generate repository layers and services. 	
  	
 This guide teaches you how to: 	
 

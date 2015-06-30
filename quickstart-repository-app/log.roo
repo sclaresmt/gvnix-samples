@@ -101,8 +101,5 @@ configuration property add --name log4j.rootLogger
 configuration property value --configuration local --property log4j.rootLogger --value ERROR
 configuration list
 configuration export
-remote service define ws --class ~.services.PetsServices --serviceName ws_get_all_pets
-remote service operation --name ws_list_pets --service ~.services.PetsServices
-// script --file quickstart-repository.roo
-exit
-// Spring Roo 1.3.1.RELEASE [rev f5cfe80] log closed at 2015-06-22 11:34:01
+remote service define ws --class ~.service.ClinicService --serviceName ws_clinic
+remote service operation --name ws_list_pets --service ~.service.ClinicService
