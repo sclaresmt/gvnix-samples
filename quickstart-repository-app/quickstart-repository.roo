@@ -156,8 +156,8 @@ configuration list
 configuration export
 
 // Adding Web Services
-remote service define ws --class ~.services.PetsServices --serviceName ws_get_all_pets
-remote service operation --name ws_list_pets --service ~.services.PetsServices
+remote service define ws --class ~.service.ClinicService --serviceName ws_clinic
+remote service operation --name ws_list_pets --service ~.service.ClinicService
 
 
 
