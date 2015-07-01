@@ -64,8 +64,8 @@ This guide teaches you how to:
 . <<list-views-with-datatables, List views with Datatables>>
 . <<loupe-fields, Loupe Components >>	
 . <<configure-datatables-and-loupes, Configure Datatables And Loupes >> 
-. <<more-roo-functionalities, Other Roo features included >>
-. <<more-gvnix-functionalities, Other gvNIX features included >>
+. <<more-roo-functionalities, Other Roo features included in this sample >>
+. <<more-gvnix-functionalities, Other gvNIX features included in this sample>>
 
 [[create-a-new-project]]
 == Create a new project
@@ -377,9 +377,9 @@ public class VisitRepositoryImpl implements RepositoryCustom{
 ====
 
 [[more-roo-functionalities]] 	
-== Other Roo features included
+== Other Roo features included in this sample
 
-This project is a simplified version of the project created by executing https://github.com/DISID/gvnix-samples/blob/master/quickstart-repository-app/quickstart-repository.roo[quickstart-repository.roo] file. It includes the next http://projects.spring.io/spring-roo/[Spring Roo] functionalities:
+This project is a simplified version of the project created by executing https://github.com/DISID/gvnix-samples/blob/master/quickstart-repository-app/quickstart-repository.roo[quickstart-repository.roo] file. It, also, includes the next http://projects.spring.io/spring-roo/[Spring Roo] functionalities:
 
 . https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#finder-methods[Finder methodes]
 
@@ -389,7 +389,7 @@ This project is a simplified version of the project created by executing https:/
 
 
 [[more-gvnix-functionalities]] 	
-== Other gvNIX features included
+== Other gvNIX features included in this sample
 
 This project is a simplified version of the project created by executing https://github.com/DISID/gvnix-samples/blob/master/quickstart-repository-app/quickstart-repository.roo[quickstart-repository.roo] file. It includes the next gvNIX functionalities:
 
