@@ -5,7 +5,6 @@ package com.springsource.petclinic.web;
 
 import com.springsource.petclinic.domain.Vet;
 import com.springsource.petclinic.reference.Specialty;
-import com.springsource.petclinic.service.OwnerService;
 import com.springsource.petclinic.service.VetService;
 import com.springsource.petclinic.service.VisitService;
 import com.springsource.petclinic.web.VetController;
@@ -29,9 +28,6 @@ privileged aspect VetController_Roo_Controller {
     
     @Autowired
     VetService VetController.vetService;
-    
-    @Autowired
-    OwnerService VetController.ownerService;
     
     @Autowired
     VisitService VetController.visitService;
@@ -111,7 +107,6 @@ privileged aspect VetController_Roo_Controller {
     void VetController.populateEditForm(Model uiModel, Vet vet) {
         uiModel.addAttribute("vet", vet);
         addDateTimeFormatPatterns(uiModel);
-        uiModel.addAttribute("owners", ownerService.findAllOwners());
         uiModel.addAttribute("visits", visitService.findAllVisits());
         uiModel.addAttribute("specialtys", Arrays.asList(Specialty.values()));
     }

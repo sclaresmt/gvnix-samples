@@ -41,8 +41,6 @@ field date --fieldName employedSince --type java.util.Calendar --notNull --past 
 field enum --fieldName specialty --type ~.reference.Specialty --notNull false
 field set --class ~.domain.Owner --fieldName pets --type ~.domain.Pet --mappedBy owner --notNull false --cardinality ONE_TO_MANY
 field set --class ~.domain.Vet --fieldName visits --type ~.domain.Visit --mappedBy vet --notNull false --cardinality ONE_TO_MANY
-field reference --fieldName owner --type ~.domain.Owner --class ~.domain.Vet
-field set --fieldName vets --type ~.domain.Vet --class ~.domain.Owner --cardinality ONE_TO_MANY --mappedBy owner
 field set --fieldName visits --type ~.domain.Visit --class ~.domain.Pet --cardinality ONE_TO_MANY --mappedBy pet
 
 
@@ -79,15 +77,6 @@ web mvc language --code es
 // Enable gvNIX JPA utilities
 jpa gvnix setup
 
-// Creates a Spring @Service class with methods for entity batch updates
-jpa batch all
-
-// Enable gvNIX Web MVC Batch utilities
-web mvc batch setup
-
-// Add support for JPA batch operations in all controllers
-web mvc batch all
-
 // Adding JQuery, Datatables and Bootstrap
 web mvc jquery setup
 web mvc datatables setup
@@ -95,7 +84,7 @@ web mvc jquery all
 web mvc bootstrap setup
 
 // Creating master patterns
-web mvc datatables add --type ~.web.VetController --mode show
+web mvc datatables add --type ~.web.VetController
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController --ajax true
@@ -104,8 +93,6 @@ web mvc datatables add --type ~.web.VisitController --ajax true
 
 // Pattern: master table Owner > detail table Pet
 web mvc datatables detail add --type ~.web.OwnerController --property pets
-// Pattern: master table Owner > detail table Vet
-web mvc datatables detail add --type ~.web.OwnerController --property vets
 // Pattern: master table Owner > detail table Pet > detail table Visit
 web mvc datatables detail add --type ~.web.PetController --property visits
 // Pattern: master table Owner > detail table Vet > detail table Visit
@@ -129,10 +116,6 @@ menu setup
 // Adding Spring security
 security setup
 web mvc bootstrap update
-
-// Adding reports
-web report setup
-//web report add --controller ~.web.OwnerController --reportName report_owners
 
 // Adding Optimistic Concurrency Control
 occ checksum set --entity ~.domain.Pet

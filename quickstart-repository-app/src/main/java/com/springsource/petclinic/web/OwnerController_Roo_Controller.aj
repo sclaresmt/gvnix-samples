@@ -6,7 +6,6 @@ package com.springsource.petclinic.web;
 import com.springsource.petclinic.domain.Owner;
 import com.springsource.petclinic.service.OwnerService;
 import com.springsource.petclinic.service.PetService;
-import com.springsource.petclinic.service.VetService;
 import com.springsource.petclinic.web.OwnerController;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +29,6 @@ privileged aspect OwnerController_Roo_Controller {
     
     @Autowired
     PetService OwnerController.petService;
-    
-    @Autowired
-    VetService OwnerController.vetService;
     
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String OwnerController.create(@Valid Owner owner, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
@@ -109,7 +105,6 @@ privileged aspect OwnerController_Roo_Controller {
         uiModel.addAttribute("owner", owner);
         addDateTimeFormatPatterns(uiModel);
         uiModel.addAttribute("pets", petService.findAllPets());
-        uiModel.addAttribute("vets", vetService.findAllVets());
     }
     
     String OwnerController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

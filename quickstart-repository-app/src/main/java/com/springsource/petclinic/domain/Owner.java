@@ -16,9 +16,4 @@ public class Owner extends AbstractPerson {
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Pet> pets = new HashSet<Pet>();
-
-    /**
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<Vet> vets = new HashSet<Vet>();
 }

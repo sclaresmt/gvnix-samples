@@ -16,14 +16,14 @@ You must {download}[download], unpack and {installguide}[install] the
 development environment for gvNIX 2.0.0.M1, to be able to follow this guide.
 
 The goal of this quick start repository app guide is to familiarize you with how the repository and service layers are generated using gvNIX.
-For this purpose, we will build a simple application. This process includes the creation of an entity model, repository and service layer setup, web views generation, and finally we show how to setup Loupes and Datatables to work with the repository layer.
+For this purpose, we will build a simple application. This process includes the creation of an entity model, repository and service layer setup, web views generation, and finally we show how to setup <<create-patterns-and-details-using-datatables, Datatables>> and <<loupe-fields, Loupe fields>> to work with the repository layer.
 
 The application presented in this guide is the Spring PetClinic application. The users of the application are employees of the clinic who, in the course of their work, need to view and manage information regarding veterinarians, the clients, and their pets.
 
 Note this sample isn’t a real application which normally needs additional work like UI customization, performance improvement, database queries tunning, etc.
 
-You can see an example of a *generated repository web application* using gvNIX
-http://repository-gvnix.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
+//You can see an example of a *generated repository web application* using gvNIX
+//http://repository-gvnix.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
 
 == Run from Git
 
@@ -33,13 +33,15 @@ If you want to preview this sample application, follow this steps on the followi
 [source, shell]
 $ git clone https://github.com/DISID/gvnix-samples.git
 
+- Also, you can download the https://github.com/DISID/gvnix-samples/archive/master.zip[project source files] compressed in zip format.
+
 - Acces to quickstart-repository-app
 [source, shell]
-$ cd quickstart-repository-app
+$ cd gvnix-samples/quickstart-repository-app
 
 - Execute application using maven:
 [source, shell]
-$ mvn clean compile tomcat:run
+$ mvn clean compile tomcat7:run
 
 - Open your browser on http://localhost:8080/petclinic/
 - Access using _admin_ as username and _admin_ as password.
@@ -48,7 +50,7 @@ $ mvn clean compile tomcat:run
  	
 You can execute https://github.com/DISID/gvnix-samples/blob/master/quickstart-repository-app/quickstart-repository.roo[quickstart-repository.roo] file and creates a petclinic example application with both service and repository layers. 	
  	
-If you don't have experience using gvNIX, you can follow https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#build-your-own-app[quickstart-app guide] and then follow the instructions below to generate repository layers and services. 	
+You can follow the instructions below to create a project with repository layers and services. If you don't have experience using gvNIX, you can familiarize with it by following https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#build-your-own-app[quickstart-app guide]. 
  	
 This guide teaches you how to: 	
 
@@ -59,10 +61,11 @@ This guide teaches you how to:
 . <<generate-services, Generate Service Layer>> 
 . <<web-layers, Generate Web Layer>>
 . <<jquery-datatables-and-bootstrap-setup, JQuery Datatables and Bootstrap Setup >>
-. <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
+. <<list-views-with-datatables, List views with Datatables>>
 . <<loupe-fields, Loupe Components >>	
 . <<configure-datatables-and-loupes, Configure Datatables And Loupes >> 
-. <<more-functionalities, More functionalities >> 	
+. <<more-roo-functionalities, Other Roo features included >>
+. <<more-gvnix-functionalities, Other gvNIX features included >>
 
 [[create-a-new-project]]
 == Create a new project
@@ -79,7 +82,7 @@ $ cd clinic
 +
 
 [source,shell]
-project --topLevelPackage com.springsource.petclinic --projectName petclinic
+project setup --topLevelPackage com.springsource.petclinic --projectName petclinic
 
 
 [[persistence-setup]]
@@ -97,15 +100,17 @@ NOTE: _You can replace *provider* param and *database* param with your own confi
 
 === Create the domain entities
 
+. Create entities:
++
 By default Spring Roo uses Active record-style JPA Entities. To opt out of the default Active Record style, you have to create your entities with the activeRecord option set to false.
-
++
 [source,shell]
 entity jpa --class ~.domain.Pet --activeRecord false
 entity jpa --class ~.domain.Visit --activeRecord false
 entity jpa --class ~.domain.Vet --activeRecord false
 entity jpa --class ~.domain.Owner --activeRecord false
 entity jpa --class ~.domain.AbstractPerson --activeRecord false
-
++
 NOTE: _This will add the @RooJpaEntity notation to your entities insted of the @RooJpaActiveRecord notation._
 
 . Create *PetType* and *Specialty* enumerates to use in petclinic application:
@@ -183,13 +188,13 @@ In your case, the service layer will call to the repository layer.
 [[web-layers]]
 == Generate Web Layer
 
-. Execute the following commands setup web layer: and generate web layer:
+. Execute the following commands setup web layer and generate web layer:
 +
 
 [source,shell]
 web mvc setup
 
-. Execute the following commands to generate web layer for all application entities:
+. Execute the following command to generate CRUD views for all application entities:
 +
 
 [source,shell]
@@ -221,24 +226,24 @@ web mvc jquery add --type ~.web.PetController
 
 === Datatables
 
-To use Datatables to show data in your application, execute the following command:
+To activate the http://dandelion.github.io/components/datatables/[Datatables] feature on project, execute the following command:
 
 [source,shell]
 web mvc datatables setup 
 
 === Bootstrap
 
-Implements Bootstrap in your application to modify its visual appearance executing the next command:
+To activate Bootstrap style on application pages execute the next command:
 
 [source,shell]
 web mvc bootstrap setup
 
-[[create-patterns-and-details-using-datatables]] 
-== Create Patterns and Details using Datatables
+[[list-views-with-datatables]] 
+== List views with Datatables
 
-=== Create master patterns 
+=== Improve List views
 
-After setup Datatables components run the following commands to create master patterns with Datatable components:
+After setup Datatables components run the following commands to improve list views with Datatables components:
 
 [source,shell]
 web mvc datatables add --type ~.web.VetController --mode show
@@ -249,9 +254,9 @@ web mvc datatables add --type ~.web.VisitController  --ajax true
 
 NOTE: _Use *--mode* param with show value, to display only a record per page_. 
 
-=== Adding Datatables Details
+=== Include ToMany relationships inside List views (Master-details pattern)
 
-After create Datatables master patterns, you can add details to display related information about the selected row.
+After create Datatables master patterns, you can add detail list views which represent ToMany relationships with other entities.
 
 [source,shell]
 web mvc datatables detail add --type ~.web.OwnerController --property pets
@@ -262,7 +267,7 @@ web mvc datatables detail add --type ~.web.VetController --property visits
 [[loupe-fields]]
 == Loupe Fields
 
-The Loupe fields provide new functionality to search related data more easily than using combobox.
+The Loupe fields provide new functionality to handle ToOne relationship more easily than using combobox.
 
 To implement Loupe fields in your gvNIX application you need to execute the following commands:
 
@@ -290,16 +295,16 @@ NOTE: _You can configure callbacks functions for fields above editing 'scripts/l
 [[configure-datatables-and-loupes]] 	
 == Configure Datatables And Loupes
 
-Datatables and Loupe fields need to access to an entity manager to perform the database operations. But, if you use a repository layer, the entitity manager is not avaliable. To solve this problem you have to follow this steps:
+Datatables and Loupe fields need to access to an entity manager to execute the required search on database. But, if you use a repository layer, the entitity manager is not avaliable by default. To solve this problem you have to follow this steps:
 
-. Create a RepositoryCustom class, in the repository package, using this code:
+. Create a RepositoryCustom class in the repository package, using this code:
 +
 [source,java]
 public interface RepositoryCustom {
   public abstract EntityManager getEntityManager();
 }
  	
-. Create a EntityManagerProviderImpl class which extends EntityManager, in the web package, using this code:
+. Create a EntityManagerProviderImpl class which implements EntityManagerProvider in the web package, using this code:
 +
 [source,java]
 public class EntityManagerProviderImpl implements EntityManagerProvider {
@@ -325,7 +330,7 @@ public class EntityManagerProviderImpl implements EntityManagerProvider {
 	}
 }
 
-. You have to register the correct entityManagerProvider. To do this, in the /petclinic/src/main/webapp/WEB-INF/spring/webmvc-config.xml file, change the class of the entityManagerProvider bean by the EntityManagerProviderImpl location. The result bean will be:
+. You have to register the correct entityManagerProvider. To do this, in the /petclinic/src/main/webapp/WEB-INF/spring/webmvc-config.xml file you have to change the class propiety value of the entityManagerProvider bean by the EntityManagerProviderImpl location. The resulting bean will be:
 +
 [source,xml]
 <bean class="com.springsource.petclinic.web.EntityManagerProviderImpl" id="entityManagerProvider"/>
@@ -334,18 +339,28 @@ public class EntityManagerProviderImpl implements EntityManagerProvider {
 +
 [source,java]
 public interface VetRepository extends RepositoryCustom{}
-public interface VisitRepository extends RepositoryCustom{}
-public interface PetRepository extends RepositoryCustom{}
-public interface OwnerRepository extends RepositoryCustom{}
-public interface AbstractPersonRepository extends RepositoryCustom {}
-
-. Create a repository implementation class, in the repository package, for every repository interface. These classes extend RepositoryCustom and contain the next code:
 +
 [source,java]
-@PersistenceContext
+public interface VisitRepository extends RepositoryCustom{}
++
+[source,java]
+public interface PetRepository extends RepositoryCustom{}
++
+[source,java]
+public interface OwnerRepository extends RepositoryCustom{}
++
+[source,java]
+public interface AbstractPersonRepository extends RepositoryCustom {}
+
+. Create a repository implementation class in the repository package, for every repository interface. These classes extend RepositoryCustom and contain the next code:
++
+[source,java]
+public class XXRepositoryImpl implements RepositoryCustom{
+    @PersistenceContext
     private EntityManager em;
     public EntityManager getEntityManager() {
       return em;
+    }
 }
 +
 ====
@@ -361,18 +376,28 @@ public class VisitRepositoryImpl implements RepositoryCustom{
 }
 ====
 
-[[more-functionality]] 	
-== More functionality
+[[more-roo-functionalities]] 	
+== Other Roo features included
 
-To add more functionality to this proyject, you can check out the https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial. There you can find examples about how to include and use other functionalities such as: 
+This project is a simplified version of the project created by executing https://github.com/DISID/gvnix-samples/blob/master/quickstart-repository-app/quickstart-repository.roo[quickstart-repository.roo] file. It includes the next http://projects.spring.io/spring-roo/[Spring Roo] functionalities:
 
-. WebServices
+. https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#finder-methods[Finder methodes]
 
-. Reports
+. https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#spring-security[Security]
 
-. Tests 
+. https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#junit-and-selenium-tests[JUnit and Selenium Tests] 
 
-. ...
+
+[[more-gvnix-functionalities]] 	
+== Other gvNIX features included
+
+This project is a simplified version of the project created by executing https://github.com/DISID/gvnix-samples/blob/master/quickstart-repository-app/quickstart-repository.roo[quickstart-repository.roo] file. It includes the next gvNIX functionalities:
+
+. https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#menu-setup[Menu Setup]
+
+. https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#optimistic-concurrency-control[Optimistic Concurrency Control]
+
+. https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#webservices[WebServices] 
 
 
 
@@ -381,3 +406,5 @@ To add more functionality to this proyject, you can check out the https://github
 gvNIX is based on https://github.com/spring-projects/spring-roo[Spring Roo] project. 
 
 http://docs.spring.io/autorepo/docs/spring-roo/1.3.1.RELEASE/reference/html/base-layers.html[Spring Repository Documentation]
+
+http://dandelion.github.io/components/datatables/[Dandelion Datatables]

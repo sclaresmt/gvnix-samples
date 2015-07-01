@@ -13,6 +13,5 @@
         <field:display date="true" dateTimePattern="${vet_birthday_date_format}" field="birthDay" id="s_com_springsource_petclinic_domain_Vet_birthDay" object="${vet}" z="wut4Eqnz13TTuBupE1ge5DjvWsI="/>
         <field:display calendar="true" dateTimePattern="${vet_employedsince_date_format}" field="employedSince" id="s_com_springsource_petclinic_domain_Vet_employedSince" object="${vet}" z="x81LbLDJKYqHFyphwUi/QkrTZNA="/>
         <field:display field="specialty" id="s_com_springsource_petclinic_domain_Vet_specialty" object="${vet}" z="Fgdd7Giap9QqGKzWVQnTLKhM2Aw="/>
-        <field:display field="owner" id="s_com_springsource_petclinic_domain_Vet_owner" object="${vet}" z="Vdg3HbZN0DeeB9RAw/ppF4V/zVk="/>
     </page:show>
 </div>

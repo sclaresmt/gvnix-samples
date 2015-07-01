@@ -78,13 +78,7 @@
     </property>
   </bean>
 <bean class="com.springsource.petclinic.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService"/>
-<bean class="org.gvnix.web.json.Jackson2RequestMappingHandlerAdapter" id="dataBinderRequestMappingHandlerAdapter" p:order="1">
-        <property name="objectMapper">
-            <bean class="org.gvnix.web.json.ConversionServiceObjectMapper"/>
-        </property>
-    </bean>
 <bean class="com.springsource.petclinic.web.EntityManagerProviderImpl" id="entityManagerProvider"/>
     <bean class="org.gvnix.web.datatables.util.impl.DatatablesUtilsBeanImpl" id="datatableUtilsBean"/>
     <bean class="org.gvnix.web.datatables.util.impl.QuerydslUtilsBeanImpl" id="querydslUtilsBean"/>
-<bean class="org.springframework.web.servlet.view.XmlViewResolver" id="jasperReportsXmlViewResolver" p:location="/WEB-INF/spring/jasper-views.xml" p:order="0"/>
 </beans>

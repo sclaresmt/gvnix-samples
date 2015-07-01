@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
 
 @RooJavaBean
 @RooToString
@@ -38,9 +37,4 @@ public class Vet extends AbstractPerson {
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vet")
     private Set<Visit> visits = new HashSet<Visit>();
-
-    /**
-     */
-    @ManyToOne
-    private Owner owner;
 }

@@ -16,12 +16,19 @@
     <querydsl.version>3.6.3</querydsl.version>
     <gvnix.version>2.0.0.M1</gvnix.version>
     <spring-security.version>3.2.5.RELEASE</spring-security.version>
-    <jasperreports.version>5.0.1</jasperreports.version>
-    <jasperreportsfonts.version>4.0.0</jasperreportsfonts.version>
-    <apachepoi.version>3.9</apachepoi.version>
     <cxf.version>2.7.3</cxf.version>
     </properties>
     <repositories>
+        <repository>
+          <id>apache.snapshots</id>
+          <url>https://repository.apache.org/content/repositories/snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
         <repository>
             <id>spring-maven-release</id>
             <name>Spring Maven Release Repository</name>
@@ -44,6 +51,17 @@
         </repository>
     </repositories>
     <pluginRepositories>
+         <pluginRepository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshots</name>
+            <url>https://repository.apache.org/content/repositories/snapshots</url>
+            <releases>
+               <enabled>false</enabled>
+            </releases>
+            <snapshots>
+               <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
         <pluginRepository>
             <id>spring-maven-release</id>
             <name>Spring Maven Release Repository</name>
@@ -327,11 +345,6 @@
         </dependency>
     <dependency>
             <groupId>org.gvnix</groupId>
-            <artifactId>org.gvnix.web.json.binding</artifactId>
-            <version>2.0.0.M1</version>
-        </dependency>
-    <dependency>
-            <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.addon.datatables.annotations</artifactId>
             <version>${gvnix.version}</version>
             <scope>provided</scope>
@@ -383,38 +396,6 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring-security.version}</version>
-        </dependency>
-    <dependency>
-            <groupId>org.gvnix</groupId>
-            <artifactId>org.gvnix.web.report.roo.addon.annotations</artifactId>
-            <version>${gvnix.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports</artifactId>
-            <version>${jasperreports.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-collections</groupId>
-                    <artifactId>commons-collections</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>${apachepoi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports-fonts</artifactId>
-            <version>${jasperreportsfonts.version}</version>
         </dependency>
     <dependency>
             <groupId>org.gvnix</groupId>
@@ -609,7 +590,7 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.3-SNAPSHOT</version>
             </plugin>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>

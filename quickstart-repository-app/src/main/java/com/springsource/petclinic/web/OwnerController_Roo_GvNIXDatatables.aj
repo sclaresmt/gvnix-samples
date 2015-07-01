@@ -102,18 +102,11 @@ privileged aspect OwnerController_Roo_GvNIXDatatables {
         }
         // Add attribute available into view with information about each detail datatables 
         Map<String, String> details;
-        List<Map<String, String>> detailsInfo = new ArrayList<Map<String, String>>(2);
+        List<Map<String, String>> detailsInfo = new ArrayList<Map<String, String>>(1);
         details = new HashMap<String, String>();
         // Base path for detail datatables entity (to get detail datatables fragment URL)
         details.put("path", "pets");
         details.put("property", "pets");
-        // Property name in detail entity with the relation to master entity
-        details.put("mappedBy", "owner");
-        detailsInfo.add(details);
-        details = new HashMap<String, String>();
-        // Base path for detail datatables entity (to get detail datatables fragment URL)
-        details.put("path", "vets");
-        details.put("property", "vets");
         // Property name in detail entity with the relation to master entity
         details.put("mappedBy", "owner");
         detailsInfo.add(details);

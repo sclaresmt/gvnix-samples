@@ -3,7 +3,6 @@
 
 package com.springsource.petclinic.domain;
 
-import com.springsource.petclinic.domain.Owner;
 import com.springsource.petclinic.domain.Vet;
 import com.springsource.petclinic.domain.Visit;
 import com.springsource.petclinic.reference.Specialty;
@@ -34,14 +33,6 @@ privileged aspect Vet_Roo_JavaBean {
     
     public void Vet.setVisits(Set<Visit> visits) {
         this.visits = visits;
-    }
-    
-    public Owner Vet.getOwner() {
-        return this.owner;
-    }
-    
-    public void Vet.setOwner(Owner owner) {
-        this.owner = owner;
     }
     
 }

@@ -10,6 +10,6 @@ import org.gvnix.addon.datatables.annotations.GvNIXDatatables;
 @Controller
 @RooWebScaffold(path = "vets", formBackingObject = Vet.class)
 @GvNIXWebJQuery
-@GvNIXDatatables(ajax = true, mode = "show", detailFields = { "visits" })
+@GvNIXDatatables(ajax = true, detailFields = { "visits" })
 public class VetController {
 }

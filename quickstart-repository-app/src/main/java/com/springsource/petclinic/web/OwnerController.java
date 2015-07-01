@@ -10,6 +10,6 @@ import org.gvnix.addon.datatables.annotations.GvNIXDatatables;
 @Controller
 @RooWebScaffold(path = "owners", formBackingObject = Owner.class)
 @GvNIXWebJQuery
-@GvNIXDatatables(ajax = true, detailFields = { "pets", "vets" })
+@GvNIXDatatables(ajax = true, detailFields = { "pets" })
 public class OwnerController {
 }

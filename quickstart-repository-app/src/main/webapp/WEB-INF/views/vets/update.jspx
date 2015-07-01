@@ -14,6 +14,5 @@
         <field:datetime dateTimePattern="${vet_employedsince_date_format}" field="employedSince" id="c_com_springsource_petclinic_domain_Vet_employedSince" past="true" required="true" z="MjbbDrGWSkndZNxIIPP80NdxIQc="/>
         <field:select field="specialty" id="c_com_springsource_petclinic_domain_Vet_specialty" items="${specialtys}" path="specialtys" z="XiH5EdiaKEIz1+ZhqH7U6EOjNFI="/>
         <field:simple field="visits" id="c_com_springsource_petclinic_domain_Vet_visits" messageCode="entity_reference_not_managed" messageCodeAttribute="Visit" z="6+AxtJ+JIq/bk/rGfDudL75s0YA="/>
-        <field:select field="owner" id="c_com_springsource_petclinic_domain_Vet_owner" itemValue="id" items="${owners}" path="/owners" z="6q+f2SNiHv/kTpxgAN99I3snG10="/>
     </form:update>
 </div>

@@ -5,7 +5,6 @@ package com.springsource.petclinic.domain;
 
 import com.springsource.petclinic.domain.Owner;
 import com.springsource.petclinic.domain.Pet;
-import com.springsource.petclinic.domain.Vet;
 import java.util.Set;
 
 privileged aspect Owner_Roo_JavaBean {
@@ -16,14 +15,6 @@ privileged aspect Owner_Roo_JavaBean {
     
     public void Owner.setPets(Set<Pet> pets) {
         this.pets = pets;
-    }
-    
-    public Set<Vet> Owner.getVets() {
-        return this.vets;
-    }
-    
-    public void Owner.setVets(Set<Vet> vets) {
-        this.vets = vets;
     }
     
 }

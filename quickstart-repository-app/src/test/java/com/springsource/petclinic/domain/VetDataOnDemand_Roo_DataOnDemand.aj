@@ -3,7 +3,6 @@
 
 package com.springsource.petclinic.domain;
 
-import com.springsource.petclinic.domain.OwnerDataOnDemand;
 import com.springsource.petclinic.domain.Vet;
 import com.springsource.petclinic.domain.VetDataOnDemand;
 import com.springsource.petclinic.reference.Specialty;
@@ -29,9 +28,6 @@ privileged aspect VetDataOnDemand_Roo_DataOnDemand {
     private Random VetDataOnDemand.rnd = new SecureRandom();
     
     private List<Vet> VetDataOnDemand.data;
-    
-    @Autowired
-    OwnerDataOnDemand VetDataOnDemand.ownerDataOnDemand;
     
     @Autowired
     VetService VetDataOnDemand.vetService;
