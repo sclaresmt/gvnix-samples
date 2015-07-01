@@ -26,7 +26,7 @@ To install STS Roo Support, go to http://docs.spring.io/spring-roo/docs/2.0.0.M1
 
 == Install gvNIX Support
 
-. Open Spring Roo shell
+. Open Spring Roo shell: "Window > Show View > Other... > Spring > Roo Shell"
 
 . Install the URL of the repository that contains the gvNIX Roo Addon Suite:
 +
@@ -42,27 +42,36 @@ roo> addon suite list --repository http://repository.gvnix.org/index.xml
 +
 [source,sh]
 ----
-Getting all 'Roo Addon Suites' located on 'http://repository.gvnix.org/index.xml' repository...
-
- [SYMBOLIC NAME OF THE ROO ADDON SUITE 1]
-
- [SYMBOLIC NAME OF THE ROO ADDON SUITE 2]
-
-2 Roo Addon Suites were found on 'http://repository.gvnix.org/index.xml' repository
+Getting all 'Roo Addon Suites' located on 
+'http://repository.gvnix.org/index.xml' repository... 
+ 
+    org.gvnix.roo.addon.suite
+     
+1 Roo Addon Suites were found on 'http://repository.gvnix.org/index.xml'
+repository
 ----
 
 . Then install the Roo Addon Suite as follows:
 +
 [source,sh]
-roo> addon suite install name --symbolicName [SYMBOLIC NAME OF THE ROO ADDON SUITE]
+roo> addon suite install name --symbolicName org.gvnix.roo.addon.suite
 
 . On success installation you will see something like:
 +
 [source,sh]
+----
+Subsystem dependency manager started.
+Getting 'Roo Addon Suite' dependencies...
+ 
+    0 dependencies were found on selected 'Roo Addon Suite'
+Subsystem dependency manager finished.
 Installing subsystem...
-Subsystem successfully installed: [SYMBOLIC NAME OF THE ROO ADDON SUITE]; id:
+Subsystem successfully installed: org.gvnix.roo.addon.suite; id: 1
+     
+Starting subsystem: 1
+Subsystem successfully started: org.gvnix.roo.addon.suite; id: 1
+----
 
 Now you have the gvNIX addons and commands in Roo, run help to see them.
-
 
 
