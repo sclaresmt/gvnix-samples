@@ -12,9 +12,14 @@ find a _README.adoc_ file explaining further details, e.g. how to run the
 respective sample.
 
 Note you can run samples locally by cloning this repository and starting each 
-application with +mvn tomcat:run+, but first it is recommended to 
-link:INSTALL-gvNIX.adoc[install gvNIX] and then try yourself to develop the 
-sample following its _README.adoc_ file.
+application with +mvn tomcat:run+, but first it is recommended to install
+gvNIX. Depending on the version of gvNIX you are using you should read 
+the appropriate installation guide:
+
+* Install gvNIX 2.x link:INSTALL-gvNIX-2.x.adoc[Install gvNIX 2.x]
+* Install gvNIX 1.x link:INSTALL-gvNIX-1.x.adoc[install gvNIX 1.x]
+
+Finally try yourself to develop the sample following its _README.adoc_ file.
 
 == Additional resources
 
