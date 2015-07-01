@@ -1,0 +1,68 @@
+// gvNIX install guide
+ 
+= gvNIX install guide
+:author: DISID Corporation S.L.
+:description: Steps to install gvNIX
+:copyright: CC BY-NC-SA 3.0
+:corpsite: www.disid.com
+
+This document documents the steps to install gvNIX version 2.X.
+
+== Pre-requisites
+
+To start with gvNIX you need:
+
+* JDK 1.6 or JDK 1.7 ( http://www.oracle.com/technetwork/java/javase/downloads/index.html )
+* Maven 3.2 or above ( http://maven.apache.org/download.html )
+* Internet access so that Maven can download required dependencies
+
+== Install Spring Tool Suite (STS)
+
+Install STS 3.7.0. Go to https://spring.io/tools/sts/all and follow the instructions.
+
+== Install Roo Support
+
+To install STS Roo Support, go to http://docs.spring.io/spring-roo/docs/2.0.0.M1/reference/html/#install-roo-support and follow the instructions.
+
+== Install gvNIX Support
+
+. Open Spring Roo shell
+
+. Install the URL of the repository that contains the gvNIX Roo Addon Suite:
++
+[source,sh]
+roo> addon repository add --url http://repository.gvnix.org/index.xml
+
+. To know how many Roo Addon Suites contains the gvNIX repository, you run the command below:
++
+[source,sh]
+roo> addon suite list --repository http://repository.gvnix.org/index.xml
+
+. You will see the list of Roo Addon Suite symbolic names available in that repository, something like:
++
+[source,sh]
+----
+Getting all 'Roo Addon Suites' located on 'http://repository.gvnix.org/index.xml' repository...
+
+ [SYMBOLIC NAME OF THE ROO ADDON SUITE 1]
+
+ [SYMBOLIC NAME OF THE ROO ADDON SUITE 2]
+
+2 Roo Addon Suites were found on 'http://repository.gvnix.org/index.xml' repository
+----
+
+. Then install the Roo Addon Suite as follows:
++
+[source,sh]
+roo> addon suite install name --symbolicName [SYMBOLIC NAME OF THE ROO ADDON SUITE]
+
+. On success installation you will see something like:
++
+[source,sh]
+Installing subsystem...
+Subsystem successfully installed: [SYMBOLIC NAME OF THE ROO ADDON SUITE]; id:
+
+Now you have the gvNIX addons and commands in Roo, run help to see them.
+
+
+
