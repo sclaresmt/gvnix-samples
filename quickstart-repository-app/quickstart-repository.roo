@@ -148,5 +148,5 @@ remote service operation --name ws_clinic --service ~.service.ClinicService
 
 // - Go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-repository-app#configure-datatables-and-loupes and follow the instructions.
 
-// - Dued to a problem with Tomcat 7, you have to copy the dependences specified in http://tomcat.apache.org/maven-plugin-trunk/snapshot-test.html to your pom.xml file.
+// - To solve a problem with Tomcat7, go to http://tomcat.apache.org/maven-plugin-trunk/snapshot-test.html and follow the instructions.
 
