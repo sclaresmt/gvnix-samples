@@ -4,7 +4,7 @@ Getting started with gvNIX
 :toc-placement: manual
 :homepage: http://gvnix.org
 :download: http://sourceforge.net/projects/gvnix/
-:installguide: https://github.com/DISID/gvnix-samples/blob/master/INSTALL-gvNIX.adoc
+:installguide: https://github.com/DISID/gvnix-samples/blob/master/INSTALL-gvNIX-1-x.adoc
 :download: http://sourceforge.net/projects/gvnix/
 
 gvNIX is a Spring Roo distribution that focuses both enterprise knowledge and 
