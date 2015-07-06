@@ -46,7 +46,7 @@ $ cd quickstart-app
 
 - Execute application using maven:
 [source, shell]
-$ mvn clean compile tomcat:run
+$ mvn clean compile tomcat7:run
 
 - Open your browser on http://localhost:8080/petclinic/
 - Access using _admin_ as username and _admin_ as password.
@@ -65,7 +65,7 @@ This guide teaches you how to:
 . <<finder-methods, Finder methods>>
 . <<web-layers, Web layers>>
 . <<jquery-datatables-and-bootstrap-setup, JQuery Datatables and Bootstrap Setup >>
-. <<create-patterns-and-details-using-datatables, Create Patterns & Details using Datatables>>
+. <<create-patterns-and-details-using-datatables, List views with Datatables>>
 . <<run-application, Run application >>
 . <<enable-datatables-inline-editing, Enable Datatables Inline Editing >>
 . <<loupe-fields, Loupe Components >>
@@ -199,13 +199,13 @@ NOTE: _You must to indicate *unic finderName* and entity class._
 [[web-layers]]
 == Web Layers
 
-. Execute the following commands setup web layer: and generate web layer:
+. Execute the following commands setup web layer and generate web layer:
 +
 
 [source,shell]
 web mvc setup
 
-. Execute the following commands to generate web layer for all application entities:
+. Execute the following command to generate CRUD views for all application entities:
 +
 
 [source,shell]
@@ -259,14 +259,13 @@ web mvc jquery add --type ~.web.PetController
 
 === Datatables
 
-To use Datatables to show data in your application, execute the following command:
+To activate the http://dandelion.github.io/components/datatables/[Datatables] feature on project, execute the following command:
 
 [source,shell]
 web mvc datatables setup 
 
 === Bootstrap
-
-Implements Bootstrap in your application to modify its visual appearance executing the next command:
+To activate Bootstrap style on application pages execute the next command:
 
 [source,shell]
 web mvc bootstrap setup
@@ -291,11 +290,11 @@ web mvc batch all
 
 
 [[create-patterns-and-details-using-datatables]] 
-== Create Patterns and Details using Datatables
+== List views with Datatables
 
-=== Create master patterns 
+=== Improve List views
 
-After setup Datatables components run the following commands to create master patterns with Datatable components:
+After setup Datatables components run the following commands to improve list views with Datatables components:
 
 [source,shell]
 web mvc datatables add --type ~.web.VetController --mode show
@@ -306,40 +305,35 @@ web mvc datatables add --type ~.web.VisitController --inline true --ajax true
 [icon="images/icons/note.png"]
 NOTE: _Use *--mode* param with show value, to display only a record per page_. _Use *--inlineEditing* param with true value to enable inline creation and inline update_
 
-=== Adding Datatables Details
+=== Include ToMany relationships inside List views (Master-details pattern)
 
-After create Datatables master patterns, you can add details to display related information about the selected row.
+After create Datatables master patterns, you can add detail list views which represent ToMany relationships with other entities.
 
-. To create the following structure "Master table Owner > detail table Pet" use the next command:
+. To create the following relation "Owner ToMany Pets" use the next command:
 +
 
 [source,shell]
 web mvc datatables detail add --type ~.web.OwnerController --property pets
 
-. To create the following structure "Master table Owner > detail table Vet" use the next command:
+. To create the following relation "Owner ToMany Vet" use the next command:
 +
-
 [source,shell]
 web mvc datatables detail add --type ~.web.OwnerController --property vets
-
 +
-
 [icon="images/icons/note.png"]
 NOTE: _Master Datatable *Vet* uses mode show to display data, so this detail displays a datatable with show mode._
 
-. To create the following structure "Master table Owner > detail table Pet > detail table Visit" use the next command:
+. To create the following relation "Owner ToMany Pets ToMany Visits" use the next command:
 +
 
 [source,shell]
 web mvc datatables detail add --type ~.web.PetController --property visits
-
 +
-
 [icon="images/icons/note.png"]
 NOTE: _The above example, shows three levels of details (Master, detail and detail of the detail)_
 
 
-. To create the following structure "Master table Owner > detail table Vet > detail table Visit" use the next command:
+. To create the following relation "Owner ToMany Vets ToMany Visits" use the next command:
 +
 
 [source,shell]
@@ -367,7 +361,7 @@ image:images/sample-application.png[Petclinic sample application]
 [[loupe-fields]]
 == Loupe Fields
 
-The Loupe fields provide new functionality to search related data more easily than using combobox.
+The Loupe fields provide new functionality to handle ToOne relationship more easily than using combobox.
 
 To implement Loupe fields in your gvNIX application you need to execute the following commands:
 

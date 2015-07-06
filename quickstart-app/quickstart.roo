@@ -143,3 +143,8 @@ configuration export
 // Adding Web Services
 remote service define ws --class ~.services.PetsServices --serviceName ws_get_all_pets
 remote service operation --name ws_list_pets --service ~.services.PetsServices
+
+
+// Before run your application, you need to make this change:
+// - To solve a problem with Tomcat7, go to http://tomcat.apache.org/maven-plugin-trunk/snapshot-test.html and follow the instructions.
+

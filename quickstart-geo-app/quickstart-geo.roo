@@ -166,3 +166,8 @@ web mvc geo tool custom --name latlng --icon fa-location-arrow --activateFunctio
 
 // Adding monitoring
 monitoring setup
+
+
+// Before run your application, you need to make this change:
+// - To solve a problem with Tomcat7, go to http://tomcat.apache.org/maven-plugin-trunk/snapshot-test.html and follow the instructions.
+

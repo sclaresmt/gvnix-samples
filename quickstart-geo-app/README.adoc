@@ -45,7 +45,7 @@ $ cd quickstart-geo-app
 
 - Execute application using maven:
 [source, shell]
-$ mvn clean compile tomcat:run
+$ mvn clean compile tomcat7:run
 
 - Open your browser on http://localhost:8080/petclinic/
 - Access using _admin_ as username and _admin_ as password.
