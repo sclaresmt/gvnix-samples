@@ -9,7 +9,6 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
 import com.springsource.petclinic.domain.Pet;
 import com.springsource.petclinic.web.PetController;
 import java.lang.StringBuffer;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.gvnix.web.datatables.query.SearchResults;
 import org.gvnix.web.datatables.util.DatatablesUtils;
+import org.gvnix.web.datatables.util.EntityManagerProvider;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +39,9 @@ privileged aspect PetController_Roo_GvNIXLoupeController {
     
     @Autowired
     public ConversionService PetController.conversionService_loupe;
+    
+    @Autowired
+    public EntityManagerProvider PetController.entityManagerProvider_loupe;
     
     @RequestMapping(params = "selector", produces = "text/html")
     public String PetController.showOnlyList(Model uiModel, HttpServletRequest request, @RequestParam("path") String listPath) {
@@ -90,8 +93,7 @@ privileged aspect PetController_Roo_GvNIXLoupeController {
         // Getting Entity Manager
         EntityManager targetEntityManager = null;
         try {
-            Method entityManagerMethod = targetEntity.getMethod("entityManager");
-            targetEntityManager = (EntityManager) entityManagerMethod.invoke(null);
+            targetEntityManager = entityManagerProvider_loupe.getEntityManager(targetEntity);
         } catch (Exception e) {
             return new ResponseEntity<List<Map<String, String>>>(null, headers,HttpStatus.INTERNAL_SERVER_ERROR);
         }

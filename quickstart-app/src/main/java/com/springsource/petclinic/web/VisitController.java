@@ -5,10 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.roo.addon.web.mvc.controller.finder.RooWebFinder;
 import com.springsource.petclinic.domain.VisitBatchService;
-import org.gvnix.addon.web.mvc.addon.batch.GvNIXWebJpaBatch;
-import org.gvnix.addon.web.mvc.addon.jquery.GvNIXWebJQuery;
-import org.gvnix.addon.datatables.GvNIXDatatables;
-import org.gvnix.addon.loupefield.GvNIXLoupeController;
+import org.gvnix.addon.web.mvc.annotations.batch.GvNIXWebJpaBatch;
+import org.gvnix.addon.web.mvc.annotations.jquery.GvNIXWebJQuery;
+import org.gvnix.addon.datatables.annotations.GvNIXDatatables;
+import org.gvnix.addon.loupefield.annotations.GvNIXLoupeController;
 
 @RequestMapping("/visits")
 @Controller

@@ -189,9 +189,12 @@ table.table tr.row_editing_error td {
 	background-color: #ffa0a0;
 }
 
+/** Create form inline **/
+
 form.create-form {
-  overflow: auto;
+  overflow: visible;
 }
+
 .create-div {
   background-color: #FFFFFF;
   border-color: #DDDDDD;
@@ -230,4 +233,12 @@ input.filter_not_empty{
 		vertical-align:super;
 		font-weight: bold;
 		cursor: help;
+}
+
+
+/* view loupe results editing inline */
+
+.dataTables_scrollBody{
+  overflow: visible !important;
+  margin-bottom: 20px;
 }

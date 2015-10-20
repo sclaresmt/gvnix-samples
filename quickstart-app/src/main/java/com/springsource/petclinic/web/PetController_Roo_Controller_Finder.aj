@@ -7,6 +7,7 @@ import com.springsource.petclinic.domain.Owner;
 import com.springsource.petclinic.domain.Pet;
 import com.springsource.petclinic.reference.PetType;
 import com.springsource.petclinic.web.PetController;
+import java.math.BigDecimal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +21,7 @@ privileged aspect PetController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByNameAndWeight", method = RequestMethod.GET)
-    public String PetController.findPetsByNameAndWeight(@RequestParam("name") String name, @RequestParam("weight") Float weight, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+    public String PetController.findPetsByNameAndWeight(@RequestParam("name") String name, @RequestParam("weight") BigDecimal weight, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
@@ -59,7 +60,7 @@ privileged aspect PetController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=BySendRemindersAndWeightLessThan", method = RequestMethod.GET)
-    public String PetController.findPetsBySendRemindersAndWeightLessThan(@RequestParam(value = "sendReminders", required = false) boolean sendReminders, @RequestParam("weight") Float weight, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+    public String PetController.findPetsBySendRemindersAndWeightLessThan(@RequestParam(value = "sendReminders", required = false) boolean sendReminders, @RequestParam("weight") BigDecimal weight, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;

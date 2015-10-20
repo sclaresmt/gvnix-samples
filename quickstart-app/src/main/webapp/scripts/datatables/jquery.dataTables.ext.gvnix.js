@@ -218,7 +218,13 @@ function fnVal($control) {
 	var nControl = $control[0];
 
 	if (nControl.nodeName.toLowerCase() == "input") {
-		return $control.val();
+		var patternDate = nControl.attributes["data-dateformat"];
+		if(patternDate != undefined && nControl["value"] != ""){
+			return jQuery.datepicker.formatDate(jQueryDateFormat(patternDate.value),
+						new Date(nControl["value"]));
+		}else{
+			return $control.val();
+		}
 	}
 
 	// Note: At present, using .val() on textarea elements strips carriage
@@ -318,8 +324,26 @@ jQuery.fn.dataTableExt.oApi.fnGvNIX_FooterCallback = function(nFoot, data, start
 		return;
 	}
 	updateDatatablesFilters(oSettings);
-	
+
 };
+
+/**
+ * This function register new aoOnSaveStateCallback on gvNIX Datatable
+ */
+jQuery.fn.dataTableExt.oApi.fnRegisterSaveStateCallback = function(oSettings, fn){
+	// Creating new callback
+	oSettings['aoOnSaveStateCallback'] = [];
+	oSettings.oApi._fnCallbackReg(oSettings, 'aoOnSaveStateCallback', fn);
+};
+
+/**
+ * This function register new aoOnSelectCallback on gvNIX Datatable
+ */
+jQuery.fn.dataTableExt.oApi.fnRegisterOnSelectCallback = function(oSettings, fn){
+	// Creating new callback
+	oSettings['aoOnSelectCallback'] = [];
+	oSettings.oApi._fnCallbackReg(oSettings, 'aoOnSelectCallback', fn);
+};	
 
 /**
  * This function is executed when a TR element is created

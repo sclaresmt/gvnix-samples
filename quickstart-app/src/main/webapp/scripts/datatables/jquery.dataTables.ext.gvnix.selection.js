@@ -965,6 +965,10 @@ var GvNIX_Selection;
 						);
 			}else{
 				window.localStorage.setItem(sName,sValue);
+				// Call aoOnSelectCallback callback
+				if(dt["aoOnSelectCallback"] != undefined){
+					dt.oApi._fnCallbackFire(dt, "aoOnSelectCallback", null, [window.localStorage.getItem(sName)])
+				}
 			}
 		},
 		
@@ -1177,7 +1181,7 @@ var GvNIX_Selection;
 	 * @type StrFing
 	 * @default See code
 	 */
-	GvNIX_Selection.VERSION = "1.4.1.RELEASE";
+	GvNIX_Selection.VERSION = "1.5.0.RELEASE";
 	GvNIX_Selection.prototype.VERSION = GvNIX_Selection.VERSION;
 
 	/** TODO Add as datatable feature * */

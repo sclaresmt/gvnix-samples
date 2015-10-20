@@ -68,6 +68,10 @@
 			this.oApi._fnCreateCookie(sName, sValue, iSecs, sBaseName, fnCallback);
 		}else{
 			window.localStorage.setItem(sName,sValue);
+			// Call aoOnSaveStateCallback callback
+			if(oSettings["aoOnSaveStateCallback"] != undefined){
+				this.oApi._fnCallbackFire(oSettings, "aoOnSaveStateCallback", null, [window.localStorage.getItem(sName)])
+			}
 		}
 	},
 	

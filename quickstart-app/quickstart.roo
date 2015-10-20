@@ -34,7 +34,7 @@ field reference --fieldName pet --type ~.domain.Pet --notNull
 field reference --fieldName vet --type ~.domain.Vet
 field boolean --fieldName sendReminders --notNull --primitive --class ~.domain.Pet
 field string --fieldName name --notNull --sizeMin 1
-field number --fieldName weight --type java.lang.Float --notNull --min 0
+field number --fieldName weight --type java.math.BigDecimal --notNull --min 0
 field reference --fieldName owner --type ~.domain.Owner
 field enum --fieldName type --type ~.reference.PetType --notNull
 field date --fieldName employedSince --type java.util.Calendar --notNull --past --class ~.domain.Vet
@@ -144,6 +144,10 @@ configuration export
 remote service define ws --class ~.services.PetsServices --serviceName ws_get_all_pets
 remote service operation --name ws_list_pets --service ~.services.PetsServices
 
+// Add FancTree Component
+web mvc fancytree setup
+web mvc fancytree add edit --controller ~.web.PetController --page tree
+web mvc fancytree add show --controller ~.web.VetController --page tree
 
 // Before run your application, you need to make this change:
 // - To solve a problem with Tomcat7, go to http://tomcat.apache.org/maven-plugin-trunk/snapshot-test.html and follow the instructions.

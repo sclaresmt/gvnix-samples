@@ -7,6 +7,7 @@ import com.springsource.petclinic.domain.OwnerDataOnDemand;
 import com.springsource.petclinic.domain.Pet;
 import com.springsource.petclinic.domain.PetDataOnDemand;
 import com.springsource.petclinic.reference.PetType;
+import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -53,7 +54,7 @@ privileged aspect PetDataOnDemand_Roo_DataOnDemand {
     }
     
     public void PetDataOnDemand.setWeight(Pet obj, int index) {
-        Float weight = new Integer(index).floatValue();
+        BigDecimal weight = BigDecimal.valueOf(index);
         obj.setWeight(weight);
     }
     

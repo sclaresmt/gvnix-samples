@@ -83,5 +83,9 @@
             <bean class="org.gvnix.web.json.ConversionServiceObjectMapper"/>
         </property>
     </bean>
+<bean class="org.gvnix.web.datatables.util.impl.EntityManagerProviderImpl" id="entityManagerProvider"/>
+    <bean class="org.gvnix.web.datatables.util.impl.DatatablesUtilsBeanImpl" id="datatableUtilsBean"/>
+    <bean class="org.gvnix.web.datatables.util.impl.QuerydslUtilsBeanImpl" id="querydslUtilsBean"/>
 <bean class="org.springframework.web.servlet.view.XmlViewResolver" id="jasperReportsXmlViewResolver" p:location="/WEB-INF/spring/jasper-views.xml" p:order="0"/>
+<bean class="org.gvnix.util.fancytree.TreeUtils" id="treeUtilsBean"/>
 </beans>

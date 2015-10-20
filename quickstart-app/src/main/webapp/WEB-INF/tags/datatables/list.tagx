@@ -24,7 +24,7 @@
     <c:if test="${empty labelPlural}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_plural" var="labelPlural" htmlEscape="false" />
     </c:if>
-    <spring:message arguments="${labelPlural}" code="entity_list_all" var="title_msg" htmlEscape="false" />
+    <spring:message arguments="${labelPlural}" code="entity_list_all" var="title_msg" />
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
         <jsp:doBody />
     </util:panel>
@@ -47,22 +47,22 @@
 
     	<!-- Start the JQuery HTML structure to show tabs -->
     	<div id="${mainDatatablesId}">
-    	
+
 	    	<!-- Tabs headers -->
 	    	<ul>
 		    <c:forEach items="${detailsInfo}" var="detailItem" varStatus="detailIndex">
 		    	<c:set var="datatablesId">${mainDatatablesId}_${detailItem.property}</c:set>
-		    	<li><a id="${datatablesId}"><spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_${detailItem.property}" htmlEscape="false" /></a></li>
+		    	<li><a id="${datatablesId}"><spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_${fn:toLowerCase(detailItem.property)}" htmlEscape="false" /></a></li>
 			</c:forEach>
 			</ul>
-			
+
 	    	<!-- Tabs contents -->
 		    <c:forEach items="${detailsInfo}" var="detailItem" varStatus="detailIndex">
 
 				<!-- Generate this detail identifier with collection index to avoid collisions when multiple datatables tabs -->
 		    	<c:set value="${mainDatatablesId}_${detailItem.property}" var="datatablesId" />
 
-			    <spring:url value="${detailItem.path}/list" var="datatablesDetailUrl">
+			    <spring:url value="/${detailItem.path}/list" var="datatablesDetailUrl">
 			    	<spring:param name="datatablesMappedProperty" value="${detailItem.mappedBy}"/>
 			    </spring:url>
 

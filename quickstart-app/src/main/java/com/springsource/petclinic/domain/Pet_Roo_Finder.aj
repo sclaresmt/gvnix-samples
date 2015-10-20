@@ -6,12 +6,13 @@ package com.springsource.petclinic.domain;
 import com.springsource.petclinic.domain.Owner;
 import com.springsource.petclinic.domain.Pet;
 import com.springsource.petclinic.reference.PetType;
+import java.math.BigDecimal;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 privileged aspect Pet_Roo_Finder {
     
-    public static Long Pet.countFindPetsByNameAndWeight(String name, Float weight) {
+    public static Long Pet.countFindPetsByNameAndWeight(String name, BigDecimal weight) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         if (weight == null) throw new IllegalArgumentException("The weight argument is required");
         EntityManager em = Pet.entityManager();
@@ -29,7 +30,7 @@ privileged aspect Pet_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
-    public static Long Pet.countFindPetsBySendRemindersAndWeightLessThan(boolean sendReminders, Float weight) {
+    public static Long Pet.countFindPetsBySendRemindersAndWeightLessThan(boolean sendReminders, BigDecimal weight) {
         if (weight == null) throw new IllegalArgumentException("The weight argument is required");
         EntityManager em = Pet.entityManager();
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Pet AS o WHERE o.sendReminders = :sendReminders AND o.weight < :weight", Long.class);
@@ -55,7 +56,7 @@ privileged aspect Pet_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
-    public static TypedQuery<Pet> Pet.findPetsByNameAndWeight(String name, Float weight) {
+    public static TypedQuery<Pet> Pet.findPetsByNameAndWeight(String name, BigDecimal weight) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         if (weight == null) throw new IllegalArgumentException("The weight argument is required");
         EntityManager em = Pet.entityManager();
@@ -65,7 +66,7 @@ privileged aspect Pet_Roo_Finder {
         return q;
     }
     
-    public static TypedQuery<Pet> Pet.findPetsByNameAndWeight(String name, Float weight, String sortFieldName, String sortOrder) {
+    public static TypedQuery<Pet> Pet.findPetsByNameAndWeight(String name, BigDecimal weight, String sortFieldName, String sortOrder) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         if (weight == null) throw new IllegalArgumentException("The weight argument is required");
         EntityManager em = Pet.entityManager();
@@ -105,7 +106,7 @@ privileged aspect Pet_Roo_Finder {
         return q;
     }
     
-    public static TypedQuery<Pet> Pet.findPetsBySendRemindersAndWeightLessThan(boolean sendReminders, Float weight) {
+    public static TypedQuery<Pet> Pet.findPetsBySendRemindersAndWeightLessThan(boolean sendReminders, BigDecimal weight) {
         if (weight == null) throw new IllegalArgumentException("The weight argument is required");
         EntityManager em = Pet.entityManager();
         TypedQuery<Pet> q = em.createQuery("SELECT o FROM Pet AS o WHERE o.sendReminders = :sendReminders AND o.weight < :weight", Pet.class);
@@ -114,7 +115,7 @@ privileged aspect Pet_Roo_Finder {
         return q;
     }
     
-    public static TypedQuery<Pet> Pet.findPetsBySendRemindersAndWeightLessThan(boolean sendReminders, Float weight, String sortFieldName, String sortOrder) {
+    public static TypedQuery<Pet> Pet.findPetsBySendRemindersAndWeightLessThan(boolean sendReminders, BigDecimal weight, String sortFieldName, String sortOrder) {
         if (weight == null) throw new IllegalArgumentException("The weight argument is required");
         EntityManager em = Pet.entityManager();
         StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Pet AS o WHERE o.sendReminders = :sendReminders AND o.weight < :weight");
