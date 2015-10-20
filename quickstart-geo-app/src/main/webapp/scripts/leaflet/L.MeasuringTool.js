@@ -275,7 +275,7 @@ L.MeasuringTool = L.Class.extend({
         var marker = this._markerList[totalMarkers - 1];
         // setting the correct content to the popup
         //this._totalDistancePopup.setContent('<b>Total distance:</b></br>' + totalDistance.toFixed(2) + 'm.');
-        this._totalDistancePopup.setContent((totalDistance / 1000).toFixed(2) + ' Km.');
+        this._totalDistancePopup.setContent((totalDistance / 1000).toFixed(3) + ' Km.');
         // moving the popup a bit on top so it doesn't hide the last marker
         var shiftedPosition = this._shiftPosition(marker.getLatLng(), -25, 0)
         this._totalDistancePopup.setLatLng(shiftedPosition);
@@ -300,7 +300,7 @@ L.MeasuringTool = L.Class.extend({
             this._distancePopupList.push(popup);
         }
 
-        popup.setContent('<b>Distance:</b></br>' + distance.toFixed(2) + 'm.');
+        popup.setContent('<b>Distance:</b></br>' + distance.toFixed(3) + 'm.');
         popup.setLatLng(coord);
 
         // storing the partial distance in the popup

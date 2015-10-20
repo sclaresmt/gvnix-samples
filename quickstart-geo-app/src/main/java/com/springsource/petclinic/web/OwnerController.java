@@ -4,11 +4,11 @@ import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.springsource.petclinic.domain.OwnerBatchService;
-import org.gvnix.addon.web.mvc.addon.batch.GvNIXWebJpaBatch;
-import org.gvnix.addon.web.mvc.addon.jquery.GvNIXWebJQuery;
-import org.gvnix.addon.datatables.GvNIXDatatables;
-import org.gvnix.web.report.roo.addon.GvNIXReports;
-import org.gvnix.addon.geo.GvNIXWebEntityMapLayer;
+import org.gvnix.addon.web.mvc.annotations.batch.GvNIXWebJpaBatch;
+import org.gvnix.addon.web.mvc.annotations.jquery.GvNIXWebJQuery;
+import org.gvnix.addon.datatables.annotations.GvNIXDatatables;
+import org.gvnix.web.report.roo.addon.annotations.GvNIXReports;
+import org.gvnix.addon.geo.annotations.GvNIXWebEntityMapLayer;
 
 @RequestMapping("/owners")
 @Controller

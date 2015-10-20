@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/jquery/form/fields" xmlns:geofield="urn:jsptagdir:/WEB-INF/tags/geo/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/jquery/form/fields" xmlns:geofield="urn:jsptagdir:/WEB-INF/tags/geo/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:layer="urn:jsptagdir:/WEB-INF/tags/geo/layers" xmlns:page="urn:jsptagdir:/WEB-INF/tags/datatables" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <page:show id="ps_com_springsource_petclinic_domain_Owner" object="${owner}" path="/owners" z="/KVX7RNLlzPINuE5oHp/fSOJeLw=">
@@ -11,9 +11,14 @@
         <field:display field="homePage" id="s_com_springsource_petclinic_domain_Owner_homePage" object="${owner}" z="Sd9S/8M5I5fg2WL3D8yf3VT1D+E="/>
         <field:display field="email" id="s_com_springsource_petclinic_domain_Owner_email" object="${owner}" z="68UQTQj7dIen8yZ5GTOk7SBy3mw="/>
         <field:display date="true" dateTimePattern="${owner_birthday_date_format}" field="birthDay" id="s_com_springsource_petclinic_domain_Owner_birthDay" object="${owner}" z="R+YIxhsV5CSUn5e8WHTs5x/Zkww="/>
-        
-        <geofield:map-display field="location" id="s_com_springsource_petclinic_domain_Owner_location" object="${owner}" z="user-managed"/>
-        <geofield:map-display field="distance" id="s_com_springsource_petclinic_domain_Owner_distance" object="${owner}" z="user-managed"/>
-    <geofield:map-display field="area" id="s_com_springsource_petclinic_domain_Owner_area" object="${owner}" z="user-managed"/>
+        <geofield:map-display field="location" id="s_com_springsource_petclinic_domain_Owner_location" object="${owner}" path="/owners" z="user-managed">
+            <layer:tile id="s_com_springsource_petclinic_domain_Owner_location_baselayer" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="user-managed"/>
+        </geofield:map-display>
+        <geofield:map-display field="distance" id="s_com_springsource_petclinic_domain_Owner_distance" object="${owner}" path="/owners" z="user-managed">
+            <layer:tile id="s_com_springsource_petclinic_domain_Owner_distance_baselayer" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="user-managed"/>
+        </geofield:map-display>
+        <geofield:map-display field="area" id="s_com_springsource_petclinic_domain_Owner_area" object="${owner}" path="/owners" z="user-managed">
+            <layer:tile id="s_com_springsource_petclinic_domain_Owner_area_baselayer" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="user-managed"/>
+        </geofield:map-display>
     </page:show>
 </div>

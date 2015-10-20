@@ -4,14 +4,92 @@
 package com.springsource.petclinic.domain;
 
 import com.springsource.petclinic.domain.Owner;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Map;
+import java.util.Set;
 import javax.persistence.TypedQuery;
+import org.apache.commons.lang3.StringUtils;
+import org.gvnix.jpa.geo.hibernatespatial.util.GeometryFilter;
 
 privileged aspect Owner_Roo_GvNIXEntityMapLayer {
     
-    public static List<Owner> Owner.findAllOwnersByBoundingBox(String bbox) {
-        TypedQuery<Owner> q = entityManager().createQuery("SELECT o FROM Owner o WHERE  intersects(o.location, :bbox) = true OR  intersects(o.distance, :bbox) = true OR  intersects(o.area, :bbox) = true ", Owner.class);
-        q.setParameter("bbox", String.format("POLYGON((%s))", bbox));
+    public static <T> List<T> Owner.findAllOwnersByGeoFilter(GeometryFilter geomFilter, Class<T> klass, Map<String, Object> hints, Iterable<String> fields, String scale) {
+        StringBuilder jpql = new StringBuilder("SELECT ");
+        if (klass == Owner.class) {
+            jpql.append(" o ");
+        } else {
+            jpql.append(" new ");
+            jpql.append(klass.getName());
+            jpql.append(" ( o ) ");
+        }
+        jpql.append("FROM Owner o WHERE");
+        if (geomFilter == null || geomFilter.isEmpty()) {
+            Set<String> filters = new LinkedHashSet<String>();
+            if (fields == null || !fields.iterator().hasNext()) {
+                fields = Arrays.asList("distance", "area", "location");
+            }
+            for(String field : fields) {
+                 if ("distance".equalsIgnoreCase(field)) {
+                    filters.add(" o.distance IS NOT NULL");
+                }
+                 else if ("area".equalsIgnoreCase(field)) {
+                    filters.add(" o.area IS NOT NULL");
+                }
+                 else if ("location".equalsIgnoreCase(field)) {
+                    filters.add(" o.location IS NOT NULL");
+                }
+                else {
+                    throw new IllegalArgumentException(field.concat(" is not a geometry field"));
+                }
+            }
+            jpql.append(StringUtils.join(filters," or "));
+        }
+        else {
+            Set<String> filters = new LinkedHashSet<String>();
+            if (fields == null || !fields.iterator().hasNext()) {
+                fields = Arrays.asList("distance", "area", "location");
+            }
+            for (String field : fields) {
+                if("distance".equalsIgnoreCase(field)) {
+                    filters.add(geomFilter.toJPQLString("distance", 0));
+                }
+                else if("area".equalsIgnoreCase(field)) {
+                    filters.add(geomFilter.toJPQLString("area", 0));
+                }
+                else if("location".equalsIgnoreCase(field)) {
+                    filters.add(geomFilter.toJPQLString("location", 0));
+                }
+                else {
+                    throw new IllegalArgumentException(field.concat(" is not a geometry field"));
+                }
+            }
+            jpql.append(StringUtils.join(filters," or "));
+        }
+        TypedQuery<T>  q = entityManager().createQuery(jpql.toString(), klass);
+        if (geomFilter != null && !geomFilter.isEmpty()) {
+            for (String field : fields) {
+                if ("distance".equalsIgnoreCase(field)) {
+                    geomFilter.loadJPQLParams(q, "o.distance");
+                }
+                else if ("area".equalsIgnoreCase(field)) {
+                    geomFilter.loadJPQLParams(q, "o.area");
+                }
+                else if ("location".equalsIgnoreCase(field)) {
+                    geomFilter.loadJPQLParams(q, "o.location");
+                }
+                else {
+                    throw new IllegalArgumentException(field.concat(" is not a geometry field"));
+                }
+            }
+        }
+        if (hints != null && !hints.isEmpty()) {
+            for (Entry<String, Object> entry : hints.entrySet()) {
+                 q.setHint(entry.getKey(), entry.getValue());
+            }
+        }
         return q.getResultList();
     }
     

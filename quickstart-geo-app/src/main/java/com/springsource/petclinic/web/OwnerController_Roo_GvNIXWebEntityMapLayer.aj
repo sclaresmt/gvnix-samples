@@ -6,31 +6,50 @@ package com.springsource.petclinic.web;
 import com.springsource.petclinic.domain.Owner;
 import com.springsource.petclinic.web.OwnerController;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import org.gvnix.jpa.geo.hibernatespatial.util.GeometryFilter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 privileged aspect OwnerController_Roo_GvNIXWebEntityMapLayer {
     
     @RequestMapping(params = "entityMapList", headers = "Accept=application/json", produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public ResponseEntity<List<Owner>> OwnerController.listGeoEntityOnMapViewer(@RequestBody(required = false) String mapBoundingBox) {
+    public ResponseEntity<List<Owner>> OwnerController.listGeoEntityOnMapViewer(@RequestParam(required = false, value = "GeometryFilter") GeometryFilter geomFilter, @RequestParam(required = false, value = "fields") String[] fields, @RequestParam(required = false, value = "scale") String scale) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
+        
         // Generating empty result list
         List<Owner> result = new ArrayList<Owner>();
-        // Looking for all entries on map bounding box
-        if (StringUtils.isNotBlank(mapBoundingBox)) {
-            result = Owner.findAllOwnersByBoundingBox(mapBoundingBox);
-        }else {
-            // If bounding box is empty, find all entries
-            result = Owner.findAllOwners();
+        List<String> fieldsList = null;
+        if (fields != null && fields.length > 0) {
+            fieldsList = new ArrayList<String>();
+            fieldsList.addAll(Arrays.asList(fields));
         }
+        
+        // Looking for all entries on map bounding box
+        result = Owner.findAllOwnersByGeoFilter(geomFilter, Owner.class, null, fieldsList, scale);
         return new ResponseEntity<List<Owner>>(result, headers, org.springframework.http.HttpStatus.OK);
+    }
+    
+    @RequestMapping(params = "selector", produces = "text/html")
+    public String OwnerController.showOnlyList(Model uiModel, HttpServletRequest request, @RequestParam("path") String listPath) {
+        // Do common datatables operations: get entity list filtered by request parameters
+        Map<String, String> params = populateParametersMap(request);
+        
+        if (!params.isEmpty()) {
+            uiModel.addAttribute("baseFilter", params);
+        }
+        
+        // Show only the list fragment (without footer, header, menu, etc.)
+        return "forward:/WEB-INF/views/owners/" + listPath + ".jspx";
     }
     
 }

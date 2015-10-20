@@ -12,8 +12,8 @@ import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
-import com.vividsolutions.jts.io.WKTWriter;
+import org.gvnix.jpa.geo.hibernatespatial.util.EWKTReader;
+import org.gvnix.jpa.geo.hibernatespatial.util.EWKTWriter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 
@@ -21,14 +21,21 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
     
     declare precedence: ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversionService, ApplicationConversionServiceFactoryBean_Roo_ConversionService;
     
-    private WKTReader ApplicationConversionServiceFactoryBean.reader = new WKTReader();
+    public Geometry ApplicationConversionServiceFactoryBean.parseWkt(String wkt) throws ParseException {
+        EWKTReader aReader = new EWKTReader();
+        return aReader.read(wkt);
+    }
     
-    private WKTWriter ApplicationConversionServiceFactoryBean.writer = new WKTWriter();
+    public String ApplicationConversionServiceFactoryBean.writeWkt(Geometry geometry) {
+        EWKTWriter writer = new EWKTWriter();
+        String wkt = writer.writeFormatted(geometry);
+        return wkt;
+    }
     
     public Converter<Point, String> ApplicationConversionServiceFactoryBean.getPointToStringConverter() {
          return new Converter<Point, java.lang.String>() {
             public String convert(Point point) {
-                return WKTWriter.toPoint(point.getCoordinate());
+                return writeWkt(point);
             }
         };
     }
@@ -37,7 +44,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
          return new Converter<java.lang.String, Point>() {
             public Point convert(String str) {
                 try {
-                    return (Point) reader.read(str);
+                    return (Point) parseWkt(str);
                 }catch( ParseException e) {
                     throw new IllegalArgumentException(
                          "Invalid string for point: ".concat(str), e);
@@ -49,7 +56,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
     public Converter<LineString, String> ApplicationConversionServiceFactoryBean.getLineStringToStringConverter() {
          return new Converter<LineString, java.lang.String>() {
             public String convert(LineString lineString) {
-                return WKTWriter.toLineString(lineString.getCoordinateSequence());
+                return writeWkt(lineString);
             }
         };
     }
@@ -58,7 +65,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
          return new Converter<java.lang.String, LineString>() {
             public LineString convert(String str) {
                 try {
-                    return (LineString) reader.read(str);
+                    return (LineString) parseWkt(str);
                 }catch( ParseException e) {
                     throw new IllegalArgumentException(
                          "Invalid string for LineString: ".concat(str), e);
@@ -70,7 +77,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
     public Converter<Polygon, String> ApplicationConversionServiceFactoryBean.getPolygonToStringConverter() {
          return new Converter<Polygon, java.lang.String>() {
             public String convert(Polygon polygon) {
-                return writer.writeFormatted(polygon);
+                return writeWkt(polygon);
             }
         };
     }
@@ -79,7 +86,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
          return new Converter<java.lang.String, Polygon>() {
             public Polygon convert(String str) {
                 try {
-                    return (Polygon) reader.read(str);
+                    return (Polygon) parseWkt(str);
                 }catch( ParseException e) {
                     throw new IllegalArgumentException(
                          "Invalid string for Polygon: ".concat(str), e);
@@ -91,7 +98,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
     public Converter<Geometry, String> ApplicationConversionServiceFactoryBean.getGeometryToStringConverter() {
          return new Converter<Geometry, java.lang.String>() {
             public String convert(Geometry geometry) {
-                return writer.writeFormatted(geometry);
+                return writeWkt(geometry);
             }
         };
     }
@@ -100,7 +107,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
          return new Converter<java.lang.String, Geometry>() {
             public Geometry convert(String str) {
                 try {
-                    return reader.read(str);
+                    return parseWkt(str);
                 }catch( ParseException e) {
                     throw new IllegalArgumentException(
                          "Invalid string for Geometry: ".concat(str), e);
@@ -112,7 +119,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
     public Converter<MultiLineString, String> ApplicationConversionServiceFactoryBean.getMultiLineStringToStringConverter() {
          return new Converter<MultiLineString, java.lang.String>() {
             public String convert(MultiLineString multiLineString) {
-                return writer.writeFormatted(multiLineString);
+                return writeWkt(multiLineString);
             }
         };
     }
@@ -121,7 +128,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_GvNIXGeoConversion
          return new Converter<java.lang.String, MultiLineString>() {
             public MultiLineString convert(String str) {
                 try {
-                    return (MultiLineString) reader.read(str);
+                    return (MultiLineString) parseWkt(str);
                 }catch( ParseException e) {
                     throw new IllegalArgumentException(
                          "Invalid string for MultiLineString: ".concat(str), e);

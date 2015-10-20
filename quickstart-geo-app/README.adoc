@@ -13,7 +13,7 @@ enterprise standards to build Java applications.
 If you don't know _What is gvNIX?_ you should start with https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial.
 
 You must {download}[download], unpack and {installguide}[install] the 
-development environment for gvNIX 1.4+, to be able to follow this guide.
+development environment for gvNIX 1.5+, to be able to follow this guide.
 
 The goal of this quick start geo app guide is to familiarize you with GEO apps generated using gvNIX. For this 
 purpose, we will build an application based on https://github.com/DISID/gvnix-samples/tree/master/quickstart-app[quickstart-app] tutorial.
@@ -61,15 +61,23 @@ This guide teaches you how to:
 . <<configure-persistence, Configure Persistence>> 	
 . <<add-spatial-support, Add Spatial Support>> 	
 . <<add-geo-entity-fields, Add Geo Entity Fields>> 	
-. <<generate-geo-entity-finders, Generate Geo Entity Finders>> 	
-. <<use-map-control-on-cru, Use Map Control on CRU>> 	
+. <<generate-geo-entity-finders, Generate Geo Entity Finders>> 
 . <<generate-map-views, Generate Map Views>> 	
-. <<add-entities-to-map-views, Add entities to Map Views>> 	
-. <<add-base-layers-to-map-views, Add Base Layers to Map Views>> 	
-. <<add-tools-to-map-views, Add Tools to Map Views>> 	
+. <<use-map-control-on-cru, Use Map Control on CRU>> 	
+. <<add-base-layer-to-cru-entity-views, Add Base Layer to CRU Entity Views>> 
+. <<add-base-layers-to-map-views, Add Base Layers to Map Views>> 
+. <<add-entities-to-map-views, Add entities to Map Views>> 		
+. <<add-tools-to-map-views, Add Tools to Map Views>> 
+. <<add-overview-to-map-views, Add Overview to Map Views>>	
+. <<add-geo-components-to-map-views, Add Geo Components to Map Views>>	
+** <<add-real-coordinates, Add Real Coordinates>>
+** <<add-map-scale, Add Map Scale>>
+** <<add-street-map-searcher, Add Street Map Searcher>>
+** <<add-opacity-layer-control, Add Opacity Layer Control>>
 . <<advanced-functionalities, Advanced Functionalities>> 	
 ** <<filtering-map-data-using-datatables, Filtering Map Data using Datatables>> 	
 ** <<select-map-data-using-datatables, Select Map Data using Datatables>> 	
+** <<configure-map-data-filter, Configure Map Data Filter>>
 ** <<group-map-markers, Group Map Markers>> 	
  	
 [[configure-persistence]] 	
@@ -127,7 +135,7 @@ field geo --fieldName area --type POLYGON --class ~.domain.Owner
 NOTE: _Geo Field commands will not be available until you install Hibernate Spatial Provider._ 	
  	
  	
-[generate-geo-entity-finders] 	
+[[generate-geo-entity-finders]] 	
 == Generate Geo Entity Finders 	
  	
 To get GEO fields values on a map view we need to generate some different methods with Spatial functionalities. 	
@@ -145,29 +153,17 @@ finder geo add --class ~.domain.Owner
 NOTE: _If you execute finder geo add command on a entity that not has geo fields, you are going to get an error message._ 	
  	
  	
-[use-map-control-on-cru] 	
-== Use Map Control on CRU 	
- 	
-At this step your project has https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#configure-persistence[a valid GEO Database], https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-spatial-support[Spatial Support configured], https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-geo-entity-fields[GEO fields on your entities] and https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#generate-geo-entity-finders[necessary finders]. 	
- 	
-Now, you are going to generate Map Controls on your CRU entity views (_create.jspx, show.jspx, update.jspx_) to create, display and update GEO fields values. 	
- 	
-To make that possible, you should execute the following commands: 	
- 	
-[source, shell] 	
-web mvc geo field --controller ~.web.OwnerController --field location 	
-web mvc geo field --controller ~.web.OwnerController --field distance 	
-web mvc geo field --controller ~.web.OwnerController --field area 	
- 	
-With the previous commands, you generate a Map Components on CRU views like the following. 	
- 	
-image:images/CRU_map.png[width="100%"] 	
- 	
-Now you can manage easly GEO fields values. 	
- 	
-NOTE: _If you don't apply this Map Components on CRU views, you need to use http://en.wikipedia.org/wiki/Well-known_text[WKT] on input fields to save valid values_ 	
- 	
-[generate-map-views] 	
+
+
+////
+== Install Map View support
+To add this funcionality you should have installed https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#jquery[jQuery library] and https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#fancytree-component[Fancytree component] in your project. Then, you should execute the next command to include dependences and artifacts into your project:
+
+[source, shell] 
+web mvc geo setup
+////
+
+[[generate-map-views]] 	
 == Generate Map Views 	
  	
 You can generate all maps you want on your application. To do that, you need to execute the following commands: 	
@@ -181,9 +177,87 @@ Previous commands generate different map views and different entries on top menu
 image:images/menu.png[width="25%"] 	
 image:images/simple_map.png[width="100%"] 	
  	
-NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually **views/{mappath}/show.jspx** file_ 	
+NOTE: _If you want to configure map options like zoom, center point, base layer, etc.. you need to edit manually your **views/{mappath}/show.jspx** file_ 	
+
+[[use-map-control-on-cru]] 	
+== Use Map Control on CRU 	
  	
-[add-entities-to-map-views] 	
+At this step your project has https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#configure-persistence[a valid GEO Database], https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-spatial-support[Spatial Support configured], https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-geo-entity-fields[GEO fields on your entities] and https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#generate-geo-entity-finders[necessary finders]. 	
+ 	
+Now, you are going to generate Map Controls on your CRU entity views (_create.jspx, show.jspx, update.jspx_) to create, display and update GEO fields values. 	
+ 	
+To make that possible, you should execute the following commands: 	
+ 	
+[source, shell] 	
+web mvc geo field --controller ~.web.OwnerController --field location 	
+web mvc geo field --controller ~.web.OwnerController --field distance 	
+web mvc geo field --controller ~.web.OwnerController --field area 	
+ 	
+ 	
+Now you can manage easly GEO fields values. 	
+ 	
+NOTE: _If you don't apply this Map Components on CRU views, you need to use http://en.wikipedia.org/wiki/Well-known_text[WKT] on input fields to save valid values_ 
+
+NOTE: _After you execute these commands, you will get a message informing that you need to specify a base layer for those fields._ 	
+
+[[add-base-layer-to-CRU-entity-views]] 	
+== Add Base Layer to CRU Entity Views
+
+At this point you have the Map Controls to manage GEO fields. Now, you should include a base layer on your CRU entity views which displays a map to place geo data. 
+
+Exists more than one type of base layers. At the moment, gvNIX provides you this three types: 	
+ 	
+- http://wiki.openstreetmap.org/wiki/Tiles[TileLayer] 	
+- http://wiki.openstreetmap.org/wiki/WMS[WMS Layer] 
+- https://en.wikipedia.org/wiki/Web_Map_Tile_Service[WMTS Layer] 	
+
+To add a base layer to each geo field of your CRU entity views you need to execute the following commands:
+
+[source, shell] 	
+web mvc geo base layer field --controller ~.web.OwnerController --field location --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
+web mvc geo base layer field --controller ~.web.OwnerController --field area --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
+web mvc geo base layer field --controller ~.web.OwnerController --field distance --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
+ 	
+NOTE: _The **--type** option can be **tile**, **wms** or **wmts** depending on the provider service._ 
+
+With the previous commands, you have included a tile layer on your CRU entity views like the following. 	
+ 	
+image:images/CRU_map.png[width="80%"] 
+	
+	
+[[add-base-layers-to-map-views]]	
+== Add Base Layers to Map Views 	
+ 	
+gvNIX provides you the possibility to display extra base layers on your map views. 	
+ 	
+Exists more than one type of base layers. At the moment, gvNIX provides you this three types: 	
+ 	
+- http://wiki.openstreetmap.org/wiki/Tiles[TileLayer] 	
+- http://wiki.openstreetmap.org/wiki/WMS[WMS Layer] 
+- https://en.wikipedia.org/wiki/Web_Map_Tile_Service[WMTS Layer] 		
+ 	
+If you want to add Tile Layer on your map views, you need to execute the following command. On this example, you are going to add a Satellit base layer from http://www.ovi.com[OVI]: 	
+ 	
+[source, shell] 	
+web mvc geo tilelayer --name satellit --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --index 1 --opacity 0.5 	
+ 	
+ 	
+If you want to add WMS Layer on your map views, you need to execute the following command. On this example, you are going to add a _geological map of Valencia (Spain)_ from http://www.igme.es/actividadesIGME/lineas/cartoGeo.htm[IGME] 	
+ 	
+[source, shell] 	
+web mvc geo wmslayer --name "geological map of valencia" --url "http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" --format "image/png" --transparent true --version "1.1.1" --crs EPSG4326 --layers "0,1,2,3" 	
+ 	
+NOTE: _When you add new WMS layer, you need to get it using the same projection than your current map views. If you don't do like this, you can see your wms layer on invalid map position._
+
+NOTE: _If you add **--map** command option, you are going to add the new base layer only on the selected map instead of every map_ 	
+
+If you want to add WMTS Layer on your map views, you need to fill the parameters of this following command.
+ 	
+[source, shell] 	
+web mvc geo wmslayer --name "" --url "" --layer ""  
+ 	
+ 	
+[[add-entities-to-map-views]]	
 == Add entities to Map Views 	
  	
 gvNIX provides you the possibility to display entity data on your map views. 	
@@ -206,36 +280,10 @@ Previous commands add to your Map views Owner entity. You can display or hide it
  	
 image:images/map_entities.png[width="100%"] 	
 image:images/map_entity_0.png[width="100%"] 	
-image:images/map_entities_1.png[width="100%"] 	
+image:images/map_entities_1.png[width="100%"] 
+
  	
- 	
-[add-base-layers-to-map-views] 	
-== Add Base Layers to Map Views 	
- 	
-gvNIX provides you the possibility to display extra base layers on your map views. 	
- 	
-Exists more than one type of base layers. At the moment, gvNIX provides you this two types: 	
- 	
-- http://wiki.openstreetmap.org/wiki/Tiles[TileLayer] 	
-- http://wiki.openstreetmap.org/wiki/WMS[WMS Layer] 	
- 	
-If you want to add Tile Layer on your map views, you need to execute the following command. On this example, you are going to add a Satellit base layer from http://www.ovi.com[OVI]: 	
- 	
-[source, shell] 	
-web mvc geo tilelayer --name satellit --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --index 1 --opacity 0.5 	
- 	
- 	
-If you want to add WMS Layer on your map views, you need to execute the following command. On this example, you are going to add a _geological map of Valencia (Spain)_ from http://www.igme.es/actividadesIGME/lineas/cartoGeo.htm[IGME] 	
- 	
-[source, shell] 	
-web mvc geo wmslayer --name "geological map of valencia" --url "http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" --format "image/png" --transparent true --version "1.1.1" --crs EPSG4326 --layers "0,1,2,3" 	
- 	
-NOTE: _When you add new WMS layer, you need to get it using the same projection than your current map views. If you don't do like this, you can see your wms layer on invalid map position._ 	
- 	
-NOTE: _If you add **--map** command option, you are going to add the new base layer only on the selected map instead of every map_ 	
- 	
- 	
-[add-tools-to-map-views] 	
+[[add-tools-to-map-views]] 	
 == Add Tools to Map Views 	
  	
 By default, _as you can see on the previous images_, when you generate new map view appears a **toolbar** on bottom right position. This toolbar contains a basic **Hand Tool** that indicates that you can move the map view. 	
@@ -255,35 +303,159 @@ If you want to add new custom tool on your map views you need to execute the fol
 [source, shell] 	
 web mvc geo tool custom --name latlng --icon fa-location-arrow --activateFunction activateLatLngTool --deactivateFunction deactivateLatLngTool --iconLibrary fa 	
  	
-At now, we added new custom tool on toolbar but without any functionality. This tool will gets you the Latitude and Longitude from selected Point. 	
+At now, we added new custom tool on toolbar but without any functionality. This tool will get the Latitude and Longitude from selected Point. 	
  	
 To add custom functionality you need to implement **activateFunction** and **deactivateFunction** like the following: 	
  	
 [source, javascript] 	
-function activateLatLngTool(element, instance, map){ 	
- map.on("click", function(e){ 	
- alert(e.latlng); 	
- }); 	
-} 	
-function deactivateLatLngTool(element, instance, map){ 	
- map.off("click"); 	
-} 	
+function activateLatLngTool(map, instance, element){
+    var oMap = map.fnGetMapObject();
+	oMap.on("click", function(e){
+   	   alert(e.latlng);
+  	});
+}
+function deactivateLatLngTool(map, instance, element){
+	var oMap = map.fnGetMapObject();
+	oMap.off("click");
+}
  	
 When you finish this steps you're going to have the following toolbar: 	
  	
 image:images/toolbar.png[width="30%"] 	
- 	
- 	
+ 
 NOTE: _If you add **--map** command option, you are going to add the new tool only on the selected map instead of every map_ 	
- 	
-[advanced-functionalities] 	
+ 
+[[add-overview-to-map-views]] 	
+=== Add Overview to Map Views 
+
+If you want to include an overview on any of your map views, you need to execute the following command. The **class** parameter indicates which map the overview will be added to
+
+[source, shell] 
+web mvc geo component overview --class ~.web.MapController 	
+
+By default, this component shows all the layers added on that map view.
+
+image:images/overview.png[width="50%"] 
+
+NOTE: _You can select which layers are displayed by editing layers overview code in your **views/{mappath}/show.jspx** file._ 	
+	
+[[add-geo-components-to-map-views]] 	
+=== Add Geo Components to Map Views	
+
+There are several geo functionalities that can be added to any map view:
+
+* https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-real-coordinates[Real Coordinates]
+
+* https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-map-scale[Map Scale]
+
+* https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#road-street-searcher[Road Street Searcher]
+
+* https://github.com/DISID/gvnix-samples/tree/master/quickstart-geo-app#add-opactiy-layer-control[Opacity Layer Control]
+
+NOTE: _These components are not added using commands, but you need to include them by editing your **views/{mappath}/show.jspx** file._ 
+
+[[add-real-coordinates]]
+=== Add Real Coordinates
+
+To show the real coordinates of the mouse pointer position on a map view you need to include the next code in your **views/{mappath}/show.jspx** file:
+
+. If your show file does not contain a _geo:component_ tag you need to add it. Include the following code inside the _geo:map_ tag:
++
+[source, html] 
+<geo:components id="ps_com_springsource_petclinic_web_Map_components">
+</geo:components>  
++
+Then, you need to add its dependency: 
++
+[source, html] 
+<div 
+ ...
+ xmlns:components="urn:jsptagdir:/WEB-INF/tags/geo/components"
+ ...
+version="2.0"> 
+
+. Inside the _geo:component_ tag you need to include the coordinates tag, as is shown below:
++
+[source, html] 
+<geo:components id="ps_com_springsource_petclinic_web_Map_components">
+	<components:coordinates id="ps_com_springsource_petclinic_web_Map_coordinates" centerInputCoordinates="true"/>
+</geo:components>    
+
+     
+This component also allows to mark a position by specifing coordinates location.
+
+image:images/coordinates.png[width="70%"]  
+
+NOTE: _If you enable the **centerInputCoordinates** option, when you specify a location you will be placed there automatically._ 
+
+
+       
+[[add-map-scale]]
+=== Add Map Scale
+
+To show a map scale on a map view you need to include the next code in your **views/{mappath}/show.jspx** file:
+
+. If your show view file does not contain a _geo:component_ tag you need to add it. Include the following code inside the _geo:map_ tag:
++
+[source, html] 
+<geo:components id="ps_com_springsource_petclinic_web_Map_components">
+</geo:components>  
++
+Then, you need to add its dependency: 
++
+[source, html] 
+<div 
+ ...
+ xmlns:components="urn:jsptagdir:/WEB-INF/tags/geo/components"
+ ...
+version="2.0"> 
+
+. Inside the _geo:component_ tag you need to add the scale tag, as is shown below:
++
+[source, html] 
+<geo:components id="ps_com_springsource_petclinic_web_Map_components">
+    <components:scale id="ps_com_springsource_petclinic_web_Map_coordinates"/>
+</geo:components> 
+
+    
+[[add-street-map-searcher]]
+=== Add Street Map Searcher
+
+To include a street map searcher which locates places based on text introduced, you need to include the next code inside _geo:toolbar_ tag in your **views/{mappath}/show.jspx** file:
+[source, html] 
+<geo:toolbar id="ps_com_springsource_petclinic_web_Map_toolbar" z="user-managed">
+    <tool:geosearch id="ps_com_springsource_petclinic_web_Map_geosearch"/>
+</geo:toolbar>   
+
+When you search a location a marker is placed on the result.
+
+image:images/gosearch.png[width="100%"]  
+
+[[add-opacity-layer-control]]
+=== Add Opacity Layer Control 
+
+To include a slider which manages the opacity of map layers, you need to include the next code in your **views/{mappath}/show.jspx** file:
+
+. Inside _geo:toc_ tag you need to add a _geo:toc-toolbar_ tag.
+
+. Include the opacity tag inside the previous _geo:toc-toolbar_ tag, as is shown below:
++
+[source, html] 
+<geo:toc id="ps_com_springsource_petclinic_web_Map_toc" z="YpKTYjQzut/zC96UI52ho3hliRk=">
+  <geo:toc-toolbar id="ps_com_springsource_petclinic_web_Map_toc_toolbar" z="user-managed">
+    <tool:opacity id="opacity_slider" z="user-managed"/>
+  </geo:toc-toolbar>                     
+
+image:images/opacity.png[width="100%"]  
+
+[[advanced-functionalities]] 	
 == Advanced Functionalities 	
  	
 At this moment you have a complete gvNIX GEO application. But... _Which posibilities I have with this GEO application?_ 	
  	
 Here there's some functionalities that you can implement/modify on your generated map view. 	
  	
-[filtering-map-data-using-datatables] 	
+[[filtering-map-data-using-datatables]] 	
 === Filtering Map Data using Datatables 	
  	
 By default, all entities that you add to Map View are filterable. You can identify a filterable entity by the filter icon that appears on layers panel (http://en.wikipedia.org/wiki/Table_of_contents[_TOC_]) 	
@@ -306,29 +478,51 @@ image:images/filter_2.png[width="100%"]
  	
 NOTE: _You can change filter type of an entity modifying **filterType** attribute on **src/main/webapp/WEB-INF/views/{mappath}/show.jspx**. If you set to **auto**, when you filter datatable, Map data is going to reload automatically. If you set to **manual**, you need to refresh Map View page to display filtered data. If you set to **none** filter button disappear and get all entity records without filter._ 	
  	
-[select-map-data-using-datatables] 	
+[[select-map-data-using-datatables]] 	
 === Select Map Data using Datatables 	
- 	
-Another functionality added by default on map entities is selection. 	
  	
 With this functionality you can select some records (_is possible to select more than one_) from Datatables and "mark as selected" on your map views as you can see on the following image: 	
  	
 image:images/selection_map.png[width="100%"] 	
  	
-This functionality is compatible with Filter Map Data, you can filter your map data using Datatables and then select some record. 	
+By default this functionality is not enabled. To activate it you need to enable the entity layer selection option in your **src/main/webapp/WEB-INF/views/{mappath}/show.jspx** file:
+
+[source, html] 
+ <layer:entity selection="true" id="l_com_springsource_petclinic_domain_Owner" path="/owners" ...>
+
+This functionality is compatible with Filter Map Data, you can filter your map data using Datatables and then select some record.
  	
 NOTE: _You can modify selection style editing entity-field **selection attributes** on **src/main/webapp/WEB-INF/views/{mappath}/show.jspx**_ 	
  	
+[[configure-map-data-filter]] 	
+=== Configure Map Data Filter
  	
-[group-map-markers] 	
+By default, if you press an entity filter icon of a map view its entity datatables is load on a new page. You can change how entity datatables are displayed by changing the propiety _showFilterOn_ to one of these values:
+
+* Window: the entity datatables is displayed on a new page.
+
+* Dialog: the entity datatables is load on a dialog.
+
+* Custom: you can custumize how entity datatables is shown. 
+
+For example, if you want to show owner datables on a dialog, you need to set _showFilterOn_ to _dialog_ in your **src/main/webapp/WEB-INF/views/{mappath}/show.jspx** file:
+
+[source, html] 
+ <layer:entity showFilterOn="dialog" id="l_com_springsource_petclinic_domain_Owner" path="/owners" ...>
+
+[[group-map-markers]] 	
 === Group Map Markers 	
  	
-If you have some close markers when you change zoom, gvNIX is going to **group** them to improve map navigation as you can see on the following image: 	
+If you have some close markers when you change zoom, gvNIX can **group** them to improve map navigation as you can see on the following image: 	
  	
 image:images/grouped_markers.png[width="100%"] 	
  	
 If you click on **grouped marker** map will zoom on markers area to view all markers without group. 	
 
+By default this functionality is not enabled. To activate it you need to enable the clusterize option of your layer fields in your **src/main/webapp/WEB-INF/views/{mappath}/show.jspx** file:
+
+[source, html] 
+<layer:entity-field clusterize="true" field="location" id="l_com_springsource_petclinic_domain_Owner_location" .../>
 
 == Related libraries, projects, etc..
 
@@ -340,3 +534,4 @@ To implement GEO functionalities gvNIX uses http://www.leafletjs.com[Leaflet pro
 - https://github.com/Leaflet/Leaflet.draw[Leaflet Draw Plugin]
 - ...
 
+http://www.gvnix.org/assets/doc/gvnix-1.5.0-reference-docs.pdf[gvNIX Documentation]

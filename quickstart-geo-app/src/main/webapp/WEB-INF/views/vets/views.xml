@@ -13,4 +13,7 @@
 <definition extends="default" name="vets/update">
         <put-attribute name="body" value="/WEB-INF/views/vets/update.jspx"/>
     </definition>
+<definition extends="default" name="vets/tree">
+        <put-attribute name="body" value="/WEB-INF/views/vets/tree.jspx"/>
+    </definition>
 </tiles-definitions>

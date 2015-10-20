@@ -387,7 +387,26 @@ var GvNIX_RowClick;
 						null
 						);
 			}else{
-				window.localStorage.setItem(sName,sValue);
+	             // FIXME this should be done by parent table
+                var oldValue = window.localStorage.getItem(sName);
+                var searchIdRowClickDetails = null;
+                // If we come of create or update other register,
+                // we need to delete the elements of localstorage
+                // that are referencing rowclick event
+                if(oldValue != null && oldValue != sValue){
+                    searchIdRowClickDetails =
+                        new RegExp(hashLocation + "_.*gvnixRowclk-.*"+dt.nTable.id+"_");
+                }
+                window.localStorage.setItem(sName,sValue);
+                var searchIdDetails =
+                    new RegExp(hashLocation + "_.*DataTables_.*"+dt.nTable.id+".*_detail");
+                Object.keys(window.localStorage).forEach(function(key){
+                    if (searchIdDetails.test(key) ||
+                            (searchIdRowClickDetails != null &&
+                             searchIdRowClickDetails.test(key))) {
+                        window.localStorage.removeItem(key);
+                    }
+                });
 			}
 		},
 		
@@ -760,7 +779,7 @@ var GvNIX_RowClick;
 	 * @type String
 	 * @default See code
 	 */
-	GvNIX_RowClick.VERSION = "1.4.1.RELEASE";
+	GvNIX_RowClick.VERSION = "1.5.0.RELEASE";
 	GvNIX_RowClick.prototype.VERSION = GvNIX_RowClick.VERSION;
 
 	/** TODO Add as datatable feature * */

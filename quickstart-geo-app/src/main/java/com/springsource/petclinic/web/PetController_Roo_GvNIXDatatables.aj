@@ -28,6 +28,7 @@ import com.springsource.petclinic.web.PetController_Roo_Controller;
 import com.springsource.petclinic.web.PetController_Roo_GvNIXDatatables;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -43,8 +44,9 @@ import javax.validation.Valid;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.gvnix.web.datatables.query.SearchResults;
-import org.gvnix.web.datatables.util.DatatablesUtils;
-import org.gvnix.web.datatables.util.QuerydslUtils;
+import org.gvnix.web.datatables.util.DatatablesUtilsBean;
+import org.gvnix.web.datatables.util.EntityManagerProvider;
+import org.gvnix.web.datatables.util.QuerydslUtilsBean;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +75,16 @@ privileged aspect PetController_Roo_GvNIXDatatables {
     @Autowired
     public MessageSource PetController.messageSource_dtt;
     
-    public BeanWrapper PetController.beanWrapper;
+    public BeanWrapper PetController.beanWrapper_dtt;
+    
+    @Autowired
+    private EntityManagerProvider PetController.entityManagerProvider_dtt;
+    
+    @Autowired
+    public DatatablesUtilsBean PetController.datatablesUtilsBean_dtt;
+    
+    @Autowired
+    public QuerydslUtilsBean PetController.querydslUtilsBean_dtt;
     
     @RequestMapping(method = RequestMethod.GET, produces = "text/html")
     public String PetController.listDatatables(Model uiModel, HttpServletRequest request) {
@@ -190,12 +201,8 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         Map<String, Object> params = new HashMap<String, Object>(populateParametersMap(request));
         Set<String> keySet = params.keySet();
         for (String key : keySet) {
-            if (key.startsWith(QuerydslUtils.OPERATOR_PREFIX)) {
+            if (datatablesUtilsBean_dtt.isSpecialFilterParameters(key)) {
                 propertyValuesMap.put(key, params.get(key));
-            } else if (DatatablesUtils.ROWS_ON_TOP_IDS_PARAM.equals(key)) {
-                propertyValuesMap.put(key, request.getParameterMap().get(key));
-            } else if(DatatablesUtils.BOUNDING_BOX_PARAM.equals(key) || DatatablesUtils.BOUNDING_BOX_FIELDS_PARAM.equals(key)){
-                propertyValuesMap.put(key, request.getParameterMap().get(key));
             }
         }
         return propertyValuesMap;
@@ -348,6 +355,9 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         return json.toString();
     }
     
+    /**
+     * Show only the list view fragment for entity as detail datatables into a master datatables.
+     */
     @RequestMapping(produces = "text/html", value = "/list")
     public String PetController.listDatatablesDetail(Model uiModel, HttpServletRequest request, @ModelAttribute Pet pet) {
         // Do common datatables operations: get entity list filtered by request parameters
@@ -356,6 +366,9 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         return "forward:/WEB-INF/views/pets/list.jspx";
     }
     
+    /**
+     * Create an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.POST, params = "datatablesRedirect")
     public String PetController.createDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Pet pet, BindingResult bindingResult, Model uiModel, RedirectAttributes redirectModel, HttpServletRequest httpServletRequest) {
         // Do common create operations (check errors, populate, persist, ...)
@@ -370,11 +383,14 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         }else{
             redirectModel.addFlashAttribute("dtt_table_id_hash", "");
         }
-        redirectModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, pet.getId());
+        redirectModel.addFlashAttribute(DatatablesUtilsBean.ROWS_ON_TOP_IDS_PARAM, pet.getId());
         // If create success, redirect to given URL: master datatables
         return "redirect:".concat(redirect);
     }
     
+    /**
+     * Update an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.PUT, params = "datatablesRedirect")
     public String PetController.updateDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Pet pet, BindingResult bindingResult, Model uiModel, RedirectAttributes redirectModel, HttpServletRequest httpServletRequest) {
         // Do common update operations (check errors, populate, merge, ...)
@@ -389,11 +405,14 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         }else{
             redirectModel.addFlashAttribute("dtt_table_id_hash", "");
         }
-        redirectModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, pet.getId());
+        redirectModel.addFlashAttribute(DatatablesUtilsBean.ROWS_ON_TOP_IDS_PARAM, pet.getId());
         // If update success, redirect to given URL: master datatables
         return "redirect:".concat(redirect);
     }
     
+    /**
+     * Delete an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.DELETE, params = "datatablesRedirect", value = "/{id}")
     public String PetController.deleteDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         // Do common delete operations (find, remove, add pagination attributes, ...)
@@ -412,7 +431,7 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         // URL parameters are used as base search filters
         Map<String, Object> baseSearchValuesMap = getPropertyMap(pet, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
-        SearchResults<Pet> searchResult = DatatablesUtils.findByCriteria(Pet.class, Pet.entityManager(), criterias, baseSearchValuesMap, conversionService_dtt, messageSource_dtt);
+        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(Pet.class, criterias, baseSearchValuesMap);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -421,7 +440,7 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         // Entity pk field name
         String pkFieldName = "id";
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -430,11 +449,11 @@ privileged aspect PetController_Roo_GvNIXDatatables {
     public ResponseEntity<String> PetController.checkFilterExpressions(WebRequest request, @RequestParam(value = "property", required = false) String property, @RequestParam(value = "expression", required = false) String expression) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
-        if(beanWrapper == null){
-            beanWrapper = new BeanWrapperImpl(Pet.class);
+        if(beanWrapper_dtt == null){
+            beanWrapper_dtt = new BeanWrapperImpl(Pet.class);
         }
-        Class type = beanWrapper.getPropertyType(property);
-        boolean response = DatatablesUtils.checkFilterExpressions(type,expression, messageSource_dtt);
+        Class type = beanWrapper_dtt.getPropertyType(property);
+        boolean response = datatablesUtilsBean_dtt.checkFilterExpressions(type,expression);
         return new ResponseEntity<String>(String.format("{ \"response\": %s, \"property\": \"%s\"}",response, property), headers, org.springframework.http.HttpStatus.OK);
     }
     
@@ -458,7 +477,7 @@ privileged aspect PetController_Roo_GvNIXDatatables {
             baseSearch.and(entity.getString("name").isNull());
         }
         
-        SearchResults<Pet> searchResult = DatatablesUtils.findByCriteria(entity, Pet.entityManager(), criterias, baseSearch);
+        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -467,13 +486,13 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         // Entity pk field name
         String pkFieldName = "id";
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
     @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=BySendRemindersAndWeightLessThan", produces = "application/json")
     @ResponseBody
-    public DatatablesResponse<Map<String, String>> PetController.findPetsBySendRemindersAndWeightLessThan(@DatatablesParams DatatablesCriterias criterias, @RequestParam(value = "sendReminders", required = false) boolean sendReminders, @RequestParam("weight") Float weight) {
+    public DatatablesResponse<Map<String, String>> PetController.findPetsBySendRemindersAndWeightLessThan(@DatatablesParams DatatablesCriterias criterias, @RequestParam(value = "sendReminders", required = false) boolean sendReminders, @RequestParam("weight") BigDecimal weight) {
         BooleanBuilder baseSearch = new BooleanBuilder();
         
         // Base Search. Using BooleanBuilder, a cascading builder for
@@ -482,12 +501,12 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         
         baseSearch.and(entity.get("sendReminders").eq(sendReminders));
         if(weight != null){
-            baseSearch.and(entity.getNumber("weight", Float.class).lt(weight));
+            baseSearch.and(entity.getNumber("weight", BigDecimal.class).lt(weight));
         }else{
-            baseSearch.and(entity.getNumber("weight", Float.class).isNull());
+            baseSearch.and(entity.getNumber("weight", BigDecimal.class).isNull());
         }
         
-        SearchResults<Pet> searchResult = DatatablesUtils.findByCriteria(entity, Pet.entityManager(), criterias, baseSearch);
+        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -496,7 +515,7 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         // Entity pk field name
         String pkFieldName = "id";
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -515,7 +534,7 @@ privileged aspect PetController_Roo_GvNIXDatatables {
             baseSearch.and(entity.get("owner").isNull());
         }
         
-        SearchResults<Pet> searchResult = DatatablesUtils.findByCriteria(entity, Pet.entityManager(), criterias, baseSearch);
+        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -524,13 +543,13 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         // Entity pk field name
         String pkFieldName = "id";
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
     @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=ByNameAndWeight", produces = "application/json")
     @ResponseBody
-    public DatatablesResponse<Map<String, String>> PetController.findPetsByNameAndWeight(@DatatablesParams DatatablesCriterias criterias, @RequestParam("name") String name, @RequestParam("weight") Float weight) {
+    public DatatablesResponse<Map<String, String>> PetController.findPetsByNameAndWeight(@DatatablesParams DatatablesCriterias criterias, @RequestParam("name") String name, @RequestParam("weight") BigDecimal weight) {
         BooleanBuilder baseSearch = new BooleanBuilder();
         
         // Base Search. Using BooleanBuilder, a cascading builder for
@@ -543,12 +562,12 @@ privileged aspect PetController_Roo_GvNIXDatatables {
             baseSearch.and(entity.getString("name").isNull());
         }
         if(weight != null){
-            baseSearch.and(entity.getNumber("weight", Float.class).eq(weight));
+            baseSearch.and(entity.getNumber("weight", BigDecimal.class).eq(weight));
         }else{
-            baseSearch.and(entity.getNumber("weight", Float.class).isNull());
+            baseSearch.and(entity.getNumber("weight", BigDecimal.class).isNull());
         }
         
-        SearchResults<Pet> searchResult = DatatablesUtils.findByCriteria(entity, Pet.entityManager(), criterias, baseSearch);
+        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -557,7 +576,7 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         // Entity pk field name
         String pkFieldName = "id";
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -593,7 +612,7 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         // 2. Build an instance of "ExportConf"
         ExportConf exportConf = new ExportConf.Builder(exportType).header(true).exportClass(datatablesExport).autoSize(true).fileName(pet.getClass().getSimpleName()).build();
         // 3. Build an instance of "HtmlTable"
-        HtmlTable table = DatatablesUtils.makeHtmlTable(data, criterias, exportConf, request);
+        HtmlTable table = datatablesUtilsBean_dtt.makeHtmlTable(data, criterias, exportConf, request);
         // 4. Render the generated export file
         ExportUtils.renderExport(table, exportConf, response);
     }
@@ -604,9 +623,9 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         // Do the search to obtain the data
         Map<String, Object> baseSearchValuesMap = getPropertyMap(Pet, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
-        org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Pet> searchResult = DatatablesUtils.findByCriteria(Pet.class, Pet.entityManager(), noPaginationCriteria, baseSearchValuesMap);
+        org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(Pet.class, noPaginationCriteria, baseSearchValuesMap);
         // Use ConversionService with the obtained data
-        return DatatablesUtils.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), null, conversionService_dtt).getRows();
+        return datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), null).getRows();
     }
     
 }

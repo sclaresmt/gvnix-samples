@@ -4,6 +4,7 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 import javax.persistence.ManyToOne;
 import com.springsource.petclinic.reference.PetType;
@@ -12,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
-import org.gvnix.occ.roo.addon.GvNIXEntityOCCChecksum;
+import org.gvnix.occ.roo.addon.annotations.GvNIXEntityOCCChecksum;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
@@ -37,7 +38,7 @@ public class Pet {
      */
     @NotNull
     @Min(0L)
-    private Float weight;
+    private BigDecimal weight;
 
     /**
      */

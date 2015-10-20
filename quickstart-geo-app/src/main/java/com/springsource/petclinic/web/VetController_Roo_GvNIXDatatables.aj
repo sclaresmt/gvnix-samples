@@ -43,8 +43,9 @@ import javax.validation.Valid;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.gvnix.web.datatables.query.SearchResults;
-import org.gvnix.web.datatables.util.DatatablesUtils;
-import org.gvnix.web.datatables.util.QuerydslUtils;
+import org.gvnix.web.datatables.util.DatatablesUtilsBean;
+import org.gvnix.web.datatables.util.EntityManagerProvider;
+import org.gvnix.web.datatables.util.QuerydslUtilsBean;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,16 @@ privileged aspect VetController_Roo_GvNIXDatatables {
     @Autowired
     public MessageSource VetController.messageSource_dtt;
     
-    public BeanWrapper VetController.beanWrapper;
+    public BeanWrapper VetController.beanWrapper_dtt;
+    
+    @Autowired
+    private EntityManagerProvider VetController.entityManagerProvider_dtt;
+    
+    @Autowired
+    public DatatablesUtilsBean VetController.datatablesUtilsBean_dtt;
+    
+    @Autowired
+    public QuerydslUtilsBean VetController.querydslUtilsBean_dtt;
     
     @RequestMapping(method = RequestMethod.GET, produces = "text/html")
     public String VetController.listDatatables(Model uiModel, HttpServletRequest request) {
@@ -188,12 +198,8 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         Map<String, Object> params = new HashMap<String, Object>(populateParametersMap(request));
         Set<String> keySet = params.keySet();
         for (String key : keySet) {
-            if (key.startsWith(QuerydslUtils.OPERATOR_PREFIX)) {
+            if (datatablesUtilsBean_dtt.isSpecialFilterParameters(key)) {
                 propertyValuesMap.put(key, params.get(key));
-            } else if (DatatablesUtils.ROWS_ON_TOP_IDS_PARAM.equals(key)) {
-                propertyValuesMap.put(key, request.getParameterMap().get(key));
-            } else if(DatatablesUtils.BOUNDING_BOX_PARAM.equals(key) || DatatablesUtils.BOUNDING_BOX_FIELDS_PARAM.equals(key)){
-                propertyValuesMap.put(key, request.getParameterMap().get(key));
             }
         }
         return propertyValuesMap;
@@ -346,6 +352,9 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         return json.toString();
     }
     
+    /**
+     * Show only the list view fragment for entity as detail datatables into a master datatables.
+     */
     @RequestMapping(produces = "text/html", value = "/list")
     public String VetController.listDatatablesDetail(Model uiModel, HttpServletRequest request, @ModelAttribute Vet vet) {
         // Do common datatables operations: get entity list filtered by request parameters
@@ -354,6 +363,9 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         return "forward:/WEB-INF/views/vets/list.jspx";
     }
     
+    /**
+     * Create an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.POST, params = "datatablesRedirect")
     public String VetController.createDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Vet vet, BindingResult bindingResult, Model uiModel, RedirectAttributes redirectModel, HttpServletRequest httpServletRequest) {
         // Do common create operations (check errors, populate, persist, ...)
@@ -368,11 +380,14 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         }else{
             redirectModel.addFlashAttribute("dtt_table_id_hash", "");
         }
-        redirectModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, vet.getId());
+        redirectModel.addFlashAttribute(DatatablesUtilsBean.ROWS_ON_TOP_IDS_PARAM, vet.getId());
         // If create success, redirect to given URL: master datatables
         return "redirect:".concat(redirect);
     }
     
+    /**
+     * Update an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.PUT, params = "datatablesRedirect")
     public String VetController.updateDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Vet vet, BindingResult bindingResult, Model uiModel, RedirectAttributes redirectModel, HttpServletRequest httpServletRequest) {
         // Do common update operations (check errors, populate, merge, ...)
@@ -387,11 +402,14 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         }else{
             redirectModel.addFlashAttribute("dtt_table_id_hash", "");
         }
-        redirectModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, vet.getId());
+        redirectModel.addFlashAttribute(DatatablesUtilsBean.ROWS_ON_TOP_IDS_PARAM, vet.getId());
         // If update success, redirect to given URL: master datatables
         return "redirect:".concat(redirect);
     }
     
+    /**
+     * Delete an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.DELETE, params = "datatablesRedirect", value = "/{id}")
     public String VetController.deleteDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         // Do common delete operations (find, remove, add pagination attributes, ...)
@@ -404,21 +422,21 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         return "redirect:".concat(redirect);
     }
     
-    public void VetController.populateItemForRender(HttpServletRequest request, Vet Vet, boolean editing) {
+    public void VetController.populateItemForRender(HttpServletRequest request, Vet vet, boolean editing) {
         org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
         
-        request.setAttribute("Vet", Vet);
-        request.setAttribute("itemId", conversionService_dtt.convert(Vet.getId(),String.class));
+        request.setAttribute("vet", vet);
+        request.setAttribute("itemId", conversionService_dtt.convert(vet.getId(),String.class));
         
         if (editing) {
             // spring from:input tag uses BindingResult to locate property editors for each bean
             // property. So, we add a request attribute (required key id BindingResult.MODEL_KEY_PREFIX + object name)
             // with a correctly initialized bindingResult.
-            BeanPropertyBindingResult bindindResult = new BeanPropertyBindingResult(Vet, "Vet");
+            BeanPropertyBindingResult bindindResult = new BeanPropertyBindingResult(vet, "vet");
             bindindResult.initConversion(conversionService_dtt);
-            request.setAttribute(BindingResult.MODEL_KEY_PREFIX + "Vet",bindindResult);
+            request.setAttribute(BindingResult.MODEL_KEY_PREFIX + "vet",bindindResult);
             // Add date time patterns and enums to populate inputs
-            populateEditForm(uiModel, Vet);
+            populateEditForm(uiModel, vet);
         } else {
             // Add date time patterns
             addDateTimeFormatPatterns(uiModel);
@@ -474,7 +492,7 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         // URL parameters are used as base search filters
         Map<String, Object> baseSearchValuesMap = getPropertyMap(vet, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
-        SearchResults<Vet> searchResult = DatatablesUtils.findByCriteria(Vet.class, Vet.entityManager(), criterias, baseSearchValuesMap, conversionService_dtt, messageSource_dtt);
+        SearchResults<Vet> searchResult = datatablesUtilsBean_dtt.findByCriteria(Vet.class, criterias, baseSearchValuesMap);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -516,7 +534,7 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         // 2. Build an instance of "ExportConf"
         ExportConf exportConf = new ExportConf.Builder(exportType).header(true).exportClass(datatablesExport).autoSize(true).fileName(vet.getClass().getSimpleName()).build();
         // 3. Build an instance of "HtmlTable"
-        HtmlTable table = DatatablesUtils.makeHtmlTable(data, criterias, exportConf, request);
+        HtmlTable table = datatablesUtilsBean_dtt.makeHtmlTable(data, criterias, exportConf, request);
         // 4. Render the generated export file
         ExportUtils.renderExport(table, exportConf, response);
     }
@@ -527,12 +545,12 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         // Do the search to obtain the data
         Map<String, Object> baseSearchValuesMap = getPropertyMap(Vet, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
-        org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Vet> searchResult = DatatablesUtils.findByCriteria(Vet.class, Vet.entityManager(), noPaginationCriteria, baseSearchValuesMap);
+        org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Vet> searchResult = datatablesUtilsBean_dtt.findByCriteria(Vet.class, noPaginationCriteria, baseSearchValuesMap);
         org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
         addDateTimeFormatPatterns(uiModel);
         Map<String, Object> datePattern = uiModel.asMap();
         // Use ConversionService with the obtained data
-        return DatatablesUtils.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), datePattern, conversionService_dtt).getRows();
+        return datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), datePattern).getRows();
     }
     
 }

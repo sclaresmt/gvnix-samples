@@ -7,6 +7,7 @@ import com.springsource.petclinic.domain.Owner;
 import com.springsource.petclinic.domain.Pet;
 import com.springsource.petclinic.domain.Visit;
 import com.springsource.petclinic.reference.PetType;
+import java.math.BigDecimal;
 import java.util.Set;
 
 privileged aspect Pet_Roo_JavaBean {
@@ -27,11 +28,11 @@ privileged aspect Pet_Roo_JavaBean {
         this.name = name;
     }
     
-    public Float Pet.getWeight() {
+    public BigDecimal Pet.getWeight() {
         return this.weight;
     }
     
-    public void Pet.setWeight(Float weight) {
+    public void Pet.setWeight(BigDecimal weight) {
         this.weight = weight;
     }
     

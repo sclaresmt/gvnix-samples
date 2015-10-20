@@ -50,8 +50,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.gvnix.web.datatables.query.SearchResults;
-import org.gvnix.web.datatables.util.DatatablesUtils;
-import org.gvnix.web.datatables.util.QuerydslUtils;
+import org.gvnix.web.datatables.util.DatatablesUtilsBean;
+import org.gvnix.web.datatables.util.EntityManagerProvider;
+import org.gvnix.web.datatables.util.QuerydslUtilsBean;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,16 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
     @Autowired
     public MessageSource VisitController.messageSource_dtt;
     
-    public BeanWrapper VisitController.beanWrapper;
+    public BeanWrapper VisitController.beanWrapper_dtt;
+    
+    @Autowired
+    private EntityManagerProvider VisitController.entityManagerProvider_dtt;
+    
+    @Autowired
+    public DatatablesUtilsBean VisitController.datatablesUtilsBean_dtt;
+    
+    @Autowired
+    public QuerydslUtilsBean VisitController.querydslUtilsBean_dtt;
     
     @RequestMapping(method = RequestMethod.GET, produces = "text/html")
     public String VisitController.listDatatables(Model uiModel, HttpServletRequest request) {
@@ -187,12 +197,8 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         Map<String, Object> params = new HashMap<String, Object>(populateParametersMap(request));
         Set<String> keySet = params.keySet();
         for (String key : keySet) {
-            if (key.startsWith(QuerydslUtils.OPERATOR_PREFIX)) {
+            if (datatablesUtilsBean_dtt.isSpecialFilterParameters(key)) {
                 propertyValuesMap.put(key, params.get(key));
-            } else if (DatatablesUtils.ROWS_ON_TOP_IDS_PARAM.equals(key)) {
-                propertyValuesMap.put(key, request.getParameterMap().get(key));
-            } else if(DatatablesUtils.BOUNDING_BOX_PARAM.equals(key) || DatatablesUtils.BOUNDING_BOX_FIELDS_PARAM.equals(key)){
-                propertyValuesMap.put(key, request.getParameterMap().get(key));
             }
         }
         return propertyValuesMap;
@@ -345,6 +351,9 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         return json.toString();
     }
     
+    /**
+     * Show only the list view fragment for entity as detail datatables into a master datatables.
+     */
     @RequestMapping(produces = "text/html", value = "/list")
     public String VisitController.listDatatablesDetail(Model uiModel, HttpServletRequest request, @ModelAttribute Visit visit) {
         // Do common datatables operations: get entity list filtered by request parameters
@@ -353,6 +362,9 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         return "forward:/WEB-INF/views/visits/list.jspx";
     }
     
+    /**
+     * Create an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.POST, params = "datatablesRedirect")
     public String VisitController.createDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Visit visit, BindingResult bindingResult, Model uiModel, RedirectAttributes redirectModel, HttpServletRequest httpServletRequest) {
         // Do common create operations (check errors, populate, persist, ...)
@@ -367,11 +379,14 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         }else{
             redirectModel.addFlashAttribute("dtt_table_id_hash", "");
         }
-        redirectModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, visit.getId());
+        redirectModel.addFlashAttribute(DatatablesUtilsBean.ROWS_ON_TOP_IDS_PARAM, visit.getId());
         // If create success, redirect to given URL: master datatables
         return "redirect:".concat(redirect);
     }
     
+    /**
+     * Update an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.PUT, params = "datatablesRedirect")
     public String VisitController.updateDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @Valid Visit visit, BindingResult bindingResult, Model uiModel, RedirectAttributes redirectModel, HttpServletRequest httpServletRequest) {
         // Do common update operations (check errors, populate, merge, ...)
@@ -386,11 +401,14 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         }else{
             redirectModel.addFlashAttribute("dtt_table_id_hash", "");
         }
-        redirectModel.addFlashAttribute(DatatablesUtils.ROWS_ON_TOP_IDS_PARAM, visit.getId());
+        redirectModel.addFlashAttribute(DatatablesUtilsBean.ROWS_ON_TOP_IDS_PARAM, visit.getId());
         // If update success, redirect to given URL: master datatables
         return "redirect:".concat(redirect);
     }
     
+    /**
+     * Delete an entity and redirect to given URL.
+     */
     @RequestMapping(produces = "text/html", method = RequestMethod.DELETE, params = "datatablesRedirect", value = "/{id}")
     public String VisitController.deleteDatatablesDetail(@RequestParam(value = "datatablesRedirect", required = true) String redirect, @PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         // Do common delete operations (find, remove, add pagination attributes, ...)
@@ -409,7 +427,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         // URL parameters are used as base search filters
         Map<String, Object> baseSearchValuesMap = getPropertyMap(visit, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
-        SearchResults<Visit> searchResult = DatatablesUtils.findByCriteria(Visit.class, Visit.entityManager(), criterias, baseSearchValuesMap, conversionService_dtt, messageSource_dtt);
+        SearchResults<Visit> searchResult = datatablesUtilsBean_dtt.findByCriteria(Visit.class, criterias, baseSearchValuesMap);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -421,7 +439,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         addDateTimeFormatPatterns(uiModel);
         Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -430,11 +448,11 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
     public ResponseEntity<String> VisitController.checkFilterExpressions(WebRequest request, @RequestParam(value = "property", required = false) String property, @RequestParam(value = "expression", required = false) String expression) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
-        if(beanWrapper == null){
-            beanWrapper = new BeanWrapperImpl(Visit.class);
+        if(beanWrapper_dtt == null){
+            beanWrapper_dtt = new BeanWrapperImpl(Visit.class);
         }
-        Class type = beanWrapper.getPropertyType(property);
-        boolean response = DatatablesUtils.checkFilterExpressions(type,expression, messageSource_dtt);
+        Class type = beanWrapper_dtt.getPropertyType(property);
+        boolean response = datatablesUtilsBean_dtt.checkFilterExpressions(type,expression);
         return new ResponseEntity<String>(String.format("{ \"response\": %s, \"property\": \"%s\"}",response, property), headers, org.springframework.http.HttpStatus.OK);
     }
     
@@ -453,7 +471,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
             baseSearch.and(entity.getDate("visitDate", Date.class).isNull());
         }
         
-        SearchResults<Visit> searchResult = DatatablesUtils.findByCriteria(entity, Visit.entityManager(), criterias, baseSearch);
+        SearchResults<Visit> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -465,7 +483,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         addDateTimeFormatPatterns(uiModel);
         Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -484,7 +502,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
             baseSearch.and(entity.getString("description").isNull());
         }
         
-        SearchResults<Visit> searchResult = DatatablesUtils.findByCriteria(entity, Visit.entityManager(), criterias, baseSearch);
+        SearchResults<Visit> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -496,7 +514,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         addDateTimeFormatPatterns(uiModel);
         Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -520,7 +538,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
             baseSearch.and(entity.getDate("visitDate", Date.class).isNull());
         }
         
-        SearchResults<Visit> searchResult = DatatablesUtils.findByCriteria(entity, Visit.entityManager(), criterias, baseSearch);
+        SearchResults<Visit> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
         
         // Get datatables required counts
         long totalRecords = searchResult.getTotalCount();
@@ -532,7 +550,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         addDateTimeFormatPatterns(uiModel);
         Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = DatatablesUtils.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern, conversionService_dtt); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -568,7 +586,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         // 2. Build an instance of "ExportConf"
         ExportConf exportConf = new ExportConf.Builder(exportType).header(true).exportClass(datatablesExport).autoSize(true).fileName(visit.getClass().getSimpleName()).build();
         // 3. Build an instance of "HtmlTable"
-        HtmlTable table = DatatablesUtils.makeHtmlTable(data, criterias, exportConf, request);
+        HtmlTable table = datatablesUtilsBean_dtt.makeHtmlTable(data, criterias, exportConf, request);
         // 4. Render the generated export file
         ExportUtils.renderExport(table, exportConf, response);
     }
@@ -579,12 +597,12 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         // Do the search to obtain the data
         Map<String, Object> baseSearchValuesMap = getPropertyMap(Visit, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
-        org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Visit> searchResult = DatatablesUtils.findByCriteria(Visit.class, Visit.entityManager(), noPaginationCriteria, baseSearchValuesMap);
+        org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Visit> searchResult = datatablesUtilsBean_dtt.findByCriteria(Visit.class, noPaginationCriteria, baseSearchValuesMap);
         org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
         addDateTimeFormatPatterns(uiModel);
         Map<String, Object> datePattern = uiModel.asMap();
         // Use ConversionService with the obtained data
-        return DatatablesUtils.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), datePattern, conversionService_dtt).getRows();
+        return datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), datePattern).getRows();
     }
     
     @RequestMapping(value = "/datatables/createform", produces = "application/json", headers = "Accept=application/json")
@@ -644,9 +662,9 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         // URL parameters are used as base search filters
         Set set = new HashSet();
         set.addAll(Arrays.asList(ids));
-        BooleanBuilder filterBy = QuerydslUtils.createPredicateByIn(entity, "id", set);
+        BooleanBuilder filterBy = querydslUtilsBean_dtt.createPredicateByIn(entity, "id", set);
         // Create a query with filter
-        JPAQuery query = new JPAQuery(Visit.entityManager());
+        JPAQuery query = new JPAQuery(entityManagerProvider_dtt.getEntityManager(Visit.class));
         query = query.from(entity);
         // execute query
         List<Visit> visits = query.where(filterBy).list(entity);
@@ -686,21 +704,21 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         return result;
     }
     
-    public void VisitController.populateItemForRender(HttpServletRequest request, Visit Visit, boolean editing) {
+    public void VisitController.populateItemForRender(HttpServletRequest request, Visit visit, boolean editing) {
         org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
         
-        request.setAttribute("Visit", Visit);
-        request.setAttribute("itemId", conversionService_dtt.convert(Visit.getId(),String.class));
+        request.setAttribute("visit", visit);
+        request.setAttribute("itemId", conversionService_dtt.convert(visit.getId(),String.class));
         
         if (editing) {
             // spring from:input tag uses BindingResult to locate property editors for each bean
             // property. So, we add a request attribute (required key id BindingResult.MODEL_KEY_PREFIX + object name)
             // with a correctly initialized bindingResult.
-            BeanPropertyBindingResult bindindResult = new BeanPropertyBindingResult(Visit, "Visit");
+            BeanPropertyBindingResult bindindResult = new BeanPropertyBindingResult(visit, "visit");
             bindindResult.initConversion(conversionService_dtt);
-            request.setAttribute(BindingResult.MODEL_KEY_PREFIX + "Visit",bindindResult);
+            request.setAttribute(BindingResult.MODEL_KEY_PREFIX + "visit",bindindResult);
             // Add date time patterns and enums to populate inputs
-            populateEditForm(uiModel, Visit);
+            populateEditForm(uiModel, visit);
         } else {
             // Add date time patterns
             addDateTimeFormatPatterns(uiModel);

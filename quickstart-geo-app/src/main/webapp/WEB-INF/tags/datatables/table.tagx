@@ -23,9 +23,9 @@
   <jsp:directive.attribute name="actionHeaderCssStyle" type="java.lang.String" required="false" description="Custom css-style for action columns header" />
 
   <!-- selection -->
-  <!-- This options now are configured base on datatablesConfig
-  <jsp:directive.attribute name="selection" type="java.lang.Boolean" required="false" description="Enable selection (default: true)" />
-  <jsp:directive.attribute name="selectionMultiRow" type="java.lang.Boolean" required="false" description="Enable selection on multiple rows" />
+  <!-- This options now are configured base on datatablesConfig -->
+  <jsp:directive.attribute name="selection" type="java.lang.Boolean" required="false" description="Enable selection. If has batch support is true by default. Selection only works with batch installed." />
+  <!--<jsp:directive.attribute name="selectionMultiRow" type="java.lang.Boolean" required="false" description="Enable selection on multiple rows" />
   <jsp:directive.attribute name="selectionByCheck" type="java.lang.Boolean" required="false" description="Use checkbox to select" />
    -->
   <jsp:directive.attribute name="selectionCheckCssClass" type="java.lang.String" required="false" description="Css class for selection checkbox" />
@@ -131,6 +131,16 @@
   <jsp:useBean id="datatables_callback_elements" class="java.util.LinkedHashMap" scope="request"/>
   <jsp:useBean id="datatables_export_columns" class="java.util.LinkedHashMap" scope="request"/>
   <jsp:useBean id="datatables_export_columns_title" class="java.util.LinkedHashMap" scope="request"/>
+
+  <!-- selection -->
+  <c:if test="${empty selection and datatablesStandardMode and datatablesHasBatchSupport}">
+    <c:set var="selection" value="true"/>
+  </c:if>
+
+  <c:if test="${empty selection and !datatablesStandardMode and !datatablesHasBatchSupport}">
+    <c:set var="selection" value="false"/>
+  </c:if>
+
 
   <!-- typeIdFieldName -->
   <c:if test="${empty typeIdFieldName}">
@@ -256,7 +266,6 @@
   <!-- enable selection only on standar mode and with batch support -->
   <c:choose>
   <c:when test="${datatablesStandardMode and datatablesHasBatchSupport}">
-    <c:set var="selection" value="true"/>
     <c:set var="selectionMultiRow" value="true"/>
     <c:set var="selectionByCheck" value="true"/>
   </c:when>
@@ -353,15 +362,11 @@
     <c:set var="inlineCreating" value="true" />
   </c:if>
   <c:if test="${inlineCreating}">
-    <spring:message code="global_menu_new" var="label" arguments="${entity_title}" htmlEscape="false" />
+    <spring:message code="global_menu_new" var="label" arguments="${entity_title}" />
     <div class="tab-content create-div table-responsive" id="${id}CreateForm" style="display: none;">
       <h4>${label}</h4>
     </div>
-    <c:set var="submit_label">
-      <spring:escapeBody javaScriptEscape="true">
-        <spring:message code="button_submit" />
-      </spring:escapeBody>
-    </c:set>
+    <spring:message code="button_submit" javaScriptEscape="true" var="submit_label"/>
     <spring:url value="/resources/images/datatables/accept.png" var="submit_image_url" />
     <c:set target="${datatables_javaScript_elements_init}" property="displayCreateForm">
       fnDisplayCreateForm('${id}', '${param['datatablesMappedProperty']}', '${param['datatablesMappedValue']}');
@@ -441,11 +446,7 @@
     <c:set var="showColumnId" value="${id}_show_col"/>
     <c:if test="${serverSide}">
 
-      <c:set var="show_label">
-	      <spring:escapeBody javaScriptEscape="true">
-	         <spring:message arguments="${typeName}" code="entity_show" />
-	      </spring:escapeBody>
-      </c:set>
+      <spring:message arguments="${typeName}" code="entity_show" javaScriptEscape="true" var="show_label"/>
       <spring:url value="/resources/images/show.png" var="show_image_url" />
 
       <!-- Add show functions to the script element before Datatables element -->
@@ -466,11 +467,7 @@
   <!-- Setup row creation option -->
   <c:if test="${create and !inlineCreating}">
     <c:set var="fnRenderCreateButton" value="${id}_render_createBtn"/>
-    <c:set var="create_label">
-      <spring:escapeBody javaScriptEscape="true">
-        <spring:message arguments="${typeName}" code="entity_create"/>
-      </spring:escapeBody>
-    </c:set>
+    <spring:message arguments="${typeName}" code="entity_create" javaScriptEscape="true" var="create_label"/>
 
     <!-- Add create functions to the script element before Datatables element -->
     <c:set target="${datatables_javaScript_elements_before}" property="${fnRenderCreateButton}">
@@ -506,34 +503,18 @@
                    <c:set var="editingInfoLabel" value="datatables_editing_info"/>
                 </c:if>
                 <spring:message code="${editingInfoLabel}" htmlEscape="false" var="editing_info_msg"/>
-                    <c:set var="udpate_label">
-                       <spring:escapeBody javaScriptEscape="true">
-                            <spring:message arguments="${typeName}" code="entity_update"/>
-                        </spring:escapeBody>
-                    </c:set>
+                    <spring:message arguments="${typeName}" code="entity_update" javaScriptEscape="true" var="udpate_label"/>
                     <spring:url value="/resources/images/update.png" var="update_image_url" />
-                    <c:set var="submit_label">
-                        <spring:escapeBody javaScriptEscape="true">
-                            <spring:message code="button_submit"/>
-                        </spring:escapeBody>
-                    </c:set>
+                    <spring:message code="button_submit" javaScriptEscape="true" var="submit_label"/>
                     <spring:url value="/resources/images/datatables/accept.png" var="submit_image_url" />
-                    <c:set var="cancel_label">
-                        <spring:escapeBody javaScriptEscape="true">
-                            <spring:message code="button_cancel"/>
-                        </spring:escapeBody>
-                    </c:set>
+                    <spring:message code="button_cancel" javaScriptEscape="true" var="cancel_label"/>
                     <spring:url value="/resources/images/datatables/cancel.png" var="cancel_image_url" />
             </c:if>
 
   	<c:set var="updateColumnId" value="${id}_update_col"/>
   	  <c:if test="${serverSide}">
         <!-- function to render cell -->
-        <c:set var="update_label">
-	      <spring:escapeBody javaScriptEscape="true">
-            <spring:message arguments="${typeName}" code="entity_update"/>
-          </spring:escapeBody>
-        </c:set>
+        <spring:message arguments="${typeName}" code="entity_update" javaScriptEscape="true" var="update_label"/>
         <spring:url value="/resources/images/update.png" var="update_image_url" />
 	    <c:set target="${datatables_javaScript_elements_before}" property="${updateColumnId}">
 	        function ${updateColumnId}(data, type, full) {
@@ -559,36 +540,14 @@
   	<c:set var="removeColumnId" value="${id}_remove_col"/>
   	<c:if test="${serverSide or selectionMultiRow}">
         <spring:message arguments="${typeName}" code="entity_delete" var="delete_label"/>
-        <c:set var="delete_confirm_msg">
-          <spring:escapeBody javaScriptEscape="true" htmlEscape="false">
-             <spring:message htmlEscape="false" code="entity_delete_confirm" />
-          </spring:escapeBody>
-        </c:set>
+        <spring:message code="entity_delete_confirm" htmlEscape="false" javaScriptEscape="true" var="delete_confirm_msg"/>
         <spring:url value="/resources/images/delete.png" var="delete_image_url" />
         <c:if test="${selectionMultiRow and datatablesHasBatchSupport}">
-	        <c:set var="delete_multirow_confirm_msg">
-	          <spring:escapeBody javaScriptEscape="true" htmlEscape="false">
-	             <spring:message htmlEscape="false" code="entity_delete_multirow_confirm"/>
-	          </spring:escapeBody>
-	        </c:set>
-	        <c:set var="delete_ok_msg">
-	          <spring:escapeBody javaScriptEscape="true">
-	             <spring:message code="entity_deleted" />
-	          </spring:escapeBody>
-	        </c:set>
-	        <c:set var="delete_none_msg">
-	          <spring:escapeBody javaScriptEscape="true">
-	             <spring:message code="entity_deleted_none" />
-	          </spring:escapeBody>
-	        </c:set>
-	        <c:set var="delete_error_msg">
-	          <spring:escapeBody javaScriptEscape="true">
-	             <spring:message code="entity_deleted_error" />
-	          </spring:escapeBody>
-	        </c:set>
-	        <spring:escapeBody javaScriptEscape="true">
-	          <spring:message code="entity_select_records" htmlEscape="false" var="selectRecords" />
-	        </spring:escapeBody>
+          <spring:message code="entity_delete_multirow_confirm" htmlEscape="false" javaScriptEscape="true" var="delete_multirow_confirm_msg" />
+	      <spring:message code="entity_deleted" javaScriptEscape="true" var="delete_ok_msg"/>
+          <spring:message code="entity_deleted_none" javaScriptEscape="true" var="delete_none_msg"/>
+          <spring:message code="entity_deleted_error" javaScriptEscape="true" var="delete_error_msg"/>
+          <spring:message code="entity_select_records" javaScriptEscape="true" var="selectRecords"/>
 
                       <!-- Add delete functions to the script element before Datatables element -->
 		    <c:set target="${datatables_javaScript_elements_before}" property="${removeColumnId}Batch">
@@ -685,7 +644,7 @@
 		        		});
 		        }
 
-                      /* Add the delete button to gvNIX toolbar */
+                /* Add the delete button to gvNIX toolbar */
 		    	function ${removeColumnId}_div() {
            			var result =
                        '<a id="${removeColumnId}" href="#" alt="${delete_label}" title="${delete_label}" class="icon delete_entity">'
@@ -703,12 +662,24 @@
 		     </c:set>
 
         </c:if>
-                        <!-- Add delete functions to the script element before Datatables element -->
+           	<!-- Add delete functions to the script element before Datatables element -->
 		    <c:set target="${datatables_javaScript_elements_before}" property="${removeColumnId}">
 		        var ${removeColumnId}_confirmation = "${delete_confirm_msg}";
 		        function ${removeColumnId}(data, type, full) {
                 <c:set var="hrefRemoveAction">javascript:${removeColumnId}_selected(\''+full.${typeIdFieldName}+'\')</c:set>
-                var result = '<a id="${removeColumnId}" href="${hrefRemoveAction}" alt="${delete_label}" title="${delete_label}" class="icon delete_entity"></a>';
+				<c:choose>
+                	<c:when test="${selection and datatablesHasBatchSupport}">
+		                var result = '<a id="${removeColumnId}" href="${hrefRemoveAction}" alt="${delete_label}" title="${delete_label}" class="icon delete_entity"></a>';
+                	</c:when>
+                	<c:otherwise>
+                		<c:set var="currentId" value="'+full.${typeIdFieldName}+'" />
+                		<c:set var="confirmation_script" value="var confirmDelete = confirm(${removeColumnId}_confirmation); if(confirmDelete){jQuery(\'#${removeColumnId}_${currentId}_form\').submit();};" ></c:set>
+                		var result = '<form method="post" id="${removeColumnId}_${currentId}_form" action="${urlPath}/${currentId}">
+                						<input type="hidden" value="DELETE" name="_method" data-original-title="" title="" />
+                						<a id="${removeColumnId}_${currentId}" href="#" alt="${delete_label}" title="${delete_label}" class="icon delete_entity" onclick="${confirmation_script}"/>
+                					</form>';
+                	</c:otherwise>
+                </c:choose>
                 return result;
 			    }
 		     </c:set>
@@ -870,7 +841,7 @@
     	<c:when test="${not datatablesStandardMode}">
     		<!-- Cell to replace by data -->
 			<gvnixddt:column id="${columnId}" searchable="false" property="${rowIdBase}"
-				filterable="false" sortable="false" title="${entity_title}"></gvnixddt:column>
+				filterable="false" sortable="false" title="${fn:escapeXml(entity_title)}"></gvnixddt:column>
 
            <!--  callback to initialize custom api functions -->
            <datatables:callback type="draw" function="evalScripts" />
