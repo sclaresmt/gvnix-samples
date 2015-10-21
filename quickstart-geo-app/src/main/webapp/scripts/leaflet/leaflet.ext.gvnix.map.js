@@ -524,7 +524,7 @@ var GvNIX_Map_Leaflet;
 		 *            element by default without extra components.
 		 */
 		"fnRegisterLayer" : function(sId, options, layerDiv) {
-			
+
 			var sLayerType = options.layer_type;
 
 			if (sLayerType == "Base") {
@@ -580,7 +580,7 @@ var GvNIX_Map_Leaflet;
 						}
 					}
 				}
-				
+
 				// Getting loading image if exists
 				var loadingImg = $div.find("img[id='"+sId+"_loading_img']");
 				if(loadingImg.length > 0){
@@ -600,7 +600,7 @@ var GvNIX_Map_Leaflet;
 
 				// Saving filter icon
 				newLayer._state.oFilterIcon = jQuery(filterHtmlElement);
-				
+
 				// Append filter element to newLayer div
 				jQuery(filterHtmlElement).appendTo(jQuery(newLayer._state.nLayer));
 
@@ -615,16 +615,16 @@ var GvNIX_Map_Leaflet;
 				newLayer.fnRegisterLayerTool(toolData.id,
 						toolData);
 			}
-			
+
 			// Adding load img if not declared yet and exists on options data
 			if(newLayer._state.loadingImg == null && options.loading_img_url){
 				var loadingImg = jQuery.parseHTML(
 						'<img width="15" style="display:none;" src="'+options.loading_img_url+'" id="'+sId+'_loading_img"/>');
-				
+
 				newLayer._state.oLoadingIcon = jQuery(loadingImg);
-				
+
 			}
-			
+
 
 			// Load status by default (not localStorage)
 			newLayer.fnLoadState(false);
@@ -789,10 +789,10 @@ var GvNIX_Map_Leaflet;
 
 	   /**
 		* Function to initialize layer order using TOC position
-		* 
+		*
 		*/
 		"_fnInitializeLayerOrder" : function (){
-			
+
 			// TODO: Load order status from localStorage
 			var aLayers = this.fnGetTocLayersIds();
 
@@ -805,7 +805,7 @@ var GvNIX_Map_Leaflet;
 
 			}
 
-			
+
 		},
 
 		/**
@@ -1432,14 +1432,14 @@ var GvNIX_Map_Leaflet;
 		/**
 		* Updates index value of all registered layers following the order
 		* provided on aLayers array.
-		* 
+		*
 		* @param aLayers
 		* 			Array of layers ids with the new order to use on layer index.
-		* 
+		*
 		* @param bSaveOnLocalStorage
-		* 			boolean that allows to save new layer 
+		* 			boolean that allows to save new layer
 		* 			position on localStorage.
-		* 
+		*
 		*/
 		"_fnUpdateLayersIndex" : function(aLayers, bSaveOnLocalStorage){
 			// Now that we have new positions, we need to update position of leaflet layers
@@ -1452,7 +1452,7 @@ var GvNIX_Map_Leaflet;
 				if(bSaveOnLocalStorage){
 					this._fnSaveMapStatus(aLayers[x] + "_layer_position", index * -1);
 				}
-				
+
 				index--;
 
 			}
@@ -1462,8 +1462,8 @@ var GvNIX_Map_Leaflet;
 		/**
 		* Function to change position of a registered layer on TOC and
 		* change index position of map
-		* 
-		*  @param sLayerId 
+		*
+		*  @param sLayerId
 		*  				String with registered layer id to move
 		*  @param sReferencedLayerId
 		*  				String with referenced layer id where sLayerId will be moved
@@ -1471,20 +1471,20 @@ var GvNIX_Map_Leaflet;
 		*  				String with position of movement. Values "after" and "before"
 		*  				are valid. By Default "before"
 		*  @param bSaveOnLocalStorage
-		*  				boolean that indicates if is necessary to save 
+		*  				boolean that indicates if is necessary to save
 		*  				the new position on localStorage.
 		*/
 		"fnMoveLayer" : function(sLayerId, sReferencedLayerId, sHitMode, bSaveOnLocalStorage){
 			this._fnMoveLayer(sLayerId, sReferencedLayerId, sHitMode, bSaveOnLocalStorage);
 		},
-		
+
 		/**
 		* Function to change position of a registered layer on TOC and
 		* change index position of map
-		* 
+		*
 		* (Default implementation)
-		* 
-		*  @param sLayerId 
+		*
+		*  @param sLayerId
 		*  				String with registered layer id to move
 		*  @param sReferencedLayerId
 		*  				String with referenced layer id where sLayerId will be moved
@@ -1492,7 +1492,7 @@ var GvNIX_Map_Leaflet;
 		*  				String with position of movement. Values "after" and "before"
 		*  				are valid. By Default "before"
 		*  @param bSaveOnLocalStorage
-		*  				boolean that indicates if is necessary to save 
+		*  				boolean that indicates if is necessary to save
 		*  				the new position on localStorage.
 		*/
 		"_fnMoveLayer" : function(sLayerId, sReferencedLayerId, sHitMode, bSaveOnLocalStorage){
@@ -1654,22 +1654,22 @@ var GvNIX_Map_Leaflet;
 		"fnGetLayerById" : function(sId) {
 			return this._data.layersById[sId];
 		},
-		
+
 		/**
 		 * Return a GvNIX_Map_Leaflet.LAYERS instance by its group
-		 * 
+		 *
 		 * @param sParentId
 		 *            parent if of the required layeres
 		 */
 		"fnGetLayersByGroup" : function(sGroupId) {
 			var childLayers = [];
-			
+
 			for(i in this._data.layersById){
 				if(this._data.layersById[i].s.group == sGroupId){
 					childLayers.push(this._data.layersById[i]);
 				}
 			}
-			
+
 			return childLayers;
 		},
 
@@ -2548,7 +2548,7 @@ var GvNIX_Map_Leaflet;
 					node.title += "<span id='" + node.key
 							+ "_span-tools'></span>"
 				}
-				
+
 				return node;
 			},
 
@@ -2577,7 +2577,7 @@ var GvNIX_Map_Leaflet;
 
 					// Set layer custom styles
 					this._fnSetIconStyle(node);
-					
+
 					// Set loading img if needed
 					if(this._state.oLoadingIcon){
 						this._fnSetLoadingIcon(node);
@@ -2590,38 +2590,38 @@ var GvNIX_Map_Leaflet;
 					}
 				}
 			},
-			
+
 			/**
 			 * Include loading Icon if is defined on current layer
-			 * 
+			 *
 			 * @param node
-			 *            Fancytree node object where loading icon 
+			 *            Fancytree node object where loading icon
 			 *            will be included
-			 * 
+			 *
 			 */
 			"_fnSetLoadingIcon" : function(node){
 				this.__fnSetLoadingIcon(node);
 			},
-			
+
 			/**
 			 * Include loading Icon if is defined on current layer
-			 * 
+			 *
 			 * @param node
-			 *            Fancytree node object where loading icon 
+			 *            Fancytree node object where loading icon
 			 *            will be included
 			 * (Default implementation)
 			 */
 			"__fnSetLoadingIcon" : function(node){
 				// Getting loading Img
 				var loadingImg = this._state.oLoadingIcon;
-				
+
 				// Getting node span
 				if(node.span != null){
 					loadingImg.appendTo(node.span);
 				}
 			},
-			
-			
+
+
 
  			/**
 			 * Function that will set registered layer tools on current layer
@@ -6980,12 +6980,18 @@ var GvNIX_Map_Leaflet;
 			},
 
 			// Clean the map layer
-			"fnClear" : function() {
-				this._fnClear();
-				var st = this._state;
-				if (st.$Input) {
-					st.$Input.val("");
-				}
+			"fnClean" : function() {
+			    this.__fnClean();
+			},
+
+			"__fnClean" : function() {
+			    var st = this._state;
+			    if (st.oLayer) {
+			    st.oLayer.clearLayers();
+			    }
+			    if(st.$Input){
+			    st.$Input.val("");
+			    }
 			},
 
 			// Check if layer has geometry draws

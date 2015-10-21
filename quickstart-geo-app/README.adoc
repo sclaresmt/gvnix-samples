@@ -74,6 +74,7 @@ This guide teaches you how to:
 ** <<add-map-scale, Add Map Scale>>
 ** <<add-street-map-searcher, Add Street Map Searcher>>
 ** <<add-opacity-layer-control, Add Opacity Layer Control>>
+. <<add-tools-to-layers, Add Tools to Layers>> 
 . <<advanced-functionalities, Advanced Functionalities>> 	
 ** <<filtering-map-data-using-datatables, Filtering Map Data using Datatables>> 	
 ** <<select-map-data-using-datatables, Select Map Data using Datatables>> 	
@@ -318,12 +319,51 @@ function deactivateLatLngTool(map, instance, element){
 	var oMap = map.fnGetMapObject();
 	oMap.off("click");
 }
+
+NOTE: _If you add **--map** command option, you are going to add the new tool only on the selected map instead of every map_ 	
+
+Also, you can find more tools in the **WEB-INF/tags/geo/tools** folder. To include any of these tools you need to add its tag with the required parameters to the _geo:toolbar_ tag in your **views/{mappath}/show.jspx** file. Below you can find some examples:
+
+* Add Print Tool. 
++
+[source,html]
+<geo:toolbar id="ps_com_springsource_petclinic_web_Map_toolbar" z="MBw20Dq9PKNdvfzOXRO7MnYvi10=">
+    ...
+    <tool:print id="ps_com_springsource_petclinic_web_Map_print"/>
+    ...
+</geo:toolbar>
+
+* Add Zoom Select All Tool. It zooms and places your map to display all entity geo data efficiently.
++
+[source,html]
+<geo:toolbar id="ps_com_springsource_petclinic_web_Map_toolbar" z="MBw20Dq9PKNdvfzOXRO7MnYvi10=">
+    ...
+    <tool:zoom-select-all id="ps_com_springsource_petclinic_web_Map_zoomall" />
+    ...
+</geo:toolbar>
+
+* Add Action Tool. It allows you to define an action.
++
+[source,html]
+<geo:toolbar id="ps_com_springsource_petclinic_web_Map_toolbar" z="MBw20Dq9PKNdvfzOXRO7MnYvi10=">
+    ...
+    <tool:action actionFunction="showHelpMessage" icon="fa-info-circle" iconLibrary="fa" id="ps_com_springsource_petclinic_web_Map_showhelp"/>
+    ...
+</geo:toolbar>
++
+Also, you need to define the showHelpMessage function.
++
+[source,javascript]
+ <script type="text/javascript">
+    function showHelpMessage(map, instance, element){
+      alert("Show any help information");
+    }
+</script>
  	
-When you finish this steps you're going to have the following toolbar: 	
+When you finish these steps you are going to have the following toolbar: 	
  	
 image:images/toolbar.png[width="30%"] 	
  
-NOTE: _If you add **--map** command option, you are going to add the new tool only on the selected map instead of every map_ 	
  
 [[add-overview-to-map-views]] 	
 === Add Overview to Map Views 
@@ -446,7 +486,23 @@ To include a slider which manages the opacity of map layers, you need to include
     <tool:opacity id="opacity_slider" z="user-managed"/>
   </geo:toc-toolbar>                     
 
-image:images/opacity.png[width="100%"]  
+image:images/opacity.png[width="100%"] 
+
+[[add-tools-to-layers]]
+=== Add Tools to Layers
+
+gvNIX allows you to add new tools not only to your map view but also to your layers. If you want to include a tool on a entity field layer you need to add a tool tag inside your entity field layer tag in your **views/{mappath}/show.jspx** file.
+
+For example, to add a zoom select tool (which places your map to display all geo field data attached to the selected layer efficiently) to a layer, you have to include this tool as is shown below:
+
+[source,html]
+<layer:entity-field field="location" id="l_com_springsource_petclinic_domain_Owner_location" ... >
+   <layer-toc:tools >
+      <layer-tool:zoom-select id="owner-location-zoom-select" />
+   </layer-toc:tools>
+</layer:entity-field>  	
+
+image:images/layer_tools.png[width="50%"] 
 
 [[advanced-functionalities]] 	
 == Advanced Functionalities 	

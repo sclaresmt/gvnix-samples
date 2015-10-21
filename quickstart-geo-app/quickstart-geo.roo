@@ -146,7 +146,7 @@ remote service operation --name ws_list_pets --service ~.services.PetsServices
 
 // Add FancTree Component
 web mvc fancytree setup
-web mvc fancytree add edit --controller ~.web.PetController --page tree
+web mvc fancytree add edit --controller ~.web.PetController --page editable_tree
 web mvc fancytree add show --controller ~.web.VetController --page tree
 
 // Modifying persistence to use POSTRGRES database with geo spatial support
@@ -167,7 +167,7 @@ finder geo all
 //web mvc geo setup
 
 // Creating different map views
-web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview
+web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview --projection EPSG4326
 web mvc geo controller --class ~.web.MapController --preferredMapping map
 
 // Modifying entity field to use Geo component

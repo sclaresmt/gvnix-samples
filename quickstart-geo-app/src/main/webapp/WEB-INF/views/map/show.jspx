@@ -13,21 +13,40 @@
       		var oMap = map.fnGetMapObject();
       		oMap.off("click");
       	}
+
+      	function showHelpMessage(map, instance, element){
+      		alert("Show any help information");
+         }
+
     </script>
 <geo:map id="ps_com_springsource_petclinic_web_Map" projection="EPSG3857" z="zZ9tkxNOxEr3u3l4ynyNBgpLyfc=">
         <geo:components id="ps_com_springsource_petclinic_web_Map_components">
             <components:coordinates id="ps_com_springsource_petclinic_web_Map_coordinates" centerInputCoordinates="true"/>
              <components:scale id="ps_com_springsource_petclinic_web_Map_coordinates"/>
         </geo:components>
+
         <geo:toc id="ps_com_springsource_petclinic_web_Map_toc" z="OKc2jRO+maQAUDqaPqzgAnuFco0=">
             <geo:toc-toolbar id="ps_com_springsource_petclinic_web_Map_toc_toolbar" z="user-managed">
                 <tool:opacity id="opacity_slider" z="user-managed"/>
             </geo:toc-toolbar>
+
             <layer:tile allowDisable="false" id="ps_com_springsource_petclinic_web_Map_default_layer" url="http://{s}.tile.osm.org/{z}/{x}/{y}.png?bar" z="h28wBbBDKCsogp7sDBJImRakMgc="/>
-            <layer:entity selection="true" filterType="auto" id="l_com_springsource_petclinic_domain_Owner" path="/owners" pk="id" z="nWPaEnqhLlf4IK4LpCT/Sovgspk=">
-                <layer:entity-field clusterize="true" field="location" icon="glyphicon-home" iconLibrary="glyphicon" id="l_com_springsource_petclinic_domain_Owner_location" markerColor="red" z="Zd2+37SXoyybv1fbiHFyJX+NUMs="/>
-                <layer:entity-field clusterize="true" field="distance" id="l_com_springsource_petclinic_domain_Owner_distance" markerColor="red" z="rfKGu/VZ63uHthDr4p5RCtqLx/E="/>
-                <layer:entity-field clusterize="true" field="area" id="l_com_springsource_petclinic_domain_Owner_area" markerColor="orange" color="" z="HEtn65ylF7u8fEo7ADhOUCwed/I="/>
+            <layer:entity selection="true"  showFilterOn="dialog" filterType="auto" id="l_com_springsource_petclinic_domain_Owner" path="/owners" pk="id" z="nWPaEnqhLlf4IK4LpCT/Sovgspk=">
+                <layer:entity-field clusterize="true" field="location" icon="glyphicon-home" iconLibrary="glyphicon" id="l_com_springsource_petclinic_domain_Owner_location" markerColor="red" z="Zd2+37SXoyybv1fbiHFyJX+NUMs=">
+                  <layer-toc:tools >
+                      <layer-tool:zoom-select id="owner-location-zoom-select" />
+                  </layer-toc:tools>
+                </layer:entity-field>
+                <layer:entity-field clusterize="true" field="distance" id="l_com_springsource_petclinic_domain_Owner_distance" markerColor="red" z="rfKGu/VZ63uHthDr4p5RCtqLx/E=">
+                 <layer-toc:tools >
+                      <layer-tool:zoom-select id="owner-distance-zoom-select" />
+                  </layer-toc:tools>
+                </layer:entity-field>
+                <layer:entity-field clusterize="true" field="area" id="l_com_springsource_petclinic_domain_Owner_area" markerColor="orange" color="" z="HEtn65ylF7u8fEo7ADhOUCwed/I=">
+                   <layer-toc:tools >
+                      <layer-tool:zoom-select id="owner-area-zoom-select" />
+                  </layer-toc:tools>
+                </layer:entity-field>
             </layer:entity>
         <layer:tile id="ps_com_springsource_petclinic_web_Map_satellit" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="3FjMh859kWr1xgrbiyn7d2GfSBQ="/>
         <layer:wms crs="EPSG4326" format="image/png" id="ps_com_springsource_petclinic_web_Map_geological_map_of_valencia" layers="0,1,2,3" transparent="true" url="http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" version="1.1.1" z="gdAlMH2Ianb/u5pgyGG+dIeH8Nc="/>
@@ -35,7 +54,10 @@
         <geo:toolbar id="ps_com_springsource_petclinic_web_Map_toolbar" z="MBw20Dq9PKNdvfzOXRO7MnYvi10=">
             <tool:geosearch id="ps_com_springsource_petclinic_web_Map_geosearch"/>
             <tool:measure id="ps_com_springsource_petclinic_web_Map_measure" z="NhVc1TfQ/d6tAPkEH5ZRiwLgooY="/>
-        <tool:custom actionTool="false" activateFunction="activateLatLngTool" deactivateFunction="deactivateLatLngTool" icon="fa-location-arrow" iconLibrary="fa" id="ps_com_springsource_petclinic_web_Map_latlng" z="D98lsYLgh9u/iUGF/jXcOjn9dwA="/>
+            <tool:custom actionTool="false" activateFunction="activateLatLngTool" deactivateFunction="deactivateLatLngTool" icon="fa-location-arrow" iconLibrary="fa" id="ps_com_springsource_petclinic_web_Map_latlng" z="D98lsYLgh9u/iUGF/jXcOjn9dwA="/>
+            <tool:print id="ps_com_springsource_petclinic_web_Map_print" printOnlyMap="true"/>
+            <tool:zoom-select-all id="ps_com_springsource_petclinic_web_Map_zoomall" />
+            <tool:action actionFunction="showHelpMessage" icon="fa-info-circle" iconLibrary="fa" id="ps_com_springsource_petclinic_web_Map_showhelp"/>
         </geo:toolbar>
     <geo:overview id="ps_com_springsource_petclinic_web_Map_MiniMap" z="sgSh3rGHZTv1sDlw2M2bqJvh8lk=">
             <layer:tile allowDisable="false" id="ps_com_springsource_petclinic_web_Map_default_layer" url="http://{s}.tile.osm.org/{z}/{x}/{y}.png?bar" z="h28wBbBDKCsogp7sDBJImRakMgc="/>
