@@ -146,7 +146,7 @@ remote service operation --name ws_list_pets --service ~.services.PetsServices
 
 // Add FancTree Component
 web mvc fancytree setup
-web mvc fancytree add edit --controller ~.web.PetController --page tree
+web mvc fancytree add edit --controller ~.web.PetController --page editable_tree
 web mvc fancytree add show --controller ~.web.VetController --page tree
 
 // Before run your application, you need to make this change:

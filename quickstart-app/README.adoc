@@ -492,7 +492,7 @@ web mvc fancytree add show --controller ~.web.VetController --page tree
 . Create a tree to show and edit pets:
 +
 [source,shell]
-web mvc fancytree add edit --controller ~.web.PetController --page tree
+web mvc fancytree add edit --controller ~.web.PetController --page editable_tree
 
 
 == Result
