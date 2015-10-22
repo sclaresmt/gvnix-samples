@@ -57,6 +57,7 @@ finder add --finderName findVisitsByDescriptionLike
 // Adding web layers
 web mvc setup
 web mvc all --package ~.web
+web mvc scaffold --class ~.web.VetListController --backingType ~.domain.Vet --path vetlist
 web mvc finder all
 web mvc language --code de
 web mvc language --code es
@@ -81,6 +82,7 @@ web mvc bootstrap setup
 
 // Creating master patterns
 web mvc datatables add --type ~.web.VetController --mode show
+web mvc datatables add --type ~.web.VetListController
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController --inline true --ajax true
@@ -102,7 +104,7 @@ web mvc loupe setup
 // Adding loupe fields on Visit fields
 web mvc loupe set --controller ~.web.VisitController
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
-web mvc loupe field --controller ~.web.VisitController --field vet
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
 
 // Adding loupe fields on Pet fields
 web mvc loupe set --controller ~.web.PetController
@@ -130,6 +132,7 @@ test integration --entity ~.domain.Visit
 selenium test --controller ~.web.OwnerController
 selenium test --controller ~.web.PetController
 selenium test --controller ~.web.VetController
+selenium test --controller ~.web.VetListController
 selenium test --controller ~.web.VisitController
 logging setup --level INFO
 
