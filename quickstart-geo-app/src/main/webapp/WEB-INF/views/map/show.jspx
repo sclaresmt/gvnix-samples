@@ -21,7 +21,7 @@
     </script>
 <geo:map id="ps_com_springsource_petclinic_web_Map" projection="EPSG3857" z="zZ9tkxNOxEr3u3l4ynyNBgpLyfc=">
         <geo:components id="ps_com_springsource_petclinic_web_Map_components">
-            <components:coordinates id="ps_com_springsource_petclinic_web_Map_coordinates" centerInputCoordinates="true"/>
+            <components:coordinates centerInputCoordinates="true" id="ps_com_springsource_petclinic_web_Map_coordinates"/>
              <components:scale id="ps_com_springsource_petclinic_web_Map_coordinates"/>
         </geo:components>
 
@@ -31,20 +31,20 @@
             </geo:toc-toolbar>
 
             <layer:tile allowDisable="false" id="ps_com_springsource_petclinic_web_Map_default_layer" url="http://{s}.tile.osm.org/{z}/{x}/{y}.png?bar" z="h28wBbBDKCsogp7sDBJImRakMgc="/>
-            <layer:entity selection="true"  showFilterOn="dialog" filterType="auto" id="l_com_springsource_petclinic_domain_Owner" path="/owners" pk="id" z="nWPaEnqhLlf4IK4LpCT/Sovgspk=">
-                <layer:entity-field clusterize="true" field="location" icon="glyphicon-home" iconLibrary="glyphicon" id="l_com_springsource_petclinic_domain_Owner_location" markerColor="red" z="Zd2+37SXoyybv1fbiHFyJX+NUMs=">
-                  <layer-toc:tools >
-                      <layer-tool:zoom-select id="owner-location-zoom-select" />
+            <layer:entity filterType="auto" id="l_com_springsource_petclinic_domain_Owner" path="/owners" pk="id" selection="true" showFilterOn="dialog" z="QxRHR/8XQ5Yrd5OYfAOXkJw4NV8=">
+                <layer:entity-field clusterize="true" field="location" icon="glyphicon-home" iconLibrary="glyphicon" id="l_com_springsource_petclinic_domain_Owner_location" markerColor="red" z="nxhlRoA8reEEd8SED63HFmKGACE=">
+                  <layer-toc:tools>
+                      <layer-tool:zoom-select id="owner-location-zoom-select"/>
                   </layer-toc:tools>
                 </layer:entity-field>
-                <layer:entity-field clusterize="true" field="distance" id="l_com_springsource_petclinic_domain_Owner_distance" markerColor="red" z="rfKGu/VZ63uHthDr4p5RCtqLx/E=">
-                 <layer-toc:tools >
-                      <layer-tool:zoom-select id="owner-distance-zoom-select" />
+                <layer:entity-field clusterize="true" field="distance" id="l_com_springsource_petclinic_domain_Owner_distance" markerColor="red" z="EvJc/AiufGjRQ9fdo46+r4wz/xA=">
+                 <layer-toc:tools>
+                      <layer-tool:zoom-select id="owner-distance-zoom-select"/>
                   </layer-toc:tools>
                 </layer:entity-field>
-                <layer:entity-field clusterize="true" field="area" id="l_com_springsource_petclinic_domain_Owner_area" markerColor="orange" color="" z="HEtn65ylF7u8fEo7ADhOUCwed/I=">
-                   <layer-toc:tools >
-                      <layer-tool:zoom-select id="owner-area-zoom-select" />
+                <layer:entity-field clusterize="true" color="" field="area" id="l_com_springsource_petclinic_domain_Owner_area" markerColor="orange" z="VFHCFO2r+a//K0pBNXHdmS9hjac=">
+                   <layer-toc:tools>
+                      <layer-tool:zoom-select id="owner-area-zoom-select"/>
                   </layer-toc:tools>
                 </layer:entity-field>
             </layer:entity>
@@ -56,7 +56,7 @@
             <tool:measure id="ps_com_springsource_petclinic_web_Map_measure" z="NhVc1TfQ/d6tAPkEH5ZRiwLgooY="/>
             <tool:custom actionTool="false" activateFunction="activateLatLngTool" deactivateFunction="deactivateLatLngTool" icon="fa-location-arrow" iconLibrary="fa" id="ps_com_springsource_petclinic_web_Map_latlng" z="D98lsYLgh9u/iUGF/jXcOjn9dwA="/>
             <tool:print id="ps_com_springsource_petclinic_web_Map_print" printOnlyMap="true"/>
-            <tool:zoom-select-all id="ps_com_springsource_petclinic_web_Map_zoomall" />
+            <tool:zoom-select-all id="ps_com_springsource_petclinic_web_Map_zoomall"/>
             <tool:action actionFunction="showHelpMessage" icon="fa-info-circle" iconLibrary="fa" id="ps_com_springsource_petclinic_web_Map_showhelp"/>
         </geo:toolbar>
     <geo:overview id="ps_com_springsource_petclinic_web_Map_MiniMap" z="sgSh3rGHZTv1sDlw2M2bqJvh8lk=">

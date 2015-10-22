@@ -118,3 +118,12 @@ web mvc geo tool measure --name measure
 web mvc geo tool custom --name latlng --icon fa-location-arrow --activateFunction activateLatLngTool --deactivateFunction deactivateLatLngTool --iconLibrary fa
 web mvc geo component overview --class ~.web.MapController
 // script --file ../../git/gvnix-samples/quickstart-geo-app/quickstart-geo.roo
+// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log opened at 2015-10-22 13:20:55
+// [failed] web mvc datatables add --type ~.web.VetListController
+web mvc scaffold --class ~.web.VetListController --backingType ~.domain.Vet --path vetlist
+web mvc jquery all
+web mvc bootstrap update
+web mvc datatables add --type ~.web.VetListController
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
+q
+// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log closed at 2015-10-22 13:25:22
