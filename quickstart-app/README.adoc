@@ -218,6 +218,7 @@ web mvc all --package ~.web
 [source,shell]
 web mvc scaffold --class ~.web.VetListController --backingType ~.domain.Vet --path vetlist
 
++
 NOTE: _You can create several controllers for the same entity._
 
 . To generate web layers of all the generated finders above, run the next commands:
