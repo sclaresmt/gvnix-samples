@@ -212,6 +212,14 @@ web mvc setup
 [source,shell]
 web mvc all --package ~.web
 
+. Execute the following command to generate other controller and CRUD views for an entity:
++
+
+[source,shell]
+web mvc scaffold --class ~.web.VetListController --backingType ~.domain.Vet --path vetlist
+
+NOTE: _You can create several controllers for the same entity._
+
 . To generate web layers of all the generated finders above, run the next commands:
 +
 
@@ -299,9 +307,11 @@ After setup Datatables components run the following commands to improve list vie
 
 [source,shell]
 web mvc datatables add --type ~.web.VetController --mode show
+web mvc datatables add --type ~.web.VetListController
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController --inline true --ajax true
+
 
 [icon="images/icons/note.png"]
 NOTE: _Use *--mode* param with show value, to display only a record per page_. _Use *--inlineEditing* param with true value to enable inline creation and inline update_
@@ -384,7 +394,12 @@ web mvc loupe set --controller ~.web.VisitController
 
 [source,shell]
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
-web mvc loupe field --controller ~.web.VisitController --field vet
+
+. As you have created vet controller with show mode, you need to use your second vet CRU views (managed by VetListController) to display vet data as a list.
++
+
+[source,shell]
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
 
 [icon="images/icons/note.png"]
 NOTE: _You can configure callbacks functions for fields above editing 'scripts/loupefield/loupe-callbacks.js'. You can add onDraw function and onSet function to manage that events._
@@ -449,6 +464,7 @@ Add Selenium tests to your application entities using the next commands:
 selenium test --controller ~.web.OwnerController
 selenium test --controller ~.web.PetController
 selenium test --controller ~.web.VetController
+selenium test --controller ~.web.VetListController
 selenium test --controller ~.web.VisitController
 
 [[webservices]] 

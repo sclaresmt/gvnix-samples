@@ -6,7 +6,7 @@
         <field:textarea field="description" id="c_com_springsource_petclinic_domain_Visit_description" z="xqcX/Hnb52FNxML/Xqv1yGlbMUM="/>
         <field:datetime dateTimePattern="${visit_visitdate_date_format}" field="visitDate" id="c_com_springsource_petclinic_domain_Visit_visitDate" past="true" required="true" z="Fp9bGI48YHyqfIqEJce2nLInVuw="/>
         <loupefield:loupe additionalFields="name,weight" caption="name" controllerPath="visits" field="pet" id="c_com_springsource_petclinic_domain_Visit_pet" itemValue="id" items="${pets}" listPath="pets/list" mode="create" path="/pets" pkField="id" required="true" z="user-managed"/>
-        <loupefield:loupe controllerPath="visits" field="vet" id="c_com_springsource_petclinic_domain_Visit_vet" itemValue="id" items="${vets}" listPath="vets/list" mode="create" path="/vets" pkField="id" z="user-managed"/>
+        <loupefield:loupe controllerPath="visits" field="vet" id="c_com_springsource_petclinic_domain_Visit_vet" itemValue="id" items="${vets}" listPath="vetlist/list" mode="create" path="/vets" pkField="id" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_springsource_petclinic_domain_Visit" render="${not empty dependencies}" z="F4Mi+4CshtbI1vY10R56fHcRxDw="/>
 </div>
