@@ -279,6 +279,7 @@ privileged aspect OwnerController_Roo_GvNIXDatatables {
         Locale defaultLocale = new Locale(locale);
         // Building JSON response
         StringBuilder json = new StringBuilder();
+        json.append("{");
         json.append("\"all_isnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.isnull", null, defaultLocale) + "\"");
         json.append(",");
         json.append("\"all_notnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.notnull", null, defaultLocale) + "\"");

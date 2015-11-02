@@ -7,5 +7,9 @@
         <field:display date="true" dateTimePattern="${visit_visitdate_date_format}" field="visitDate" id="s_com_springsource_petclinic_domain_Visit_visitDate" object="${visit}" z="ucthQGTB63/fNL50khW5We5AGq4="/>
         <field:display field="pet" id="s_com_springsource_petclinic_domain_Visit_pet" object="${visit}" z="EcejKa3Qg1YmdTW/fBmNK2/Fsrc="/>
         <field:display field="vet" id="s_com_springsource_petclinic_domain_Visit_vet" object="${visit}" z="CkaB9Yin/f/Xjab4eXGPbb45aoc="/>
+        <field:display calendar="true" dateTimePattern="${visit_auditcreation_date_format}" field="auditCreation" id="s_com_springsource_petclinic_domain_Visit_auditCreation" object="${visit}" z="xoGnO17Z+qUac1okyYXNG71ywrw="/>
+        <field:display field="auditCreatedBy" id="s_com_springsource_petclinic_domain_Visit_auditCreatedBy" object="${visit}" z="UczA0LpvPJIfY0mLi+Uzft7tmPE="/>
+        <field:display calendar="true" dateTimePattern="${visit_auditlastupdate_date_format}" field="auditLastUpdate" id="s_com_springsource_petclinic_domain_Visit_auditLastUpdate" object="${visit}" z="52zybxYpqV0XgY3eKvqZKnHqZvI="/>
+        <field:display field="auditLastUpdatedBy" id="s_com_springsource_petclinic_domain_Visit_auditLastUpdatedBy" object="${visit}" z="AIMZFjIbtZZg7M2Q371JoT0fqts="/>
     </page:show>
 </div>

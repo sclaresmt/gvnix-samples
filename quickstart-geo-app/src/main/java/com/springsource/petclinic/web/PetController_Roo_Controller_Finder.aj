@@ -31,6 +31,7 @@ privileged aspect PetController_Roo_Controller_Finder {
         } else {
             uiModel.addAttribute("pets", Pet.findPetsByNameAndWeight(name, weight, sortFieldName, sortOrder).getResultList());
         }
+        addDateTimeFormatPatterns(uiModel);
         return "pets/list";
     }
     
@@ -51,6 +52,7 @@ privileged aspect PetController_Roo_Controller_Finder {
         } else {
             uiModel.addAttribute("pets", Pet.findPetsByOwner(owner, sortFieldName, sortOrder).getResultList());
         }
+        addDateTimeFormatPatterns(uiModel);
         return "pets/list";
     }
     
@@ -70,6 +72,7 @@ privileged aspect PetController_Roo_Controller_Finder {
         } else {
             uiModel.addAttribute("pets", Pet.findPetsBySendRemindersAndWeightLessThan(sendReminders, weight, sortFieldName, sortOrder).getResultList());
         }
+        addDateTimeFormatPatterns(uiModel);
         return "pets/list";
     }
     
@@ -90,6 +93,7 @@ privileged aspect PetController_Roo_Controller_Finder {
         } else {
             uiModel.addAttribute("pets", Pet.findPetsByTypeAndNameLike(type, name, sortFieldName, sortOrder).getResultList());
         }
+        addDateTimeFormatPatterns(uiModel);
         return "pets/list";
     }
     

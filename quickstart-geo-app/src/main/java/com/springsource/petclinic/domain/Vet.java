@@ -15,10 +15,12 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
+import org.gvnix.addon.jpa.annotations.audit.GvNIXJpaAudit;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
+@GvNIXJpaAudit
 public class Vet extends AbstractPerson {
 
     /**

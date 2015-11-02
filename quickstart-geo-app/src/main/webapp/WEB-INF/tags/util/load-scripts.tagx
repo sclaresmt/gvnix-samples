@@ -226,6 +226,10 @@
     <script src="${js_leaflet_coordinates}" type="text/javascript">
         <!--required for FF3 and Opera-->
     </script>
+<spring:url value="/resources/scripts/leaflet/leaflet.ext.gvnix.map.coordinates.component.js" var="js_leaflet_coordinates_component"/>
+    <script src="${js_leaflet_coordinates_component}" type="text/javascript">
+        <!--required for FF3 and Opera-->
+    </script>
 <spring:url value="/resources/scripts/leaflet/leaflet.draw-src.js" var="js_leaflet_draw"/>
     <script src="${js_leaflet_draw}" type="text/javascript">
         <!--required for FF3 and Opera-->
@@ -274,21 +278,14 @@
     <script src="${js_leaflet_scale_component}" type="text/javascript">
         <!--required for FF3 and Opera-->
     </script>
- <spring:url value="/resources/scripts/leaflet/leaflet.ext.gvnix.map.coordinates.component.js" var="js_leaflet_coordinates_component"/>
-    <script src="${js_leaflet_coordinates_component}" type="text/javascript">
-    <!--required for FF3 and Opera-->
+<spring:url value="/resources/scripts/leaflet/leaflet.ext.gvnix.map.zoomselect.tool.js" var="js_leaflet_zoom_select_component"/>
+    <script src="${js_leaflet_zoom_select_component}" type="text/javascript">
+        <!--required for FF3 and Opera-->
     </script>
-
- <spring:url value="/resources/scripts/leaflet/leaflet.ext.gvnix.map.zoomselectall.tool.js" var="js_leaflet_zoom_select_all_component"/>
-     <script src="${js_leaflet_zoom_select_all_component}" type="text/javascript">
-       <!--  required for FF3 and Opera -->
+<spring:url value="/resources/scripts/leaflet/leaflet.ext.gvnix.map.zoomselectall.tool.js" var="js_leaflet_zoom_select_all_component"/>
+    <script src="${js_leaflet_zoom_select_all_component}" type="text/javascript">
+        <!--required for FF3 and Opera-->
     </script>
-
-<spring:url value="/resources/scripts/leaflet/leaflet.ext.gvnix.map.zoomselect.tool.js" var="js_leaflet_zoom_select_tool"/>
-     <script src="${js_leaflet_zoom_select_tool}" type="text/javascript">
-       <!--  required for FF3 and Opera -->
-    </script>
-
 <spring:url value="/resources/scripts/leaflet/leaflet.markercluster-src.js" var="js_leaflet_geo_marker_cluster_js"/>
     <script src="${js_leaflet_geo_marker_cluster_js}" type="text/javascript">
         <!--required for FF3 and Opera-->

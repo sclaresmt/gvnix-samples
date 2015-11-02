@@ -15,6 +15,10 @@
         <field:select field="specialty" id="c_com_springsource_petclinic_domain_Vet_specialty" items="${specialtys}" path="specialtys" z="XiH5EdiaKEIz1+ZhqH7U6EOjNFI="/>
         <field:simple field="visits" id="c_com_springsource_petclinic_domain_Vet_visits" messageCode="entity_reference_not_managed" messageCodeAttribute="Visit" z="6+AxtJ+JIq/bk/rGfDudL75s0YA="/>
         <field:select field="owner" id="c_com_springsource_petclinic_domain_Vet_owner" itemValue="id" items="${owners}" path="/owners" z="6q+f2SNiHv/kTpxgAN99I3snG10="/>
+        <field:datetime dateTimePattern="${vet_auditcreation_date_format}" field="auditCreation" id="c_com_springsource_petclinic_domain_Vet_auditCreation" z="8Sd1erF0WatHHb2FglQesFpq1Cw="/>
+        <field:input field="auditCreatedBy" id="c_com_springsource_petclinic_domain_Vet_auditCreatedBy" z="RlgF+DtnRJZgVzEwOUE1wpH8Oto="/>
+        <field:datetime dateTimePattern="${vet_auditlastupdate_date_format}" field="auditLastUpdate" id="c_com_springsource_petclinic_domain_Vet_auditLastUpdate" z="1MRimXRM4ZHKj/mRqvh+FhZ41o8="/>
+        <field:input field="auditLastUpdatedBy" id="c_com_springsource_petclinic_domain_Vet_auditLastUpdatedBy" z="JTQR0+oVuaxRODzzv3RQVIa3wi0="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_springsource_petclinic_domain_Vet" render="${not empty dependencies}" z="Gn3WJzpCK5lpshek2IJK8Ezu5Ns="/>
 </div>

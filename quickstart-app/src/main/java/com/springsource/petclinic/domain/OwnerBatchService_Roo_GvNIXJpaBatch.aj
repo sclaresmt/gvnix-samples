@@ -4,7 +4,6 @@
 package com.springsource.petclinic.domain;
 
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPADeleteClause;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.path.PathBuilder;
 import com.springsource.petclinic.domain.Owner;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect OwnerBatchService_Roo_GvNIXJpaBatch {
@@ -28,21 +27,28 @@ privileged aspect OwnerBatchService_Roo_GvNIXJpaBatch {
     
     @Transactional
     public int OwnerBatchService.deleteAll() {
-        return entityManager().createQuery("DELETE FROM Owner").executeUpdate();
+        TypedQuery<Owner> query = entityManager().createQuery("Select o FROM Owner o", Owner.class);
+        List<Owner> owners = query.getResultList();
+        delete(owners);
+        return owners.size();
     }
     
     @Transactional
     public int OwnerBatchService.deleteIn(List<Long> ids) {
-        Query query = entityManager().createQuery("DELETE FROM Owner as o WHERE o.id IN (:idList)");
+        TypedQuery<Owner> query = entityManager().createQuery("SELECT o FROM Owner o WHERE o.id IN (:idList)", Owner.class);
         query.setParameter("idList", ids);
-        return query.executeUpdate();
+        List<Owner> owners = query.getResultList();
+        delete(owners);
+        return owners.size();
     }
     
     @Transactional
     public int OwnerBatchService.deleteNotIn(List<Long> ids) {
-        Query query = entityManager().createQuery("DELETE FROM Owner as o WHERE o.id NOT IN (:idList)");
+        TypedQuery<Owner> query = entityManager().createQuery("SELECT o FROM Owner o WHERE o.id NOT IN (:idList)", Owner.class);
         query.setParameter("idList", ids);
-        return query.executeUpdate();
+        List<Owner> owners = query.getResultList();
+        delete(owners);
+        return owners.size();
     }
     
     @Transactional
@@ -91,28 +97,9 @@ privileged aspect OwnerBatchService_Roo_GvNIXJpaBatch {
     
     @Transactional
     public long OwnerBatchService.deleteByValues(Map<String, Object> propertyValues) {
-        
-        // if there no is a filter
-        if (propertyValues == null || propertyValues.isEmpty()) {
-            throw new IllegalArgumentException("Missing property values");
-        }
-        // Prepare a predicate
-        BooleanBuilder baseFilterPredicate = new BooleanBuilder();
-        
-        // Base filter. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Owner> entity = new PathBuilder<Owner>(Owner.class, "entity");
-        
-        // Build base filter
-        for (String key : propertyValues.keySet()) {
-            baseFilterPredicate.and(entity.get(key).eq(propertyValues.get(key)));
-        }
-        
-        // Create a query with filter
-        JPADeleteClause delete = new JPADeleteClause(Owner.entityManager(),entity);
-        
-        // execute delete
-        return delete.where(baseFilterPredicate).execute();
+        List<Owner> owners = findByValues(propertyValues);
+        delete(owners);
+        return (long)owners.size();
     }
     
     @Transactional

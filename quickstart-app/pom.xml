@@ -15,7 +15,7 @@
         <spring.version>3.2.8.RELEASE</spring.version>
     <tomcat.version>7.0.63</tomcat.version>
     <querydsl.version>3.6.3</querydsl.version>
-    <gvnix.version>1.5.0.RELEASE</gvnix.version>
+    <gvnix.version>1.5.1.RC1</gvnix.version>
     <spring-security.version>3.2.5.RELEASE</spring-security.version>
     <jasperreports.version>5.0.1</jasperreports.version>
     <jasperreportsfonts.version>4.0.0</jasperreportsfonts.version>
@@ -318,13 +318,13 @@
     <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.addon.web.mvc.annotations</artifactId>
-            <version>1.5.0.RELEASE</version>
+            <version>1.5.1.RC1</version>
             <scope>provided</scope>
         </dependency>
     <dependency>
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.web.json.binding</artifactId>
-            <version>1.5.0.RELEASE</version>
+            <version>1.5.1.RC1</version>
         </dependency>
     <dependency>
             <groupId>org.gvnix</groupId>
@@ -473,6 +473,40 @@
             <groupId>org.gvnix</groupId>
             <artifactId>org.gvnix.util.fancytree</artifactId>
             <version>${gvnix.version}</version>
+        </dependency>
+    <dependency>
+            <groupId>net.bull.javamelody</groupId>
+            <artifactId>javamelody-core</artifactId>
+            <version>1.57.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>bouncycastle</groupId>
+                    <artifactId>bcmail-jdk14</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>bouncycastle</groupId>
+                    <artifactId>bcprov-jdk14</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>bouncycastle</groupId>
+                    <artifactId>bctsp-jdk14</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jrobin</groupId>
+            <artifactId>jrobin</artifactId>
+            <version>1.5.9</version>
         </dependency>
     </dependencies>
     <build>

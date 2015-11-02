@@ -40,14 +40,6 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         };
     }
     
-    public Converter<Pet, String> ApplicationConversionServiceFactoryBean.getPetToStringConverter() {
-        return new org.springframework.core.convert.converter.Converter<com.springsource.petclinic.domain.Pet, java.lang.String>() {
-            public String convert(Pet pet) {
-                return new StringBuilder().append(pet.getName()).append(' ').append(pet.getWeight()).toString();
-            }
-        };
-    }
-    
     public Converter<Long, Pet> ApplicationConversionServiceFactoryBean.getIdToPetConverter() {
         return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.springsource.petclinic.domain.Pet>() {
             public com.springsource.petclinic.domain.Pet convert(java.lang.Long id) {
@@ -60,14 +52,6 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         return new org.springframework.core.convert.converter.Converter<java.lang.String, com.springsource.petclinic.domain.Pet>() {
             public com.springsource.petclinic.domain.Pet convert(String id) {
                 return getObject().convert(getObject().convert(id, Long.class), Pet.class);
-            }
-        };
-    }
-    
-    public Converter<Vet, String> ApplicationConversionServiceFactoryBean.getVetToStringConverter() {
-        return new org.springframework.core.convert.converter.Converter<com.springsource.petclinic.domain.Vet, java.lang.String>() {
-            public String convert(Vet vet) {
-                return new StringBuilder().append(vet.getFirstName()).append(' ').append(vet.getLastName()).append(' ').append(vet.getAddress()).append(' ').append(vet.getCity()).toString();
             }
         };
     }
@@ -91,7 +75,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<Visit, String> ApplicationConversionServiceFactoryBean.getVisitToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.springsource.petclinic.domain.Visit, java.lang.String>() {
             public String convert(Visit visit) {
-                return new StringBuilder().append(visit.getDescription()).append(' ').append(visit.getVisitDate()).toString();
+                return new StringBuilder().append(visit.getAuditCreation()).append(' ').append(visit.getAuditCreatedBy()).append(' ').append(visit.getAuditLastUpdate()).append(' ').append(visit.getAuditLastUpdatedBy()).toString();
             }
         };
     }

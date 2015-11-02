@@ -105,7 +105,7 @@ privileged aspect VetListController_Roo_GvNIXDatatables {
     
     @ModelAttribute
     public void VetListController.populateDatatablesConfig(Model uiModel) {
-        uiModel.addAttribute("datatablesHasBatchSupport", false);
+        uiModel.addAttribute("datatablesHasBatchSupport", true);
         uiModel.addAttribute("datatablesUseAjax",true);
         uiModel.addAttribute("datatablesInlineEditing",false);
         uiModel.addAttribute("datatablesInlineCreating",false);
@@ -261,6 +261,7 @@ privileged aspect VetListController_Roo_GvNIXDatatables {
         Locale defaultLocale = new Locale(locale);
         // Building JSON response
         StringBuilder json = new StringBuilder();
+        json.append("{");
         json.append("\"all_isnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.isnull", null, defaultLocale) + "\"");
         json.append(",");
         json.append("\"all_notnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.notnull", null, defaultLocale) + "\"");

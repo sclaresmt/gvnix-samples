@@ -76,6 +76,8 @@ This guide teaches you how to:
 . <<junit-and-selenium-tests, JUnit and Selenium Tests >>
 . <<webservices, WebServices >>
 . <<fancytree, FancyTree>>
+. <<audit, Audit>>
+. <<monitoring, Monitoring>>
 
 [[create-a-new-project]]
 == Create a new project
@@ -511,6 +513,46 @@ web mvc fancytree add show --controller ~.web.VetController --page tree
 [source,shell]
 web mvc fancytree add edit --controller ~.web.PetController --page editable_tree
 
+[[audit]] 
+== Audit
+
+Audit feature tracks when and who creates and updates entities. To include audit on all your entities, you need to execute the next commands:
+
+[source,shell]
+jpa audit setup
+jpa audit all
+
+NOTE: _These commands add audit fields in your entity views automatically. To avoid that user changes audit field values, you need to hide them in your create and update views by setting their *z* parameter to *user-managed* and add *render=false* parameter._
+
+[[monitoring]] 
+== Monitoring
+
+Monitoring allows to control the consumption of generate and execute views, queries, scripts, etc. 
+
+To include a new page where montorize all application entities you need to execute the next commands:
+
+[source,shell]
+monitoring setup
+monitoring all
+
+If you do not need to monitorize all your entities, you can use the next commands:
+
+* To monitorize an entity:
++
+[source,shell]
+monitoring add class
+
+* To monitorize an entity method:
++
+[source,shell]
+monitoring add method
+
+NOTE: _If the method belongs to an  .aj file, you need to push-in this method._
+
+* To monitorize a package:
++
+[source,shell]
+monitoring add package
 
 == Result
 
@@ -532,4 +574,5 @@ To implement some previous functionalities gvNIX uses different libraries like:
 - https://github.com/DataTables/DataTables[Datatables]
 - http://dandelion.github.io/datatables/[Dandelion Datatables]
 - http://getbootstrap.com/[Bootstrap]
+- https://github.com/javamelody/javamelody/wiki[JavaMelody]
 - ...

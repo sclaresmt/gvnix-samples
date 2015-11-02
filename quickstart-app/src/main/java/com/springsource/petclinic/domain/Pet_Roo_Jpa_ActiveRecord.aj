@@ -14,7 +14,7 @@ privileged aspect Pet_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Pet.entityManager;
     
-    public static final List<String> Pet.fieldNames4OrderClauseFilter = java.util.Arrays.asList("sendReminders", "name", "weight", "owner", "type", "visits", "occChekcsum");
+    public static final List<String> Pet.fieldNames4OrderClauseFilter = java.util.Arrays.asList("sendReminders", "name", "weight", "owner", "type", "visits", "occChecksum");
     
     public static final EntityManager Pet.entityManager() {
         EntityManager em = new Pet().entityManager;

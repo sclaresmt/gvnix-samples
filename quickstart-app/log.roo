@@ -1,9 +1,4 @@
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log opened at 2015-10-15 14:44:54
-// [failed] project --topLevelPackage com.springsource.petclinic --projectName petclinic
-// [failed] script --file quickstart.roo
-exit
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log closed at 2015-10-15 14:45:15
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log opened at 2015-10-15 14:46:43
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-10-29 17:37:57
 project --topLevelPackage com.springsource.petclinic --projectName petclinic
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
 enum type --class ~.reference.PetType
@@ -52,6 +47,7 @@ finder add --finderName findVisitsByVisitDateBetween
 finder add --finderName findVisitsByDescriptionLike
 web mvc setup
 web mvc all --package ~.web
+web mvc scaffold --class ~.web.VetListController --backingType ~.domain.Vet --path vetlist
 web mvc finder all
 web mvc language --code de
 web mvc language --code es
@@ -64,6 +60,7 @@ web mvc datatables setup
 web mvc jquery all
 web mvc bootstrap setup
 web mvc datatables add --type ~.web.VetController --mode show
+web mvc datatables add --type ~.web.VetListController
 web mvc datatables add --type ~.web.PetController
 web mvc datatables add --type ~.web.OwnerController
 web mvc datatables add --type ~.web.VisitController --inline true --ajax true
@@ -74,7 +71,7 @@ web mvc datatables detail add --type ~.web.VetController --property visits
 web mvc loupe setup
 web mvc loupe set --controller ~.web.VisitController
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
-web mvc loupe field --controller ~.web.VisitController --field vet
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
 web mvc loupe set --controller ~.web.PetController
 web mvc loupe field --controller ~.web.PetController --field owner
 menu setup
@@ -90,6 +87,7 @@ test integration --entity ~.domain.Visit
 selenium test --controller ~.web.OwnerController
 selenium test --controller ~.web.PetController
 selenium test --controller ~.web.VetController
+selenium test --controller ~.web.VetListController
 selenium test --controller ~.web.VisitController
 logging setup --level INFO
 configuration create --name local
@@ -100,26 +98,13 @@ configuration export
 remote service define ws --class ~.services.PetsServices --serviceName ws_get_all_pets
 remote service operation --name ws_list_pets --service ~.services.PetsServices
 web mvc fancytree setup
-web mvc fancytree add edit --controller ~.web.PetController --page tree
+web mvc fancytree add edit --controller ~.web.PetController --page editable_tree
 web mvc fancytree add show --controller ~.web.VetController --page tree
-// script --file quickstart.roo
-exit
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log closed at 2015-10-15 15:00:27
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log opened at 2015-10-21 15:15:23
-selenium test --controller ~.web.OwnerController --serverUrl 'http://petclinic-gvnix.rhcloud.com'
-selenium test --controller ~.web.VetController --serverUrl 'http://petclinic-gvnix.rhcloud.com'
-exit
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log closed at 2015-10-21 15:30:03
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log opened at 2015-10-22 12:03:43
-web mvc scaffold --class ~.web.VetListController --backingType ~.domain.Vet --path vetlist
-web mvc finder all
-web mvc jquery all
-web mvc bootstrap update
-web mvc datatables add --type ~.web.VetListController
-web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
+monitoring setup
+monitoring all
+jpa audit setup
+jpa audit all
+
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-10-30 14:21:45
 q
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log closed at 2015-10-22 12:06:07
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log opened at 2015-10-22 12:38:14
-selenium test --controller ~.web.VetListController
-q
-// Spring Roo 1.3.2.RELEASE [rev 8c2549b] log closed at 2015-10-22 12:39:07
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log closed at 2015-10-30 14:27:17

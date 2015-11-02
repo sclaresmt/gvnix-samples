@@ -14,5 +14,9 @@
         <field:display calendar="true" dateTimePattern="${vet_employedsince_date_format}" field="employedSince" id="s_com_springsource_petclinic_domain_Vet_employedSince" object="${vet}" z="x81LbLDJKYqHFyphwUi/QkrTZNA="/>
         <field:display field="specialty" id="s_com_springsource_petclinic_domain_Vet_specialty" object="${vet}" z="Fgdd7Giap9QqGKzWVQnTLKhM2Aw="/>
         <field:display field="owner" id="s_com_springsource_petclinic_domain_Vet_owner" object="${vet}" z="Vdg3HbZN0DeeB9RAw/ppF4V/zVk="/>
+        <field:display calendar="true" dateTimePattern="${vet_auditcreation_date_format}" field="auditCreation" id="s_com_springsource_petclinic_domain_Vet_auditCreation" object="${vet}" z="1Y8WMBiI+ta0nK1IOWh+ii8fC5c="/>
+        <field:display field="auditCreatedBy" id="s_com_springsource_petclinic_domain_Vet_auditCreatedBy" object="${vet}" z="f88mrh7Ri9/3LPzjCwDH/7d1ag0="/>
+        <field:display calendar="true" dateTimePattern="${vet_auditlastupdate_date_format}" field="auditLastUpdate" id="s_com_springsource_petclinic_domain_Vet_auditLastUpdate" object="${vet}" z="T4GNvtoZnZVO/t049uUwRFeNta0="/>
+        <field:display field="auditLastUpdatedBy" id="s_com_springsource_petclinic_domain_Vet_auditLastUpdatedBy" object="${vet}" z="HMV/CIImzZjxizMKyYoAxbcjJeM="/>
     </page:show>
 </div>

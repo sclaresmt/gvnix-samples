@@ -32,6 +32,10 @@ privileged aspect OwnerDataOnDemand_Roo_DataOnDemand {
         Owner obj = new Owner();
         setAddress(obj, index);
         setArea(obj, index);
+        setAuditCreatedBy(obj, index);
+        setAuditCreation(obj, index);
+        setAuditLastUpdate(obj, index);
+        setAuditLastUpdatedBy(obj, index);
         setBirthDay(obj, index);
         setCity(obj, index);
         setDistance(obj, index);
@@ -55,6 +59,26 @@ privileged aspect OwnerDataOnDemand_Roo_DataOnDemand {
     public void OwnerDataOnDemand.setArea(Owner obj, int index) {
         Polygon area = null;
         obj.setArea(area);
+    }
+    
+    public void OwnerDataOnDemand.setAuditCreatedBy(Owner obj, int index) {
+        String auditCreatedBy = "auditCreatedBy_" + index;
+        obj.setAuditCreatedBy(auditCreatedBy);
+    }
+    
+    public void OwnerDataOnDemand.setAuditCreation(Owner obj, int index) {
+        Calendar auditCreation = Calendar.getInstance();
+        obj.setAuditCreation(auditCreation);
+    }
+    
+    public void OwnerDataOnDemand.setAuditLastUpdate(Owner obj, int index) {
+        Calendar auditLastUpdate = Calendar.getInstance();
+        obj.setAuditLastUpdate(auditLastUpdate);
+    }
+    
+    public void OwnerDataOnDemand.setAuditLastUpdatedBy(Owner obj, int index) {
+        String auditLastUpdatedBy = "auditLastUpdatedBy_" + index;
+        obj.setAuditLastUpdatedBy(auditLastUpdatedBy);
     }
     
     public void OwnerDataOnDemand.setBirthDay(Owner obj, int index) {

@@ -22,9 +22,9 @@ privileged aspect PetController_Roo_GvNIXFancyTree {
     @Autowired
     public TreeUtils PetController.treeUtils;
     
-    @RequestMapping("/tree")
+    @RequestMapping("/editable_tree")
     public String PetController.showTree(Model uiModel) {
-        return "pets/tree";
+        return "pets/editable_tree";
     }
     
     /**
@@ -35,9 +35,9 @@ privileged aspect PetController_Roo_GvNIXFancyTree {
      *  
      * @return Data to be loaded by Fancytree
      */
-    @RequestMapping(value = "/tree", produces = "application/json", headers = "Accept=application/json")
+    @RequestMapping(value = "/editable_tree", produces = "application/json", headers = "Accept=application/json")
     @ResponseBody
-    public ResponseEntity<List<TreeNode>> PetController.getTreeData(@RequestParam(value = "id", required = false) String id) {
+    public ResponseEntity<List<TreeNode>> PetController.getEditable_treeData(@RequestParam(value = "id", required = false) String id) {
         //FIXME to be implemented
         List<TreeNode> data = new ArrayList<TreeNode>();
         if (treeUtils.isRootNode(id) || id == null) {
@@ -66,9 +66,9 @@ privileged aspect PetController_Roo_GvNIXFancyTree {
      *  
      * @return OK if update succeed
      */
-    @RequestMapping(value = "/tree/update", produces = "application/json", headers = "Accept=application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/editable_tree/update", produces = "application/json", headers = "Accept=application/json", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> PetController.updateTreeData(@RequestParam(value = "id", required = true) String id, @RequestParam(value = "parent", required = false) String parent, @RequestParam(value = "position", required = false) int position, @RequestParam(value = "data", required = false) String data, @RequestParam(value = "text", required = false) String text) {
+    public ResponseEntity<String> PetController.updateEditable_treeData(@RequestParam(value = "id", required = true) String id, @RequestParam(value = "parent", required = false) String parent, @RequestParam(value = "position", required = false) int position, @RequestParam(value = "data", required = false) String data, @RequestParam(value = "text", required = false) String text) {
         //FIXME to be implemented
         return new ResponseEntity<String>(HttpStatus.OK);
     }
@@ -80,9 +80,9 @@ privileged aspect PetController_Roo_GvNIXFancyTree {
      *  
      * @return OK if operation succeed
      */
-    @RequestMapping(value = "/tree/delete", produces = "application/json", headers = "Accept=application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/editable_tree/delete", produces = "application/json", headers = "Accept=application/json", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> PetController.deleteTreeData(@RequestParam(value = "id", required = true) String id) {
+    public ResponseEntity<String> PetController.deleteEditable_treeData(@RequestParam(value = "id", required = true) String id) {
         //FIXME to be implemented
         return new ResponseEntity<String>(HttpStatus.OK);
     }
@@ -97,9 +97,9 @@ privileged aspect PetController_Roo_GvNIXFancyTree {
      *  
      * @return OK if operation succeed
      */
-    @RequestMapping(value = "/tree/create", produces = "application/json", headers = "Accept=application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/editable_tree/create", produces = "application/json", headers = "Accept=application/json", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> PetController.createTreeData(@RequestParam(value = "parent", required = true) String parent, @RequestParam(value = "position", required = false) int position, @RequestParam(value = "data", required = false) String data, @RequestParam(value = "text", required = false) String text) {
+    public ResponseEntity<String> PetController.createEditable_treeData(@RequestParam(value = "parent", required = true) String parent, @RequestParam(value = "position", required = false) int position, @RequestParam(value = "data", required = false) String data, @RequestParam(value = "text", required = false) String text) {
         //FIXME to be implemented
         return new ResponseEntity<String>(HttpStatus.OK);
     }

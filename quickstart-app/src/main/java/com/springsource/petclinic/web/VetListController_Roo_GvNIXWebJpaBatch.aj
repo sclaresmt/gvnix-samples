@@ -5,7 +5,7 @@ package com.springsource.petclinic.web;
 
 import com.springsource.petclinic.domain.Vet;
 import com.springsource.petclinic.domain.VetBatchService;
-import com.springsource.petclinic.web.VetController;
+import com.springsource.petclinic.web.VetListController;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,18 +33,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
-privileged aspect VetController_Roo_GvNIXWebJpaBatch {
+privileged aspect VetListController_Roo_GvNIXWebJpaBatch {
     
     @Autowired
-    public ConversionService VetController.conversionService_batch;
+    public ConversionService VetListController.conversionService_batch;
     
-    public static Logger VetController.LOGGER_BATCH = LoggerFactory.getLogger(VetController.class);;
+    public static Logger VetListController.LOGGER_BATCH = LoggerFactory.getLogger(VetListController.class);;
     
     @Autowired
-    public VetBatchService VetController.batchService;
+    public VetBatchService VetListController.batchService;
     
     @RequestMapping(value = "/delete", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<Object> VetController.deleteBatch(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Vet vet, WebRequest request) {
+    public ResponseEntity<Object> VetListController.deleteBatch(@RequestParam(value = "all", required = false) boolean all, @RequestParam(value = "deleteIn", required = false) Boolean deleteIn, @RequestParam(value = "idList[]", required = false) List<Long> idList, @ModelAttribute Vet vet, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         long count = 0;
@@ -78,7 +78,7 @@ privileged aspect VetController_Roo_GvNIXWebJpaBatch {
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.PUT, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Vet>> VetController.updateBatch(@RequestBody @Valid List<Vet> vets, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Vet>> VetListController.updateBatch(@RequestBody @Valid List<Vet> vets, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Vet>> jsonResponse = new JsonResponse<List<Vet>>();
         jsonResponse.setValue(vets);
         if (bindingResult.hasErrors()) {
@@ -102,7 +102,7 @@ privileged aspect VetController_Roo_GvNIXWebJpaBatch {
     
     @RequestMapping(produces = "application/json", consumes = "application/json", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public JsonResponse<List<Vet>> VetController.createBatch(@RequestBody @Valid List<Vet> vets, BindingResult bindingResult, HttpServletRequest request) {
+    public JsonResponse<List<Vet>> VetListController.createBatch(@RequestBody @Valid List<Vet> vets, BindingResult bindingResult, HttpServletRequest request) {
         JsonResponse<List<Vet>> jsonResponse = new JsonResponse<List<Vet>>();
         jsonResponse.setValue(vets);
         if (bindingResult.hasErrors()) {
@@ -123,7 +123,7 @@ privileged aspect VetController_Roo_GvNIXWebJpaBatch {
         return jsonResponse;
     }
     
-    public List<String> VetController.getOIDList(List<Vet> vets) {
+    public List<String> VetListController.getOIDList(List<Vet> vets) {
         List<String> result = new ArrayList<String>(vets.size());
         for (Vet vet : vets) {
             result.add(conversionService_batch.convert(vet.getId(), String.class));
@@ -131,7 +131,7 @@ privileged aspect VetController_Roo_GvNIXWebJpaBatch {
         return result;
     }
     
-    public Map<String, Object> VetController.getRequestPropertyValues(Vet vet, Iterator<String> propertyNames) {
+    public Map<String, Object> VetListController.getRequestPropertyValues(Vet vet, Iterator<String> propertyNames) {
         Map<String, Object> propertyValuesMap = new HashMap<String, Object>();
         
         // If no entity or properties given, return empty Map

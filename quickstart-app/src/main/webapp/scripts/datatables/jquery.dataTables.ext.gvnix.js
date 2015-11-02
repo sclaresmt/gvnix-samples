@@ -135,7 +135,7 @@ function fnDatatablesExtInit(oSettings, tableId, options, count) {
 	});
 	
 	// Calling at first time Footer Callback
-	updateDatatablesFilters($table.fnSettings());
+	window.setTimeout(updateDatatablesFilters, 100, $table.fnSettings());
 	
 	// Calling at first time RowCreatedCallback
 	var $tds = $table.find("td");
@@ -218,13 +218,7 @@ function fnVal($control) {
 	var nControl = $control[0];
 
 	if (nControl.nodeName.toLowerCase() == "input") {
-		var patternDate = nControl.attributes["data-dateformat"];
-		if(patternDate != undefined && nControl["value"] != ""){
-			return jQuery.datepicker.formatDate(jQueryDateFormat(patternDate.value),
-						new Date(nControl["value"]));
-		}else{
-			return $control.val();
-		}
+		return $control.val();
 	}
 
 	// Note: At present, using .val() on textarea elements strips carriage
@@ -324,26 +318,8 @@ jQuery.fn.dataTableExt.oApi.fnGvNIX_FooterCallback = function(nFoot, data, start
 		return;
 	}
 	updateDatatablesFilters(oSettings);
-
+	
 };
-
-/**
- * This function register new aoOnSaveStateCallback on gvNIX Datatable
- */
-jQuery.fn.dataTableExt.oApi.fnRegisterSaveStateCallback = function(oSettings, fn){
-	// Creating new callback
-	oSettings['aoOnSaveStateCallback'] = [];
-	oSettings.oApi._fnCallbackReg(oSettings, 'aoOnSaveStateCallback', fn);
-};
-
-/**
- * This function register new aoOnSelectCallback on gvNIX Datatable
- */
-jQuery.fn.dataTableExt.oApi.fnRegisterOnSelectCallback = function(oSettings, fn){
-	// Creating new callback
-	oSettings['aoOnSelectCallback'] = [];
-	oSettings.oApi._fnCallbackReg(oSettings, 'aoOnSelectCallback', fn);
-};	
 
 /**
  * This function is executed when a TR element is created
@@ -398,60 +374,70 @@ function updateDatatablesFilters(oSettings) {
 	var filters = oSettings.aoPreSearchCols;
 	var footer = jQuery(oSettings.aoFooter)[0];
 	
-	// If footer is defined
-	if(footer !== undefined){
-		
-		for ( var i=0, iLen=filters.length ; i<iLen ; i++ )
-	    {
-			if(footer[i] !== null && footer[i] !== undefined){
-				var $cell = jQuery(footer[i].cell);
-				var property = $cell.data().property;
-				var filterExpression = filters[i].sSearch;
+	// Getting ajax source
+	 var ajaxSource = oSettings.sAjaxSource;
+	 
+	 if(ajaxSource !== null && ajaxSource != undefined){
+	 	// If footer is defined
+		if(footer !== undefined){
+			
+			for ( var i=0, iLen=filters.length ; i<iLen ; i++ )
+		    {
+				if(footer[i] !== null && footer[i] !== undefined){
+					var $cell = jQuery(footer[i].cell);
+					var property = $cell.data().property;
+					var filterExpression = filters[i].sSearch;
 
-				// Gettting filter input
-				var filterInput = $cell.find('input');
-				
-				 // Adding data to current filter input
-                if(filterInput !== null && filterInput !== undefined){
-                	// Saving Parent Id
-                    filterInput.data("dataTableId", oSettings.sTableId);
-                    // Saving Parent Path
-                    var ajaxSource = oSettings.sAjaxSource;
-                    if(ajaxSource !== null && ajaxSource !== undefined){
-                        ajaxSource = ajaxSource.replace("/datatables/ajax","");
-                        filterInput.data("dataTablePath", ajaxSource);
-                    }
-                }
+					// Gettting filter input
+					var filterInput = $cell.find('input');
+					
+					 // Adding data to current filter input
+	                if(filterInput !== null && filterInput !== undefined && filterInput.length > 0){
+	                	
+	                	// Saving Parent Id
+	                    filterInput.data("dataTableId", oSettings.sTableId);
+	                    // Saving Parent Path
+	                    ajaxSource = ajaxSource.replace("/datatables/ajax","");
+	                    filterInput.data("dataTablePath", ajaxSource);
+	                    
+	    				filterInput.css("width", "80%");
 
-				filterInput.css("width", "80%");
-
-				if(filterExpression != "")	{
-					// Mark as filtered
-					filterInput.addClass("filter_not_empty");
-					jQuery.ajax({
-						  url: "?checkFilters",
-						  data: {property: property, expression: filterExpression},
-						  type: "post",
-						  success: function(jsonResponse) {
-							  for(var i=0;i<footer.length;i++){
-								  if(property == jsonResponse.property){
-									  if(!jsonResponse.response){
-										  filterInput.css("background-color","#FA5858");
-									  }else{
-										  filterInput.css("background-color","#ffffff");
-									  }
-								  }
-							  }
-						  },
-						  error:function (xhr, ajaxOptions, thrownError) {
-						  }
-					});
-				}else{
-					filterInput.css("background-color","#ffffff");
+	    				if(filterExpression != "")	{
+	    					// Mark as filtered
+	    					filterInput.addClass("filter_not_empty");
+	    					jQuery.ajax({
+	    						  url: "?checkFilters",
+	    						  data: {property: property, expression: filterExpression},
+	    						  type: "post",
+	    						  success: function(jsonResponse) {
+	    							  for(var i=0;i<footer.length;i++){
+	    								  if(property == jsonResponse.property){
+	    									  if(!jsonResponse.response){
+	    										  filterInput.css("background-color","#FA5858");
+	    									  }else{
+	    										  filterInput.css("background-color","#ffffff");
+	    									  }
+	    								  }
+	    							  }
+	    						  },
+	    						  error:function (xhr, ajaxOptions, thrownError) {
+	    							  console.log("Error getting filters ");
+	    						  }
+	    					});
+	    				}else{
+	    					filterInput.css("background-color","#ffffff");
+	    				}
+	    				
+	    				// Checking that not exists another advanced search
+	    		        if(jQuery(filterInput).parent().find('a').length == 0){
+	    				    new GvNIX_Advanced_Filter(jQuery(filterInput));
+	    		        }
+	    				
+	                }
 				}
-			}
-	    }
-	}
+		    }			
+		}
+	 }
 };
 
 /**

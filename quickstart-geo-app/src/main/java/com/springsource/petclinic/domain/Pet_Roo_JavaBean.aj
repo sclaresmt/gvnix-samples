@@ -60,12 +60,12 @@ privileged aspect Pet_Roo_JavaBean {
         this.visits = visits;
     }
     
-    public String Pet.getOccChekcsum() {
-        return this.occChekcsum;
+    public String Pet.getOccChecksum() {
+        return this.occChecksum;
     }
     
-    public void Pet.setOccChekcsum(String occChekcsum) {
-        this.occChekcsum = occChekcsum;
+    public void Pet.setOccChecksum(String occChecksum) {
+        this.occChecksum = occChecksum;
     }
     
 }

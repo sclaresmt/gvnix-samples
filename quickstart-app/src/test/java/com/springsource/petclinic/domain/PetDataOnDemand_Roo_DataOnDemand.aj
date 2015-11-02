@@ -10,6 +10,8 @@ import com.springsource.petclinic.reference.PetType;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -31,11 +33,35 @@ privileged aspect PetDataOnDemand_Roo_DataOnDemand {
     
     public Pet PetDataOnDemand.getNewTransientPet(int index) {
         Pet obj = new Pet();
+        setAuditCreatedBy(obj, index);
+        setAuditCreation(obj, index);
+        setAuditLastUpdate(obj, index);
+        setAuditLastUpdatedBy(obj, index);
         setName(obj, index);
         setSendReminders(obj, index);
         setType(obj, index);
         setWeight(obj, index);
         return obj;
+    }
+    
+    public void PetDataOnDemand.setAuditCreatedBy(Pet obj, int index) {
+        String auditCreatedBy = "auditCreatedBy_" + index;
+        obj.setAuditCreatedBy(auditCreatedBy);
+    }
+    
+    public void PetDataOnDemand.setAuditCreation(Pet obj, int index) {
+        Calendar auditCreation = Calendar.getInstance();
+        obj.setAuditCreation(auditCreation);
+    }
+    
+    public void PetDataOnDemand.setAuditLastUpdate(Pet obj, int index) {
+        Calendar auditLastUpdate = Calendar.getInstance();
+        obj.setAuditLastUpdate(auditLastUpdate);
+    }
+    
+    public void PetDataOnDemand.setAuditLastUpdatedBy(Pet obj, int index) {
+        String auditLastUpdatedBy = "auditLastUpdatedBy_" + index;
+        obj.setAuditLastUpdatedBy(auditLastUpdatedBy);
     }
     
     public void PetDataOnDemand.setName(Pet obj, int index) {

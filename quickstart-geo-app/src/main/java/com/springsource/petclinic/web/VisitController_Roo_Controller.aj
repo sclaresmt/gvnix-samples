@@ -98,6 +98,8 @@ privileged aspect VisitController_Roo_Controller {
     }
     
     void VisitController.addDateTimeFormatPatterns(Model uiModel) {
+        uiModel.addAttribute("visit_auditcreation_date_format", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+        uiModel.addAttribute("visit_auditlastupdate_date_format", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
         uiModel.addAttribute("visit_visitdate_date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
     }
     

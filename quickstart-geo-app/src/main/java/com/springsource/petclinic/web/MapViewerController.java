@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/mapview")
-@GvNIXMapViewer(entityLayers = {  }, projection = "EPSG3857")
+@GvNIXMapViewer(entityLayers = {  }, projection = "EPSG4326")
 public class MapViewerController {
 }

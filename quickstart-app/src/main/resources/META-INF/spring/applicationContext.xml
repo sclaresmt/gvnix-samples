@@ -67,4 +67,5 @@
         <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
+<bean class="net.bull.javamelody.SpringDataSourceBeanPostProcessor" id="springDataSourceBeanPostProcessor"/>
 </beans>

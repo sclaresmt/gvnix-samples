@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
+import org.gvnix.addon.jpa.annotations.audit.GvNIXJpaAudit;
 import com.vividsolutions.jts.geom.Point;
 import org.hibernate.annotations.Type;
 import com.vividsolutions.jts.geom.LineString;
@@ -15,6 +16,7 @@ import org.gvnix.addon.jpa.annotations.geo.GvNIXEntityMapLayer;
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
+@GvNIXJpaAudit
 @GvNIXEntityMapLayer
 public class Owner extends AbstractPerson {
 

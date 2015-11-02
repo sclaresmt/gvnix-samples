@@ -354,11 +354,9 @@ Also, you can find more tools in the **WEB-INF/tags/geo/tools** folder. To inclu
 Also, you need to define the showHelpMessage function.
 +
 [source,javascript]
- <script type="text/javascript">
-    function showHelpMessage(map, instance, element){
-      alert("Show any help information");
-    }
-</script>
+function showHelpMessage(map, instance, element){
+    alert("Show any help information");
+}
  	
 When you finish these steps you are going to have the following toolbar: 	
  	
@@ -418,7 +416,7 @@ version="2.0">
 +
 [source, html] 
 <geo:components id="ps_com_springsource_petclinic_web_Map_components">
-	<components:coordinates id="ps_com_springsource_petclinic_web_Map_coordinates" centerInputCoordinates="true"/>
+   <components:coordinates id="ps_com_springsource_petclinic_web_Map_coordinates" centerInputCoordinates="true"/>
 </geo:components>    
 
      
@@ -454,7 +452,7 @@ version="2.0">
 +
 [source, html] 
 <geo:components id="ps_com_springsource_petclinic_web_Map_components">
-    <components:scale id="ps_com_springsource_petclinic_web_Map_coordinates"/>
+  <components:scale id="ps_com_springsource_petclinic_web_Map_coordinates"/>
 </geo:components> 
 
     
@@ -464,6 +462,7 @@ version="2.0">
 To include a street map searcher which locates places based on text introduced, you need to include the next code inside _geo:toolbar_ tag in your **views/{mappath}/show.jspx** file:
 [source, html] 
 <geo:toolbar id="ps_com_springsource_petclinic_web_Map_toolbar" z="user-managed">
+    ...
     <tool:geosearch id="ps_com_springsource_petclinic_web_Map_geosearch"/>
 </geo:toolbar>   
 

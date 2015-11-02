@@ -79,8 +79,8 @@ privileged aspect Pet_gvnix_persistence_occ {
                     "Pet has been deleted (id: " + this.id + ")");
             }
         }
-        if (this.occChekcsum != null && // We haven the old checksum and
-            !this.occChekcsum.equals(attached.occChekcsum)) { // checksum is not equals
+        if (this.occChecksum != null && // We haven the old checksum and
+            !this.occChecksum.equals(attached.occChecksum)) { // checksum is not equals
 	    	// TODO Customize this Exception to add more information
 	    	throw new OptimisticLockException(
 		    	"This Pet has been modified by another user (id: " + this.id + ")");
@@ -90,8 +90,8 @@ privileged aspect Pet_gvnix_persistence_occ {
 
     @PostLoad
     private void Pet.loadChecksum() {
-        if (this.occChekcsum == null) {
-            this.occChekcsum = this.checksumDigest();
+        if (this.occChecksum == null) {
+            this.occChecksum = this.checksumDigest();
         }
     }
 
@@ -100,6 +100,10 @@ privileged aspect Pet_gvnix_persistence_occ {
         final String separator = "#$#";
         StringBuilder sb = new StringBuilder();
 
+	sb.append((auditCreation == null ? nullstr : String.valueOf(auditCreation)) + separator);
+	sb.append((auditCreatedBy == null ? nullstr : String.valueOf(auditCreatedBy)) + separator);
+	sb.append((auditLastUpdate == null ? nullstr : String.valueOf(auditLastUpdate)) + separator);
+	sb.append((auditLastUpdatedBy == null ? nullstr : String.valueOf(auditLastUpdatedBy)) + separator);
 	sb.append((String.valueOf(sendReminders).equals("null") ? nullstr : String.valueOf(sendReminders)) + separator);
 	sb.append((name == null ? nullstr : String.valueOf(name)) + separator);
 	sb.append((weight == null ? nullstr : String.valueOf(weight)) + separator);

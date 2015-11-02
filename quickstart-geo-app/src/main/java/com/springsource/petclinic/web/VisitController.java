@@ -9,6 +9,7 @@ import org.gvnix.addon.web.mvc.annotations.batch.GvNIXWebJpaBatch;
 import org.gvnix.addon.web.mvc.annotations.jquery.GvNIXWebJQuery;
 import org.gvnix.addon.datatables.annotations.GvNIXDatatables;
 import org.gvnix.addon.loupefield.annotations.GvNIXLoupeController;
+import net.bull.javamelody.MonitoredWithSpring;
 
 @RequestMapping("/visits")
 @Controller
@@ -18,5 +19,6 @@ import org.gvnix.addon.loupefield.annotations.GvNIXLoupeController;
 @GvNIXWebJQuery
 @GvNIXDatatables(ajax = true, inlineEditing = true)
 @GvNIXLoupeController
+@MonitoredWithSpring
 public class VisitController {
 }

@@ -25,7 +25,7 @@
 <definition extends="default" name="pets/findPetsByTypeAndNameLike">
         <put-attribute name="body" value="/WEB-INF/views/pets/findPetsByTypeAndNameLike.jspx"/>
     </definition>
-<definition extends="default" name="pets/tree">
-        <put-attribute name="body" value="/WEB-INF/views/pets/tree.jspx"/>
+<definition extends="default" name="pets/editable_tree">
+        <put-attribute name="body" value="/WEB-INF/views/pets/editable_tree.jspx"/>
     </definition>
 </tiles-definitions>

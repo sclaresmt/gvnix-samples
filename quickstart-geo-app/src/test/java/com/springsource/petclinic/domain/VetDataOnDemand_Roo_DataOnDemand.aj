@@ -34,6 +34,10 @@ privileged aspect VetDataOnDemand_Roo_DataOnDemand {
     public Vet VetDataOnDemand.getNewTransientVet(int index) {
         Vet obj = new Vet();
         setAddress(obj, index);
+        setAuditCreatedBy(obj, index);
+        setAuditCreation(obj, index);
+        setAuditLastUpdate(obj, index);
+        setAuditLastUpdatedBy(obj, index);
         setBirthDay(obj, index);
         setCity(obj, index);
         setEmail(obj, index);
@@ -52,6 +56,26 @@ privileged aspect VetDataOnDemand_Roo_DataOnDemand {
             address = address.substring(0, 50);
         }
         obj.setAddress(address);
+    }
+    
+    public void VetDataOnDemand.setAuditCreatedBy(Vet obj, int index) {
+        String auditCreatedBy = "auditCreatedBy_" + index;
+        obj.setAuditCreatedBy(auditCreatedBy);
+    }
+    
+    public void VetDataOnDemand.setAuditCreation(Vet obj, int index) {
+        Calendar auditCreation = Calendar.getInstance();
+        obj.setAuditCreation(auditCreation);
+    }
+    
+    public void VetDataOnDemand.setAuditLastUpdate(Vet obj, int index) {
+        Calendar auditLastUpdate = Calendar.getInstance();
+        obj.setAuditLastUpdate(auditLastUpdate);
+    }
+    
+    public void VetDataOnDemand.setAuditLastUpdatedBy(Vet obj, int index) {
+        String auditLastUpdatedBy = "auditLastUpdatedBy_" + index;
+        obj.setAuditLastUpdatedBy(auditLastUpdatedBy);
     }
     
     public void VetDataOnDemand.setBirthDay(Vet obj, int index) {

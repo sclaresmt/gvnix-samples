@@ -15,5 +15,9 @@
         <field:select field="specialty" id="c_com_springsource_petclinic_domain_Vet_specialty" items="${specialtys}" path="specialtys" z="XiH5EdiaKEIz1+ZhqH7U6EOjNFI="/>
         <field:simple field="visits" id="c_com_springsource_petclinic_domain_Vet_visits" messageCode="entity_reference_not_managed" messageCodeAttribute="Visit" z="6+AxtJ+JIq/bk/rGfDudL75s0YA="/>
         <field:select field="owner" id="c_com_springsource_petclinic_domain_Vet_owner" itemValue="id" items="${owners}" path="/owners" z="6q+f2SNiHv/kTpxgAN99I3snG10="/>
+        <field:datetime dateTimePattern="${vet_auditcreation_date_format}" field="auditCreation" id="c_com_springsource_petclinic_domain_Vet_auditCreation" render="false" z="user-managed"/>
+        <field:input field="auditCreatedBy" id="c_com_springsource_petclinic_domain_Vet_auditCreatedBy" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${vet_auditlastupdate_date_format}" field="auditLastUpdate" render="false" id="c_com_springsource_petclinic_domain_Vet_auditLastUpdate" z="user-managed"/>
+        <field:input field="auditLastUpdatedBy" id="c_com_springsource_petclinic_domain_Vet_auditLastUpdatedBy" render="false" z="user-managed"/>
     </form:update>
 </div>

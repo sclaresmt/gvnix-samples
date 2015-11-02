@@ -8,5 +8,9 @@
         <field:display field="weight" id="s_com_springsource_petclinic_domain_Pet_weight" object="${pet}" z="X/NCCB/JTd6q26u/CFM+giAZ23g="/>
         <field:display field="owner" id="s_com_springsource_petclinic_domain_Pet_owner" object="${pet}" z="gkB4oAjvZoS122eiRb58IhKhNBw="/>
         <field:display field="type" id="s_com_springsource_petclinic_domain_Pet_type" object="${pet}" z="brGTntbyB66uv79OYo3quRHblKU="/>
+        <field:display calendar="true" dateTimePattern="${pet_auditcreation_date_format}" field="auditCreation" id="s_com_springsource_petclinic_domain_Pet_auditCreation" object="${pet}" z="1fwKkb1Vd9Mr8ude7ISOYjpkr9g="/>
+        <field:display field="auditCreatedBy" id="s_com_springsource_petclinic_domain_Pet_auditCreatedBy" object="${pet}" z="q8NQJIwwbBExmXPwjoFYQqO232M="/>
+        <field:display calendar="true" dateTimePattern="${pet_auditlastupdate_date_format}" field="auditLastUpdate" id="s_com_springsource_petclinic_domain_Pet_auditLastUpdate" object="${pet}" z="DpTE36Lb6uyHsiGJVNov8KdlpJ4="/>
+        <field:display field="auditLastUpdatedBy" id="s_com_springsource_petclinic_domain_Pet_auditLastUpdatedBy" object="${pet}" z="B9kKPpXteJmnIWpdaQrTM0rCXTI="/>
     </page:show>
 </div>

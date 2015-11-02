@@ -4,7 +4,6 @@
 package com.springsource.petclinic.domain;
 
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPADeleteClause;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.path.PathBuilder;
 import com.springsource.petclinic.domain.Visit;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect VisitBatchService_Roo_GvNIXJpaBatch {
@@ -28,21 +27,28 @@ privileged aspect VisitBatchService_Roo_GvNIXJpaBatch {
     
     @Transactional
     public int VisitBatchService.deleteAll() {
-        return entityManager().createQuery("DELETE FROM Visit").executeUpdate();
+        TypedQuery<Visit> query = entityManager().createQuery("Select o FROM Visit o", Visit.class);
+        List<Visit> visits = query.getResultList();
+        delete(visits);
+        return visits.size();
     }
     
     @Transactional
     public int VisitBatchService.deleteIn(List<Long> ids) {
-        Query query = entityManager().createQuery("DELETE FROM Visit as v WHERE v.id IN (:idList)");
+        TypedQuery<Visit> query = entityManager().createQuery("SELECT o FROM Visit o WHERE o.id IN (:idList)", Visit.class);
         query.setParameter("idList", ids);
-        return query.executeUpdate();
+        List<Visit> visits = query.getResultList();
+        delete(visits);
+        return visits.size();
     }
     
     @Transactional
     public int VisitBatchService.deleteNotIn(List<Long> ids) {
-        Query query = entityManager().createQuery("DELETE FROM Visit as v WHERE v.id NOT IN (:idList)");
+        TypedQuery<Visit> query = entityManager().createQuery("SELECT o FROM Visit o WHERE o.id NOT IN (:idList)", Visit.class);
         query.setParameter("idList", ids);
-        return query.executeUpdate();
+        List<Visit> visits = query.getResultList();
+        delete(visits);
+        return visits.size();
     }
     
     @Transactional
@@ -91,28 +97,9 @@ privileged aspect VisitBatchService_Roo_GvNIXJpaBatch {
     
     @Transactional
     public long VisitBatchService.deleteByValues(Map<String, Object> propertyValues) {
-        
-        // if there no is a filter
-        if (propertyValues == null || propertyValues.isEmpty()) {
-            throw new IllegalArgumentException("Missing property values");
-        }
-        // Prepare a predicate
-        BooleanBuilder baseFilterPredicate = new BooleanBuilder();
-        
-        // Base filter. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Visit> entity = new PathBuilder<Visit>(Visit.class, "entity");
-        
-        // Build base filter
-        for (String key : propertyValues.keySet()) {
-            baseFilterPredicate.and(entity.get(key).eq(propertyValues.get(key)));
-        }
-        
-        // Create a query with filter
-        JPADeleteClause delete = new JPADeleteClause(Visit.entityManager(),entity);
-        
-        // execute delete
-        return delete.where(baseFilterPredicate).execute();
+        List<Visit> visits = findByValues(propertyValues);
+        delete(visits);
+        return (long)visits.size();
     }
     
     @Transactional

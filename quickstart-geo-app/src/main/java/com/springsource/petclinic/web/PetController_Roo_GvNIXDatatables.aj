@@ -277,6 +277,7 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         Locale defaultLocale = new Locale(locale);
         // Building JSON response
         StringBuilder json = new StringBuilder();
+        json.append("{");
         json.append("\"all_isnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.isnull", null, defaultLocale) + "\"");
         json.append(",");
         json.append("\"all_notnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.notnull", null, defaultLocale) + "\"");
@@ -439,8 +440,11 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         
         // Entity pk field name
         String pkFieldName = "id";
+        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
+        addDateTimeFormatPatterns(uiModel);
+        Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -485,8 +489,11 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         
         // Entity pk field name
         String pkFieldName = "id";
+        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
+        addDateTimeFormatPatterns(uiModel);
+        Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -514,8 +521,11 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         
         // Entity pk field name
         String pkFieldName = "id";
+        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
+        addDateTimeFormatPatterns(uiModel);
+        Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -542,8 +552,11 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         
         // Entity pk field name
         String pkFieldName = "id";
+        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
+        addDateTimeFormatPatterns(uiModel);
+        Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -575,8 +588,11 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         
         // Entity pk field name
         String pkFieldName = "id";
+        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
+        addDateTimeFormatPatterns(uiModel);
+        Map<String, Object> datePattern = uiModel.asMap();
         
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), null); 
+        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
         return DatatablesResponse.build(dataSet,criterias);
     }
     
@@ -624,8 +640,11 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         Map<String, Object> baseSearchValuesMap = getPropertyMap(Pet, request);
         setDatatablesBaseFilter(baseSearchValuesMap);
         org.gvnix.web.datatables.query.SearchResults<com.springsource.petclinic.domain.Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(Pet.class, noPaginationCriteria, baseSearchValuesMap);
+        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
+        addDateTimeFormatPatterns(uiModel);
+        Map<String, Object> datePattern = uiModel.asMap();
         // Use ConversionService with the obtained data
-        return datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), null).getRows();
+        return datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), "id", searchResult.getTotalCount(), searchResult.getResultsCount(), criterias.getColumnDefs(), datePattern).getRows();
     }
     
 }

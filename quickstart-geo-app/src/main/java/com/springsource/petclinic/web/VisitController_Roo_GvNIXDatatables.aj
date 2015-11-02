@@ -32,7 +32,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -273,6 +272,7 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         Locale defaultLocale = new Locale(locale);
         // Building JSON response
         StringBuilder json = new StringBuilder();
+        json.append("{");
         json.append("\"all_isnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.isnull", null, defaultLocale) + "\"");
         json.append(",");
         json.append("\"all_notnull\": \"" + messageSource_dtt.getMessage("global.filters.operations.all.notnull", null, defaultLocale) + "\"");
@@ -454,104 +454,6 @@ privileged aspect VisitController_Roo_GvNIXDatatables {
         Class type = beanWrapper_dtt.getPropertyType(property);
         boolean response = datatablesUtilsBean_dtt.checkFilterExpressions(type,expression);
         return new ResponseEntity<String>(String.format("{ \"response\": %s, \"property\": \"%s\"}",response, property), headers, org.springframework.http.HttpStatus.OK);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=ByVisitDateBetween", produces = "application/json")
-    @ResponseBody
-    public DatatablesResponse<Map<String, String>> VisitController.findVisitsByVisitDateBetween(@DatatablesParams DatatablesCriterias criterias, @RequestParam("minVisitDate") Date minVisitDate, @RequestParam("maxVisitDate") Date maxVisitDate) {
-        BooleanBuilder baseSearch = new BooleanBuilder();
-        
-        // Base Search. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Visit> entity = new PathBuilder<Visit>(Visit.class, "entity");
-        
-        if(minVisitDate != null && maxVisitDate != null){
-            baseSearch.and(entity.getDate("visitDate", Date.class).between(minVisitDate,maxVisitDate));
-        }else{
-            baseSearch.and(entity.getDate("visitDate", Date.class).isNull());
-        }
-        
-        SearchResults<Visit> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
-        
-        // Get datatables required counts
-        long totalRecords = searchResult.getTotalCount();
-        long recordsFound = searchResult.getResultsCount();
-        
-        // Entity pk field name
-        String pkFieldName = "id";
-        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
-        addDateTimeFormatPatterns(uiModel);
-        Map<String, Object> datePattern = uiModel.asMap();
-        
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
-        return DatatablesResponse.build(dataSet,criterias);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=ByDescriptionLike", produces = "application/json")
-    @ResponseBody
-    public DatatablesResponse<Map<String, String>> VisitController.findVisitsByDescriptionLike(@DatatablesParams DatatablesCriterias criterias, @RequestParam("description") String description) {
-        BooleanBuilder baseSearch = new BooleanBuilder();
-        
-        // Base Search. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Visit> entity = new PathBuilder<Visit>(Visit.class, "entity");
-        
-        if(description != null){
-            baseSearch.and(entity.getString("description").toLowerCase().like("%".concat(description).toLowerCase().concat("%")));
-        }else{
-            baseSearch.and(entity.getString("description").isNull());
-        }
-        
-        SearchResults<Visit> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
-        
-        // Get datatables required counts
-        long totalRecords = searchResult.getTotalCount();
-        long recordsFound = searchResult.getResultsCount();
-        
-        // Entity pk field name
-        String pkFieldName = "id";
-        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
-        addDateTimeFormatPatterns(uiModel);
-        Map<String, Object> datePattern = uiModel.asMap();
-        
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
-        return DatatablesResponse.build(dataSet,criterias);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=ByDescriptionAndVisitDate", produces = "application/json")
-    @ResponseBody
-    public DatatablesResponse<Map<String, String>> VisitController.findVisitsByDescriptionAndVisitDate(@DatatablesParams DatatablesCriterias criterias, @RequestParam("description") String description, @RequestParam("visitDate") Date visitDate) {
-        BooleanBuilder baseSearch = new BooleanBuilder();
-        
-        // Base Search. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Visit> entity = new PathBuilder<Visit>(Visit.class, "entity");
-        
-        if(description != null){
-            baseSearch.and(entity.getString("description").eq(description));
-        }else{
-            baseSearch.and(entity.getString("description").isNull());
-        }
-        if(visitDate != null){
-            baseSearch.and(entity.getDate("visitDate", Date.class).eq(visitDate));
-        }else{
-            baseSearch.and(entity.getDate("visitDate", Date.class).isNull());
-        }
-        
-        SearchResults<Visit> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
-        
-        // Get datatables required counts
-        long totalRecords = searchResult.getTotalCount();
-        long recordsFound = searchResult.getResultsCount();
-        
-        // Entity pk field name
-        String pkFieldName = "id";
-        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
-        addDateTimeFormatPatterns(uiModel);
-        Map<String, Object> datePattern = uiModel.asMap();
-        
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
-        return DatatablesResponse.build(dataSet,criterias);
     }
     
     @RequestMapping(value = "/exportcsv", produces = "text/csv")

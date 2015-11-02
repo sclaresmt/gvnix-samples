@@ -13,5 +13,9 @@
         <field:datetime dateTimePattern="${owner_birthday_date_format}" field="birthDay" id="c_com_springsource_petclinic_domain_Owner_birthDay" required="true" z="hePNmv60SdPIC9BHED+b/A3wvL8="/>
         <field:simple field="pets" id="c_com_springsource_petclinic_domain_Owner_pets" messageCode="entity_reference_not_managed" messageCodeAttribute="Pet" z="mFNdxgNw45XzY+L48hMYPWM8B4E="/>
         <field:simple field="vets" id="c_com_springsource_petclinic_domain_Owner_vets" messageCode="entity_reference_not_managed" messageCodeAttribute="Vet" z="jFEHK1rlGV2YkZGZNG+oEQwyy1w="/>
+        <field:datetime dateTimePattern="${owner_auditcreation_date_format}" field="auditCreation" id="c_com_springsource_petclinic_domain_Owner_auditCreation" render="false" z="user-managed"/>
+        <field:input field="auditCreatedBy" id="c_com_springsource_petclinic_domain_Owner_auditCreatedBy" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${owner_auditlastupdate_date_format}" field="auditLastUpdate" id="c_com_springsource_petclinic_domain_Owner_auditLastUpdate" render="false" z="user-managed"/>
+        <field:input field="auditLastUpdatedBy" id="c_com_springsource_petclinic_domain_Owner_auditLastUpdatedBy" render="false" z="user-managed"/>
     </form:update>
 </div>

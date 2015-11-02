@@ -10,7 +10,9 @@ import com.springsource.petclinic.domain.Visit;
 import com.springsource.petclinic.domain.VisitDataOnDemand;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -35,10 +37,34 @@ privileged aspect VisitDataOnDemand_Roo_DataOnDemand {
     
     public Visit VisitDataOnDemand.getNewTransientVisit(int index) {
         Visit obj = new Visit();
+        setAuditCreatedBy(obj, index);
+        setAuditCreation(obj, index);
+        setAuditLastUpdate(obj, index);
+        setAuditLastUpdatedBy(obj, index);
         setDescription(obj, index);
         setPet(obj, index);
         setVisitDate(obj, index);
         return obj;
+    }
+    
+    public void VisitDataOnDemand.setAuditCreatedBy(Visit obj, int index) {
+        String auditCreatedBy = "auditCreatedBy_" + index;
+        obj.setAuditCreatedBy(auditCreatedBy);
+    }
+    
+    public void VisitDataOnDemand.setAuditCreation(Visit obj, int index) {
+        Calendar auditCreation = Calendar.getInstance();
+        obj.setAuditCreation(auditCreation);
+    }
+    
+    public void VisitDataOnDemand.setAuditLastUpdate(Visit obj, int index) {
+        Calendar auditLastUpdate = Calendar.getInstance();
+        obj.setAuditLastUpdate(auditLastUpdate);
+    }
+    
+    public void VisitDataOnDemand.setAuditLastUpdatedBy(Visit obj, int index) {
+        String auditLastUpdatedBy = "auditLastUpdatedBy_" + index;
+        obj.setAuditLastUpdatedBy(auditLastUpdatedBy);
     }
     
     public void VisitDataOnDemand.setDescription(Visit obj, int index) {

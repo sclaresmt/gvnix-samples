@@ -92,6 +92,8 @@ privileged aspect OwnerController_Roo_Controller {
     
     void OwnerController.addDateTimeFormatPatterns(Model uiModel) {
         uiModel.addAttribute("owner_birthday_date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
+        uiModel.addAttribute("owner_auditcreation_date_format", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+        uiModel.addAttribute("owner_auditlastupdate_date_format", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
     }
     
     void OwnerController.populateEditForm(Model uiModel, Owner owner) {

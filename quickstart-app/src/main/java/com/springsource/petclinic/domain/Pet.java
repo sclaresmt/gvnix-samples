@@ -16,11 +16,13 @@ import javax.persistence.OneToMany;
 import org.gvnix.occ.roo.addon.annotations.GvNIXEntityOCCChecksum;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+import org.gvnix.addon.jpa.annotations.audit.GvNIXJpaAudit;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord(sequenceName = "PET_SEQ", finders = { "findPetsByNameAndWeight", "findPetsByOwner", "findPetsBySendRemindersAndWeightLessThan", "findPetsByTypeAndNameLike" })
 @GvNIXEntityOCCChecksum
+@GvNIXJpaAudit
 public class Pet {
 
     /**
@@ -58,5 +60,5 @@ public class Pet {
 
     @Version
     @Transient
-    private String occChekcsum;
+    private String occChecksum;
 }

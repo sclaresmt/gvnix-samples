@@ -10,10 +10,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.ManyToOne;
+import org.gvnix.addon.jpa.annotations.audit.GvNIXJpaAudit;
 
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord(sequenceName = "VISIT_SEQ", finders = { "findVisitsByDescriptionAndVisitDate", "findVisitsByVisitDateBetween", "findVisitsByDescriptionLike" })
+@GvNIXJpaAudit
 public class Visit {
 
     /**

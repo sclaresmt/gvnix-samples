@@ -2,5 +2,5 @@
 <div xmlns:fancytree="urn:jsptagdir:/WEB-INF/tags/fancytree" xmlns:jsp="http://java.sun.com/JSP/Page">
   <jsp:directive.page contentType="text/html;charset=UTF-8"/>
   <jsp:output omit-xml-declaration="yes"/>
-<fancytree:tree editable="true" id="ps_com_springsource_petclinic_web_Pets_tree" path="/pets/tree" z="user-managed"/>
+<fancytree:tree editable="true" id="ps_com_springsource_petclinic_web_Pets_editable_tree" path="/pets/editable_tree" z="user-managed"/>
 </div>

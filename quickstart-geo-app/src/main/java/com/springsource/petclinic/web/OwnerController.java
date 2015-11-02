@@ -8,6 +8,7 @@ import org.gvnix.addon.web.mvc.annotations.batch.GvNIXWebJpaBatch;
 import org.gvnix.addon.web.mvc.annotations.jquery.GvNIXWebJQuery;
 import org.gvnix.addon.datatables.annotations.GvNIXDatatables;
 import org.gvnix.web.report.roo.addon.annotations.GvNIXReports;
+import net.bull.javamelody.MonitoredWithSpring;
 import org.gvnix.addon.geo.annotations.GvNIXWebEntityMapLayer;
 
 @RequestMapping("/owners")
@@ -17,6 +18,7 @@ import org.gvnix.addon.geo.annotations.GvNIXWebEntityMapLayer;
 @GvNIXWebJQuery
 @GvNIXDatatables(ajax = true, detailFields = { "pets", "vets" })
 @GvNIXReports({ "report_owners|pdf" })
+@MonitoredWithSpring
 @GvNIXWebEntityMapLayer
 public class OwnerController {
 }

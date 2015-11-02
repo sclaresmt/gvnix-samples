@@ -10,6 +10,7 @@ import org.gvnix.addon.web.mvc.annotations.jquery.GvNIXWebJQuery;
 import org.gvnix.addon.datatables.annotations.GvNIXDatatables;
 import org.gvnix.addon.loupefield.annotations.GvNIXLoupeController;
 import org.gvnix.addon.fancytree.annotations.GvNIXFancyTree;
+import net.bull.javamelody.MonitoredWithSpring;
 
 @RequestMapping("/pets")
 @Controller
@@ -19,6 +20,7 @@ import org.gvnix.addon.fancytree.annotations.GvNIXFancyTree;
 @GvNIXWebJQuery
 @GvNIXDatatables(ajax = true, detailFields = { "visits" })
 @GvNIXLoupeController
-@GvNIXFancyTree(editable = true, mapping = "tree", page = "tree")
+@GvNIXFancyTree(editable = true, mapping = "editable_tree", page = "editable_tree")
+@MonitoredWithSpring
 public class PetController {
 }

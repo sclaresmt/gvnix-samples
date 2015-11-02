@@ -152,6 +152,14 @@ web mvc fancytree setup
 web mvc fancytree add edit --controller ~.web.PetController --page editable_tree
 web mvc fancytree add show --controller ~.web.VetController --page tree
 
+// Adding audit
+jpa audit setup
+jpa audit all
+
+// Adding monitoring
+monitoring setup
+monitoring all
+
 // Modifying persistence to use POSTRGRES database with geo spatial support
 jpa setup --provider HIBERNATE --database POSTGRES --userName gvnix --databaseName postgis_example --password gvnix --hostName localhost
 

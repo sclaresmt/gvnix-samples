@@ -4,7 +4,6 @@
 package com.springsource.petclinic.domain;
 
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPADeleteClause;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.path.PathBuilder;
 import com.springsource.petclinic.domain.Vet;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect VetBatchService_Roo_GvNIXJpaBatch {
@@ -28,21 +27,28 @@ privileged aspect VetBatchService_Roo_GvNIXJpaBatch {
     
     @Transactional
     public int VetBatchService.deleteAll() {
-        return entityManager().createQuery("DELETE FROM Vet").executeUpdate();
+        TypedQuery<Vet> query = entityManager().createQuery("Select o FROM Vet o", Vet.class);
+        List<Vet> vets = query.getResultList();
+        delete(vets);
+        return vets.size();
     }
     
     @Transactional
     public int VetBatchService.deleteIn(List<Long> ids) {
-        Query query = entityManager().createQuery("DELETE FROM Vet as v WHERE v.id IN (:idList)");
+        TypedQuery<Vet> query = entityManager().createQuery("SELECT o FROM Vet o WHERE o.id IN (:idList)", Vet.class);
         query.setParameter("idList", ids);
-        return query.executeUpdate();
+        List<Vet> vets = query.getResultList();
+        delete(vets);
+        return vets.size();
     }
     
     @Transactional
     public int VetBatchService.deleteNotIn(List<Long> ids) {
-        Query query = entityManager().createQuery("DELETE FROM Vet as v WHERE v.id NOT IN (:idList)");
+        TypedQuery<Vet> query = entityManager().createQuery("SELECT o FROM Vet o WHERE o.id NOT IN (:idList)", Vet.class);
         query.setParameter("idList", ids);
-        return query.executeUpdate();
+        List<Vet> vets = query.getResultList();
+        delete(vets);
+        return vets.size();
     }
     
     @Transactional
@@ -91,28 +97,9 @@ privileged aspect VetBatchService_Roo_GvNIXJpaBatch {
     
     @Transactional
     public long VetBatchService.deleteByValues(Map<String, Object> propertyValues) {
-        
-        // if there no is a filter
-        if (propertyValues == null || propertyValues.isEmpty()) {
-            throw new IllegalArgumentException("Missing property values");
-        }
-        // Prepare a predicate
-        BooleanBuilder baseFilterPredicate = new BooleanBuilder();
-        
-        // Base filter. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Vet> entity = new PathBuilder<Vet>(Vet.class, "entity");
-        
-        // Build base filter
-        for (String key : propertyValues.keySet()) {
-            baseFilterPredicate.and(entity.get(key).eq(propertyValues.get(key)));
-        }
-        
-        // Create a query with filter
-        JPADeleteClause delete = new JPADeleteClause(Vet.entityManager(),entity);
-        
-        // execute delete
-        return delete.where(baseFilterPredicate).execute();
+        List<Vet> vets = findByValues(propertyValues);
+        delete(vets);
+        return (long)vets.size();
     }
     
     @Transactional

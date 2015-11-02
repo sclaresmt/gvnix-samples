@@ -11,6 +11,10 @@
         <field:display field="homePage" id="s_com_springsource_petclinic_domain_Owner_homePage" object="${owner}" z="Sd9S/8M5I5fg2WL3D8yf3VT1D+E="/>
         <field:display field="email" id="s_com_springsource_petclinic_domain_Owner_email" object="${owner}" z="68UQTQj7dIen8yZ5GTOk7SBy3mw="/>
         <field:display date="true" dateTimePattern="${owner_birthday_date_format}" field="birthDay" id="s_com_springsource_petclinic_domain_Owner_birthDay" object="${owner}" z="R+YIxhsV5CSUn5e8WHTs5x/Zkww="/>
+        <field:display calendar="true" dateTimePattern="${owner_auditcreation_date_format}" field="auditCreation" id="s_com_springsource_petclinic_domain_Owner_auditCreation" object="${owner}" z="vBKoZMIV7iYgZuIjjilLIwYbo60="/>
+        <field:display field="auditCreatedBy" id="s_com_springsource_petclinic_domain_Owner_auditCreatedBy" object="${owner}" z="neMb03TZmJbcs5A6yC779jb+EDI="/>
+        <field:display calendar="true" dateTimePattern="${owner_auditlastupdate_date_format}" field="auditLastUpdate" id="s_com_springsource_petclinic_domain_Owner_auditLastUpdate" object="${owner}" z="gja10i1aXwcR+UvVEq9iMcnRqu4="/>
+        <field:display field="auditLastUpdatedBy" id="s_com_springsource_petclinic_domain_Owner_auditLastUpdatedBy" object="${owner}" z="z1jZ4TVEkppp4jKJz2WIHAgfMM8="/>
         <geofield:map-display field="location" id="s_com_springsource_petclinic_domain_Owner_location" object="${owner}" path="/owners" z="user-managed">
             <layer:tile id="s_com_springsource_petclinic_domain_Owner_location_baselayer" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="user-managed"/>
         </geofield:map-display>
