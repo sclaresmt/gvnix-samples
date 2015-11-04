@@ -80,6 +80,7 @@ This guide teaches you how to:
 ** <<select-map-data-using-datatables, Select Map Data using Datatables>> 	
 ** <<configure-map-data-filter, Configure Map Data Filter>>
 ** <<group-map-markers, Group Map Markers>> 	
+** <<add-marker-label, Add Marker Label>>
  	
 [[configure-persistence]] 	
 == Configure Persistence 	
@@ -578,6 +579,16 @@ By default this functionality is not enabled. To activate it you need to enable 
 
 [source, html] 
 <layer:entity-field clusterize="true" field="location" id="l_com_springsource_petclinic_domain_Owner_location" .../>
+
+[[add-marker-label]] 	
+=== Add Marker Label
+
+If you want to show information in your entity markers, you can use an entity propiety as a marker label. 
+
+To show a propiety value in an entity marker you need to set this propierty in your **src/main/webapp/WEB-INF/views/{mappath}/show.jspx** file:
+
+[source, html] 
+<layer:entity-field labelingProperty="lastName" field="location" id="l_com_springsource_petclinic_domain_Owner_location" .../>
 
 == Related libraries, projects, etc..
 

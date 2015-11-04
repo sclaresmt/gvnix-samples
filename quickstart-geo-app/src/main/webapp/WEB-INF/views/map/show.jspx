@@ -31,7 +31,7 @@
         <layer:tile id="ps_com_springsource_petclinic_web_Map_satellit" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="3FjMh859kWr1xgrbiyn7d2GfSBQ="/>
         <layer:wms crs="EPSG4326" format="image/png" id="ps_com_springsource_petclinic_web_Map_geological_map_of_valencia" layers="0,1,2,3" transparent="true" url="http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" version="1.1.1" z="gdAlMH2Ianb/u5pgyGG+dIeH8Nc="/>
         <layer:entity filterType="auto" id="l_com_springsource_petclinic_domain_Owner" path="/owners" pk="id" selection="true" showFilterOn="dialog" z="QxRHR/8XQ5Yrd5OYfAOXkJw4NV8=">
-                <layer:entity-field clusterize="true" field="location" icon="glyphicon-home" iconLibrary="glyphicon" id="l_com_springsource_petclinic_domain_Owner_location" markerColor="green" z="97MKoEA9cYR+JfoRTQsEFQ+k9D0=">
+                <layer:entity-field labelingProperty="lastName" clusterize="true" field="location" icon="glyphicon-home" iconLibrary="glyphicon" id="l_com_springsource_petclinic_domain_Owner_location" markerColor="green" z="97MKoEA9cYR+JfoRTQsEFQ+k9D0=">
                 <layer-toc:tools>
                       <layer-tool:zoom-select id="owner-location-zoom-select"/>
                    </layer-toc:tools>
