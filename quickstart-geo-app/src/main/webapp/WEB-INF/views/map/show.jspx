@@ -57,10 +57,7 @@
             <tool:action actionFunction="showHelpMessage" icon="fa-info-circle" iconLibrary="fa" id="ps_com_springsource_petclinic_web_Map_showhelp"/>
         </geo:toolbar>
     <geo:overview id="ps_com_springsource_petclinic_web_Map_MiniMap" z="sgSh3rGHZTv1sDlw2M2bqJvh8lk=">
-            <layer:tile allowDisable="false" id="ps_com_springsource_petclinic_web_Map_default_layer" url="http://{s}.tile.osm.org/{z}/{x}/{y}.png?bar" z="h28wBbBDKCsogp7sDBJImRakMgc="/>
             <layer:tile id="ps_com_springsource_petclinic_web_Map_satellit" url="http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" z="3FjMh859kWr1xgrbiyn7d2GfSBQ="/>
-            <layer:wms crs="EPSG4326" format="image/png" id="ps_com_springsource_petclinic_web_Map_geological_map_of_valencia" layers="0,1,2,3" transparent="true" url="http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" version="1.1.1" z="gdAlMH2Ianb/u5pgyGG+dIeH8Nc="/>
-            <layer:entity filterType="auto" id="l_com_springsource_petclinic_domain_Owner" path="/owners" pk="id" z="nWPaEnqhLlf4IK4LpCT/Sovgspk="/>
         </geo:overview>
     </geo:map>
 </div>
