@@ -2,8 +2,9 @@
   xmlns:c="http://java.sun.com/jsp/jstl/core"
   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
   xmlns:jsp="http://java.sun.com/JSP/Page"
-  xmlns:spring="http://www.springframework.org/tags" version="2.0">
-
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:sec="http://www.springframework.org/security/tags" 
+  version="2.0">
   <!-- gvNIX menu item renderer -->
 
   <jsp:output omit-xml-declaration="yes" />
@@ -23,6 +24,10 @@
     description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="ignoreHidden" type="java.lang.Boolean" required="false"
     description="Ignore hidden menu item value (show all)" />
+
+  <!-- default values -->
+  <c:set var="authorizedUrl" value="false" />
+  <c:set var="authorizedRole" value="false" />
 
   <!-- Execute expression evaluator to resolve in-line expressions -->
   <c:if test="${not empty url}">
@@ -44,6 +49,37 @@
 
     <spring:url value="${url}" var="targetUrl" />
   </c:if>
+
+  <!-- 
+  Check the user is granted to access to target URL, otherwise menu entry
+  is not shown 
+  -->
+  <c:choose>
+    <c:when test="${not empty targetUrl}">
+      <sec:authorize url="${targetUrl}">
+        <c:set var="authorizedUrl" value="true" />
+      </sec:authorize>
+    </c:when>
+    <c:otherwise>
+      <c:set var="authorizedUrl" value="true" />
+    </c:otherwise>
+  </c:choose>
+
+  <!-- 
+  Check the user has the roles defined in menu entry, if the user doesn't have
+  them the entry won't be shown.
+  -->
+  <c:choose>
+    <c:when test="${not empty roles}">
+      <sec:authorize access="hasAnyRole('${roles}')">
+        <c:set var="authorizedRole" value="true" />
+      </sec:authorize>
+    </c:when>
+    <c:otherwise>
+      <!-- no roles: authorized all -->
+      <c:set var="authorizedRole" value="true" />
+    </c:otherwise>
+  </c:choose>
 
   <!-- Load the label -->
   <c:if test="${not empty labelCode}">
@@ -67,8 +103,11 @@
     </c:otherwise>
   </c:choose>
 
-  <!-- draw if not hidden -->
-  <c:if test="${showItem}">
+  <!-- 
+  draw if not hidden and menu entry authorized the user role and user can
+  access the url (if it was set, otherwise the user can access)  
+  -->
+  <c:if test="${showItem and authorizedRole and authorizedUrl}">
     <c:choose>
       <!-- single item -->
       <c:when test="${empty children}">
@@ -96,7 +135,7 @@
 
           <!-- iterate over all children -->
           <c:forEach items="${children}" var="menuItem">
-             <c:choose>
+            <c:choose>
              <c:when test="${empty menuItem.children}">
                   <menu:gvnixitem id="${menuItem.id}" url="${menuItem.url}"
                   labelCode="${menuItem.labelCode}"

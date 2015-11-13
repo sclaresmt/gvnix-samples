@@ -18,17 +18,12 @@ import com.github.dandelion.datatables.extras.export.itext.PdfExport;
 import com.github.dandelion.datatables.extras.export.poi.XlsExport;
 import com.github.dandelion.datatables.extras.export.poi.XlsxExport;
 import com.github.dandelion.datatables.extras.spring3.ajax.DatatablesParams;
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.path.PathBuilder;
-import com.springsource.petclinic.domain.Owner;
 import com.springsource.petclinic.domain.Pet;
-import com.springsource.petclinic.reference.PetType;
 import com.springsource.petclinic.web.PetController;
 import com.springsource.petclinic.web.PetController_Roo_Controller;
 import com.springsource.petclinic.web.PetController_Roo_GvNIXDatatables;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -459,141 +454,6 @@ privileged aspect PetController_Roo_GvNIXDatatables {
         Class type = beanWrapper_dtt.getPropertyType(property);
         boolean response = datatablesUtilsBean_dtt.checkFilterExpressions(type,expression);
         return new ResponseEntity<String>(String.format("{ \"response\": %s, \"property\": \"%s\"}",response, property), headers, org.springframework.http.HttpStatus.OK);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=ByTypeAndNameLike", produces = "application/json")
-    @ResponseBody
-    public DatatablesResponse<Map<String, String>> PetController.findPetsByTypeAndNameLike(@DatatablesParams DatatablesCriterias criterias, @RequestParam("type") PetType type, @RequestParam("name") String name) {
-        BooleanBuilder baseSearch = new BooleanBuilder();
-        
-        // Base Search. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Pet> entity = new PathBuilder<Pet>(Pet.class, "entity");
-        
-        if(type != null){
-            baseSearch.and(entity.get("type").eq(type));
-        }else{
-            baseSearch.and(entity.get("type").isNull());
-        }
-        if(name != null){
-            baseSearch.and(entity.getString("name").toLowerCase().like("%".concat(name).toLowerCase().concat("%")));
-        }else{
-            baseSearch.and(entity.getString("name").isNull());
-        }
-        
-        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
-        
-        // Get datatables required counts
-        long totalRecords = searchResult.getTotalCount();
-        long recordsFound = searchResult.getResultsCount();
-        
-        // Entity pk field name
-        String pkFieldName = "id";
-        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
-        addDateTimeFormatPatterns(uiModel);
-        Map<String, Object> datePattern = uiModel.asMap();
-        
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
-        return DatatablesResponse.build(dataSet,criterias);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=BySendRemindersAndWeightLessThan", produces = "application/json")
-    @ResponseBody
-    public DatatablesResponse<Map<String, String>> PetController.findPetsBySendRemindersAndWeightLessThan(@DatatablesParams DatatablesCriterias criterias, @RequestParam(value = "sendReminders", required = false) boolean sendReminders, @RequestParam("weight") BigDecimal weight) {
-        BooleanBuilder baseSearch = new BooleanBuilder();
-        
-        // Base Search. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Pet> entity = new PathBuilder<Pet>(Pet.class, "entity");
-        
-        baseSearch.and(entity.get("sendReminders").eq(sendReminders));
-        if(weight != null){
-            baseSearch.and(entity.getNumber("weight", BigDecimal.class).lt(weight));
-        }else{
-            baseSearch.and(entity.getNumber("weight", BigDecimal.class).isNull());
-        }
-        
-        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
-        
-        // Get datatables required counts
-        long totalRecords = searchResult.getTotalCount();
-        long recordsFound = searchResult.getResultsCount();
-        
-        // Entity pk field name
-        String pkFieldName = "id";
-        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
-        addDateTimeFormatPatterns(uiModel);
-        Map<String, Object> datePattern = uiModel.asMap();
-        
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
-        return DatatablesResponse.build(dataSet,criterias);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=ByOwner", produces = "application/json")
-    @ResponseBody
-    public DatatablesResponse<Map<String, String>> PetController.findPetsByOwner(@DatatablesParams DatatablesCriterias criterias, @RequestParam("owner") Owner owner) {
-        BooleanBuilder baseSearch = new BooleanBuilder();
-        
-        // Base Search. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Pet> entity = new PathBuilder<Pet>(Pet.class, "entity");
-        
-        if(owner != null){
-            baseSearch.and(entity.get("owner").eq(owner));
-        }else{
-            baseSearch.and(entity.get("owner").isNull());
-        }
-        
-        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
-        
-        // Get datatables required counts
-        long totalRecords = searchResult.getTotalCount();
-        long recordsFound = searchResult.getResultsCount();
-        
-        // Entity pk field name
-        String pkFieldName = "id";
-        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
-        addDateTimeFormatPatterns(uiModel);
-        Map<String, Object> datePattern = uiModel.asMap();
-        
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
-        return DatatablesResponse.build(dataSet,criterias);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json", value = "/datatables/ajax", params = "ajax_find=ByNameAndWeight", produces = "application/json")
-    @ResponseBody
-    public DatatablesResponse<Map<String, String>> PetController.findPetsByNameAndWeight(@DatatablesParams DatatablesCriterias criterias, @RequestParam("name") String name, @RequestParam("weight") BigDecimal weight) {
-        BooleanBuilder baseSearch = new BooleanBuilder();
-        
-        // Base Search. Using BooleanBuilder, a cascading builder for
-        // Predicate expressions
-        PathBuilder<Pet> entity = new PathBuilder<Pet>(Pet.class, "entity");
-        
-        if(name != null){
-            baseSearch.and(entity.getString("name").eq(name));
-        }else{
-            baseSearch.and(entity.getString("name").isNull());
-        }
-        if(weight != null){
-            baseSearch.and(entity.getNumber("weight", BigDecimal.class).eq(weight));
-        }else{
-            baseSearch.and(entity.getNumber("weight", BigDecimal.class).isNull());
-        }
-        
-        SearchResults<Pet> searchResult = datatablesUtilsBean_dtt.findByCriteria(entity, criterias, baseSearch);
-        
-        // Get datatables required counts
-        long totalRecords = searchResult.getTotalCount();
-        long recordsFound = searchResult.getResultsCount();
-        
-        // Entity pk field name
-        String pkFieldName = "id";
-        org.springframework.ui.Model uiModel = new org.springframework.ui.ExtendedModelMap();
-        addDateTimeFormatPatterns(uiModel);
-        Map<String, Object> datePattern = uiModel.asMap();
-        
-        DataSet<Map<String, String>> dataSet = datatablesUtilsBean_dtt.populateDataSet(searchResult.getResults(), pkFieldName, totalRecords, recordsFound, criterias.getColumnDefs(), datePattern); 
-        return DatatablesResponse.build(dataSet,criterias);
     }
     
     @RequestMapping(value = "/exportcsv", produces = "text/csv")

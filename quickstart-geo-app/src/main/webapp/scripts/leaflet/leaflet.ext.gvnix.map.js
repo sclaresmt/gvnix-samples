@@ -7593,26 +7593,38 @@ var GvNIX_Map_Leaflet;
 			}
 
 			// Gets array of parameters
-			var aoPreviousData = oPrevious.aoData;
-			var aoCurrentData = oCurrent.aoData;
+			var aoPreviousData = oPrevious.oSettings;
+			var aoCurrentData = oCurrent.oSettings;
 
 			// check simplest check of arrays
 			if (!aoPreviousData && !aoCurrentData) {
 				return false;
-			} else if (!aoPreviousData || !aoCurrentData) {
+			}else if(!aoPreviousData || !aoCurrentData){
 				return true;
 			}
-			if (aoPreviousData.length != aoCurrentData.length) {
+			
+			var aoPreviousSearch = aoPreviousData.oPreviousSearch;
+			var aoCurrentSearch = aoCurrentData.oPreviousSearch;
+			
+			if (!aoPreviousSearch && !aoCurrentSearch) {
+				return false;
+			}else if(!aoPreviousSearch || !aoCurrentSearch){
+				return true;
+			}
+			
+			var sPreviousSearch = aoPreviousSearch.sSearch;
+			var sCurrentSearch = aoCurrentSearch.sSearch;
+			
+			if (!sPreviousSearch && !sCurrentSearch) {
+				return false;
+			}else if(!sPreviousSearch || !sCurrentSearch){
 				return true;
 			}
 
-			// Compare json string of arrays
-			var sPreviousData = jQuery.toJSON(aoPreviousData);
-			var sCurrentData = jQuery.toJSON(aoCurrentData);
-			if (sPreviousData.length != sCurrentData.length) {
-				return true;
+			if (sPreviousSearch == sCurrentSearch) {
+				return false;
 			} else {
-				return sPreviousData != sCurrentData;
+				return true;
 			}
 		},
 

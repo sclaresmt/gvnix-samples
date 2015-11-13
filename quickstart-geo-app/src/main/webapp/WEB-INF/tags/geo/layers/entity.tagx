@@ -18,7 +18,7 @@
   <!-- Filtering and selection attributes -->
   <jsp:directive.attribute name="selection" type="java.lang.Boolean" required="false" rtexprvalue="false" description="Set if current entity can be selected. Defautl: false" />
   <jsp:directive.attribute name="filterType" type="java.lang.String" required="false" rtexprvalue="true" description="Set if current entity can be filtered and which mode has to use. (auto: Refresh data displayed automatically when filter on Datatables | manual: Needs to reload the page to refresh filter data \ none: Datatable filters not affect to current entity displayed data)| Defautl: 'none'" />
-  <jsp:directive.attribute name="showFilterOn" type="java.lang.String" required="false" description="Configure filter to appear on different views. 'window': Datatable filter appears on new tab or new window. 'dialog': Datatable filter appears on current map view using jQuery dialog. 'custom:' When press filter icon, execute your custom function declared on showFilterFunction property. DEFAULT: window." />
+  <jsp:directive.attribute name="showFilterOn" type="java.lang.String" required="false" description="Configure filter to appear on different views. 'window': Datatable filter appears on new tab or new window. 'dialog': Datatable filter appears on current map view using jQuery dialog. 'custom:' When press filter icon, execute your custom function declared on showFilterFunction property. DEFAULT: dialog." />
   <jsp:directive.attribute name="showFilterFunction" type="java.lang.String" required="false" description="Javascript function that will be executen when press filter icon. Only available if showFilterOn is 'custom'." />
   <jsp:directive.attribute name="customDttId" type="java.lang.String" required="false" description="Use this attribute to specify the Datatable Id that will be used on filter and selection. Ignored if 'filterStorageKey' or 'selectionStorageKey' is defined." />
   <jsp:directive.attribute name="filterStorageKey" type="java.lang.String" required="false" rtexprvalue="true" description="Storeage key to get Datatbles filter (Only when filterType != 'none')" />
@@ -50,7 +50,7 @@
         </c:if>
 
         <c:if test="${empty showFilterOn}">
-        	<c:set var="showFilterOn" value="window" />
+        	<c:set var="showFilterOn" value="dialog" />
         </c:if>
 
         <c:if test="${empty filterType}">

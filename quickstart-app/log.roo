@@ -1,4 +1,4 @@
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-10-29 17:37:57
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-11-13 10:47:23
 project --topLevelPackage com.springsource.petclinic --projectName petclinic
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
 enum type --class ~.reference.PetType
@@ -104,7 +104,8 @@ monitoring setup
 monitoring all
 jpa audit setup
 jpa audit all
-
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-10-30 14:21:45
+// script --file ../../git/gvnix-samples/quickstart-app/quickstart.roo
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-11-13 11:54:32
+hint
 q
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log closed at 2015-10-30 14:27:17
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log closed at 2015-11-13 11:55:52

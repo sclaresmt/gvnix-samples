@@ -492,7 +492,7 @@ var GvNIX_RowOnTop;
 	 * @type String
 	 * @default See code
 	 */
-	GvNIX_RowOnTop.VERSION = "1.5.1.RC1";
+	GvNIX_RowOnTop.VERSION = "1.5.1.RC2";
 	GvNIX_RowOnTop.prototype.VERSION = GvNIX_RowOnTop.VERSION;
 
 	/** TODO Add as datatable feature * */

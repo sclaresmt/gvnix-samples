@@ -16,14 +16,6 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     
     declare @type: ApplicationConversionServiceFactoryBean: @Configurable;
     
-    public Converter<Owner, String> ApplicationConversionServiceFactoryBean.getOwnerToStringConverter() {
-        return new org.springframework.core.convert.converter.Converter<com.springsource.petclinic.domain.Owner, java.lang.String>() {
-            public String convert(Owner owner) {
-                return new StringBuilder().append(owner.getFirstName()).append(' ').append(owner.getLastName()).append(' ').append(owner.getAddress()).append(' ').append(owner.getCity()).toString();
-            }
-        };
-    }
-    
     public Converter<Long, Owner> ApplicationConversionServiceFactoryBean.getIdToOwnerConverter() {
         return new org.springframework.core.convert.converter.Converter<java.lang.Long, com.springsource.petclinic.domain.Owner>() {
             public com.springsource.petclinic.domain.Owner convert(java.lang.Long id) {

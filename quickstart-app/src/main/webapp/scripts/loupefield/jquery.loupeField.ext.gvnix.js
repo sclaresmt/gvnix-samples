@@ -175,9 +175,9 @@ var GvNIX_Loupe;
 			"modalwidth": inputData.modalwidth,
 
 			/**
-			 * Hidde elements with class utilbox
+			 * Hide elements with class utilbox on Datatables list
 			 */
-			"hiddeutilbox": inputData.hiddeutilbox,
+			"hideutilbox": inputData.hideutilbox,
 
 			/**
 			 * OnAccept Function
@@ -356,9 +356,9 @@ var GvNIX_Loupe;
 				"modalwidth": inputData.modalwidth,
 
 				/**
-				 * Hidde elements with class utilbox
+				 * Hide elements with class utilbox on Datatables list
 				 */
-				"hiddeutilbox": inputData.hiddeutilbox,
+				"hideutilbox": inputData.hideutilbox,
 
 				/**
 				 * OnAccept Function
@@ -583,7 +583,7 @@ var GvNIX_Loupe;
 
 															// Setting Datatable as no
 															// editable
-															if(data.hiddeutilbox){
+															if(data.hideutilbox === undefined || data.hideutilbox === true){
 																editingInstance
 																	.fnSetNoEditableDatatable(isAjaxDatatable);
 															}
@@ -651,7 +651,21 @@ var GvNIX_Loupe;
 							if(data.searchvalue != undefined && data.searchvalue != "" && data.searchvalue != "undefined"){
 								valueInput = data.searchvalue;
 							}else{
-								valueInput = input.val();
+								// Getting selected Id from hidden input
+								var hiddenInputs = input.parent().find("input[type='hidden']");
+								if(hiddenInputs.length > 0){
+									for(x = 0; x < hiddenInputs.length; x++){
+										var hiddenInput = hiddenInputs[x];
+										// Check if hidden input has value and is not hidden input for binding
+										if(hiddenInput.value != "" && hiddenInput.id.indexOf("hidden_bind") == -1){
+											valueInput = hiddenInput.value;
+										}
+									}
+								}else {
+									// Usually, hidden inputs will be present, but to prevent errors,
+									// we are going to set valueInput to undefined.
+									valueInput = undefined;
+								}
 							}
 							if (valueInput != "") {
 								instance._fnFindRecordByField(valueInput, instance, sufix, data.searchfield);
@@ -1347,7 +1361,7 @@ fnRegisterFunctionsToCallBack(function(context){
 	});
 });
 
-//Clean hidde element of loupe
+//Clean hide element of loupe
 function cleanHiddenInputLoupe(inputId, hiddenInputId){
 	var valueOfInput = $("#"+inputId).val();
 	if(valueOfInput == ""){

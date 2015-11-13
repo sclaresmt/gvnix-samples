@@ -553,7 +553,7 @@ NOTE: _You can modify selection style editing entity-field **selection attribute
 [[configure-map-data-filter]] 	
 === Configure Map Data Filter
  	
-By default, if you press an entity filter icon of a map view its entity datatables is load on a new page. You can change how entity datatables are displayed by changing the propiety _showFilterOn_ to one of these values:
+By default, if you press an entity filter icon its entity datatables is loaded on a dialog. You can change how entity datatables are displayed to one of these options:
 
 * Window: the entity datatables is displayed on a new page.
 
@@ -561,11 +561,14 @@ By default, if you press an entity filter icon of a map view its entity datatabl
 
 * Custom: you can custumize how entity datatables is shown. 
 
-For example, if you want to show owner datables on a dialog, you need to set _showFilterOn_ to _dialog_ in your **src/main/webapp/WEB-INF/views/{mappath}/show.jspx** file:
+[NOTE]
+=====================================================================
+_If you want to change how entity filter is shown, you need to set *showFilterOn* to *dialog* in your **src/main/webapp/WEB-INF/views/{mappath}/show.jspx** file_:
 
 [source, html] 
  <layer:entity showFilterOn="dialog" id="l_com_springsource_petclinic_domain_Owner" path="/owners" ...>
 
+=====================================================================
 [[group-map-markers]] 	
 === Group Map Markers 	
  	

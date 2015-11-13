@@ -6,9 +6,9 @@
         <table:table data="${pets}" id="l_com_springsource_petclinic_domain_Pet" path="/pets" z="gvs425syhOX//lJjxIylimFQflM=">
             <table:column id="c_com_springsource_petclinic_domain_Pet_sendReminders" property="sendReminders" z="9OZRH4z6dmoKcOlx/Gs0++zdd/A="/>
             <table:column id="c_com_springsource_petclinic_domain_Pet_name" property="name" z="G6BvYtcQqJffm1SbxmcOLJ3cVyY="/>
-            <table:column id="c_com_springsource_petclinic_domain_Pet_weight" property="weight" z="G6BvYtcQqJffm1SbxmcOLJ3cVyY="/>
-            <table:column id="c_com_springsource_petclinic_domain_Pet_type" property="type" z="G6BvYtcQqJffm1SbxmcOLJ3cVyY="/>
-            <table:column calendar="true" dateTimePattern="${pet_auditcreation_date_format}" render="false" id="c_com_springsource_petclinic_domain_Pet_auditCreation" property="auditCreation" z="user-managed"/>
+            <table:column id="c_com_springsource_petclinic_domain_Pet_weight" property="weight" z="user-managed"/>
+            <table:column id="c_com_springsource_petclinic_domain_Pet_type" property="type" z="user-managed"/>
+            <table:column calendar="true" dateTimePattern="${pet_auditcreation_date_format}" id="c_com_springsource_petclinic_domain_Pet_auditCreation" property="auditCreation" render="false" z="user-managed"/>
             <table:column id="c_com_springsource_petclinic_domain_Pet_auditCreatedBy" property="auditCreatedBy" render="false" z="user-managed"/>
             <table:column calendar="true" dateTimePattern="${pet_auditlastupdate_date_format}" id="c_com_springsource_petclinic_domain_Pet_auditLastUpdate" property="auditLastUpdate" render="false" z="user-managed"/>
             <table:column id="c_com_springsource_petclinic_domain_Pet_auditLastUpdatedBy" property="auditLastUpdatedBy" render="false" z="user-managed"/>

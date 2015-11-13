@@ -2,16 +2,16 @@
 <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
 
 
-<entity class="com.springsource.petclinic.domain.Visit">
+<entity class="com.springsource.petclinic.domain.Owner">
         <entity-listeners>
-            <entity-listener class="com.springsource.petclinic.domain.VisitAuditListener">
+            <entity-listener class="com.springsource.petclinic.domain.OwnerAuditListener">
                 <description>MID:org.gvnix.addon.jpa.addon.audit.JpaAuditListenerMetadata</description>
             </entity-listener>
         </entity-listeners>
     </entity>
-<entity class="com.springsource.petclinic.domain.Owner">
+<entity class="com.springsource.petclinic.domain.Vet">
         <entity-listeners>
-            <entity-listener class="com.springsource.petclinic.domain.OwnerAuditListener">
+            <entity-listener class="com.springsource.petclinic.domain.VetAuditListener">
                 <description>MID:org.gvnix.addon.jpa.addon.audit.JpaAuditListenerMetadata</description>
             </entity-listener>
         </entity-listeners>
@@ -30,9 +30,9 @@
             </entity-listener>
         </entity-listeners>
     </entity>
-<entity class="com.springsource.petclinic.domain.Vet">
+<entity class="com.springsource.petclinic.domain.Visit">
         <entity-listeners>
-            <entity-listener class="com.springsource.petclinic.domain.VetAuditListener">
+            <entity-listener class="com.springsource.petclinic.domain.VisitAuditListener">
                 <description>MID:org.gvnix.addon.jpa.addon.audit.JpaAuditListenerMetadata</description>
             </entity-listener>
         </entity-listeners>
