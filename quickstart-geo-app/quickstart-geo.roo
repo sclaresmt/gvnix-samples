@@ -104,11 +104,11 @@ web mvc loupe setup
 // Adding loupe fields on Visit fields
 web mvc loupe set --controller ~.web.VisitController
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
-web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list --additionalFields firstName,lastName
 
 // Adding loupe fields on Pet fields
 web mvc loupe set --controller ~.web.PetController
-web mvc loupe field --controller ~.web.PetController --field owner
+web mvc loupe field --controller ~.web.PetController --field owner --additionalFields firstName,lastName
 
 // Setup menu
 menu setup
@@ -177,10 +177,6 @@ finder geo all
 // Install map view support
 //web mvc geo setup
 
-// Creating different map views
-web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview --projection EPSG4326
-web mvc geo controller --class ~.web.MapController --preferredMapping map
-
 // Modifying entity field to use Geo component
 web mvc geo field --controller ~.web.OwnerController --field location
 web mvc geo field --controller ~.web.OwnerController --field distance
@@ -190,7 +186,11 @@ web mvc geo field --controller ~.web.OwnerController --field area
 // Generate base layer for geo fields
 web mvc geo base layer field --controller ~.web.OwnerController --field location --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
 web mvc geo base layer field --controller ~.web.OwnerController --field area --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
-web mvc geo base layer field --controller ~.web.OwnerController --field distance --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
+web mvc geo base layer field --controller ~.web.OwnerController --field distance --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile
+
+// Creating different map views
+web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview --projection EPSG4326
+web mvc geo controller --class ~.web.MapController --preferredMapping map 
 
 // Adding base layers to our maps views
 web mvc geo tilelayer --name satellit --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8"
