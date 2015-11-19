@@ -8,11 +8,11 @@
         <field:input field="weight" id="c_com_springsource_petclinic_domain_Pet_weight" min="0" required="true" validationMessageCode="field_invalid_number" z="cOD5zE/z7gy+RZu5kVSPuxCa+/I="/>
         <field:select field="type" id="c_com_springsource_petclinic_domain_Pet_type" items="${pettypes}" path="pettypes" required="true" z="+hDCnUp+Y+A1RlT+AjH07sgipOo="/>
         <field:simple field="visits" id="c_com_springsource_petclinic_domain_Pet_visits" messageCode="entity_reference_not_managed" messageCodeAttribute="Visit" z="VnrAskFGp9rnWf7wYbjKN/Ry7yk="/>
-        <loupefield:loupe controllerPath="pets" field="owner" id="c_com_springsource_petclinic_domain_Pet_owner" listPath="owners/list" mode="create" path="/owners" pkField="id" z="user-managed"/>
         <field:datetime dateTimePattern="${pet_auditcreation_date_format}" field="auditCreation" id="c_com_springsource_petclinic_domain_Pet_auditCreation" render="false" z="user-managed"/>
         <field:input field="auditCreatedBy" id="c_com_springsource_petclinic_domain_Pet_auditCreatedBy" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${pet_auditlastupdate_date_format}" field="auditLastUpdate" id="c_com_springsource_petclinic_domain_Pet_auditLastUpdate" render="false" z="user-managed"/>
         <field:input field="auditLastUpdatedBy" id="c_com_springsource_petclinic_domain_Pet_auditLastUpdatedBy" render="false" z="user-managed"/>
+        <loupefield:loupe additionalFields="firstName,lastName" controllerPath="pets" field="owner" id="c_com_springsource_petclinic_domain_Pet_owner" listPath="owners/list" mode="create" path="/owners" pkField="id" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_springsource_petclinic_domain_Pet" render="${not empty dependencies}" z="kThDNIW+69h9nI/69ynY1WyUieo="/>
 </div>

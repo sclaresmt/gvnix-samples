@@ -104,11 +104,11 @@ web mvc loupe setup
 // Adding loupe fields on Visit fields
 web mvc loupe set --controller ~.web.VisitController
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
-web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list --additionalFields firstName,lastName
 
 // Adding loupe fields on Pet fields
 web mvc loupe set --controller ~.web.PetController
-web mvc loupe field --controller ~.web.PetController --field owner
+web mvc loupe field --controller ~.web.PetController --field owner --additionalFields firstName,lastName
 
 // Setup menu
 menu setup
