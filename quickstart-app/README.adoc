@@ -402,7 +402,7 @@ web mvc loupe field --controller ~.web.VisitController --field pet --caption nam
 +
 
 [source,shell]
-web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list --additionalFields firstName,lastName
 
 [icon="images/icons/note.png"]
 NOTE: _You can configure callbacks functions for fields above editing 'scripts/loupefield/loupe-callbacks.js'. You can add onDraw function and onSet function to manage that events._
