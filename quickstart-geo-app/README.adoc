@@ -21,6 +21,8 @@ purpose, we will build an application based on https://github.com/DISID/gvnix-sa
 You can see an example of a *generated GEO web application* using gvNIX
 http://geo-gvnix.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
 
+NOTE: _Some functionalities cannot work correctly in the demo dued to openshift constraints_
+
 image:images/map.png[width="100%"]
 
 gvNIX uses http://www.leafletjs.com[Leaflet project] to generate map views. 
