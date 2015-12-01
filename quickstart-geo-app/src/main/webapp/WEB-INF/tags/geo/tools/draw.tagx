@@ -16,8 +16,11 @@
     <spring:message code="${preventExitMessage}" var="label" htmlEscape="false" />
   </c:if>
 
+  <spring:message code="tooltip_tool_draw" var="tooltip"/>
+
   <!-- Generating tool -->
   <i id="${id}_draw_tool" class="${icon}" data-type="draw"
-    data-target_layer_id="${targetLayerId}" data-mode="${mode}">&amp;nbsp;</i>
+    data-target_layer_id="${targetLayerId}" data-mode="${mode}"
+    title="${tooltip}">&amp;nbsp;</i>
 
 </jsp:root>

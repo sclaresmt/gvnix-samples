@@ -4,8 +4,10 @@
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
+  <spring:message code="tooltip_tool_opacity" var="tooltip"/>
+
   <span id="${id}_opacity_tool" data-type="opacity" data-id="${id}_opacity_tool" class="tool-layer">
-  	<input id="${id}_opacity_tool_range" name="${id}_opacity_tool_range" type="range" value="1" step="0.1" min="0.0" max="1.0" style="opacity:0.5;" disabled="" />
+  	<input id="${id}_opacity_tool_range" data-placement="right" name="${id}_opacity_tool_range" type="range" value="1" step="0.1" min="0.0" max="1.0" style="opacity:0.5;" title="${tooltip}" disabled="" />
   	<output id="${id}_opacity_tool_range_tooltip" class="input-range-tooltip"></output>
   </span>
 

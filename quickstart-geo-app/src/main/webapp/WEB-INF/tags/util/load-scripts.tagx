@@ -100,10 +100,36 @@
     <script src="${jquery_print_js_url}" type="text/javascript">
         <!--required for FF3 and Opera-->
     </script>
+    <spring:url value="/resources/scripts/jquery/moment.min.js" var="moment_js_url"/>
+    <script src="${moment_js_url}" type="text/javascript">
+        <!--required for FF3 and Opera-->
+    </script>
     <spring:url value="/resources/scripts/jquery/jquery.dialogextend.min.js" var="jquery_dialog_extend_js_url"/>
     <script src="${jquery_dialog_extend_js_url}" type="text/javascript">
         <!--required for FF3 and Opera-->
     </script>
+    <spring:url value="/resources/styles/jquery/jquery.datetimepicker.css" var="jquery_datetimepicker_css_url"/>
+    <link href="${jquery_datetimepicker_css_url}" media="screen,print" rel="stylesheet" type="text/css"/>
+    <spring:url value="/resources/scripts/jquery/jquery.datetimepicker.full.min.js" var="jquery_datetimepicker_js_url"/>
+    <script src="${jquery_datetimepicker_js_url}" type="text/javascript">
+        <!--required for FF3 and Opera-->
+    </script>
+    <spring:url value="/resources/scripts/jquery/i18n/moment-${jqueryLocale}.js" var="moment_js_locale_url"/>
+    <script src="${moment_js_locale_url}" type="text/javascript">
+        <!--required for FF3 and Opera-->
+    </script>
+    <script type="text/javascript">// set momentjs  and jQuery datetimepicker locale
+moment.locale('${jqueryLocale}');
+jQuery.datetimepicker.setLocale('${jqueryLocale}');
+
+// Define parse/format date using moment library
+Date.parseDate = function( input, format ){
+    return moment(input,format).toDate();
+};
+Date.prototype.dateFormat = function( format ){
+    return moment(this).format(format);
+};
+</script>
 <spring:url value="/resources/styles/datatables/jquery.dataTables.css" var="css_jquery_datatables_url"/>
     <link href="${css_jquery_datatables_url}" media="screen,print" rel="stylesheet" type="text/css"/>
     <spring:url value="/resources/styles/datatables/gvnix.dataTables.css" var="css_gvnix_datatables_url"/>

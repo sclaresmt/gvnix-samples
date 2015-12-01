@@ -9,6 +9,7 @@
   <jsp:directive.attribute name="cursorIcon" type="java.lang.String" required="false" rtexprvalue="true" description="Icon to show as cursor when enter on map element" />
   <jsp:directive.attribute name="preventExitMessage" type="java.lang.String" required="false" description="Use i18n message for prevent exit of measure tool. If empty exits without prevent" />
   <jsp:directive.attribute name="actionTool" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicates if the current tool is an action tool or a selectable tool. (default false)" />
+  <jsp:directive.attribute name="codeTooltip" type="java.lang.String" required="false" description="Code of i18n message to show like tooltip" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
 
@@ -24,6 +25,10 @@
        <c:set var="actionTool" value="false" />
     </c:if>
 
+    <c:if test="${not empty codeTooltip}">
+      <spring:message code="${codeTooltip}" var="tooltip"/>
+    </c:if>
+
 	<i id="${id}_generic_tool"
 		class="toolbar_button ${iconLibrary} ${icon}"
 		data-actiontool="${actionTool}"
@@ -31,6 +36,6 @@
 		data-fn_on_deselect="${deactivateFunction}"
 		data-type="generic"
 		data-preventexitmessage="${labelPreventExitMessage}"
-		data-cursor_icon="${cursorIcon}">&amp;nbsp;</i>
+		data-cursor_icon="${cursorIcon}" title="${tooltip}">&amp;nbsp;</i>
 
 </jsp:root>

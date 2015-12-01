@@ -115,28 +115,28 @@ function fnDatatablesExtInit(oSettings, tableId, options, count) {
 		// If delay loading adjust column size
 		$table.fnAdjustColumnSizing();
 	}
-	
+
 	var st = $table.fnSettings();
-	
+
 	// Register Footer callback
-	st.oApi._fnCallbackReg(st, 'aoFooterCallback', 
+	st.oApi._fnCallbackReg(st, 'aoFooterCallback',
 			function(row, data, start, end, display){
 		this.fnGvNIX_FooterCallback(row, data, start, end, display);
 	});
-	
+
 	// Register Draw callback
 	st.oApi._fnCallbackReg(st, 'aoDrawCallback', function( oSettings ) {
 		this.fnGvNIX_DrawCallback(oSettings);
 	});
-	
+
 	// Register CreatedRow Callback
 	st.oApi._fnCallbackReg(st, 'aoRowCreatedCallback', function(nRow, aData, iDataIndex){
 		this.fnGvNIX_RowCreatedCallback(nRow, aData, iDataIndex);
 	});
-	
+
 	// Calling at first time Footer Callback
 	window.setTimeout(updateDatatablesFilters, 100, $table.fnSettings());
-	
+
 	// Calling at first time RowCreatedCallback
 	var $tds = $table.find("td");
 	var sSearch = $table.fnSettings().oPreviousSearch.sSearch;
@@ -145,7 +145,7 @@ function fnDatatablesExtInit(oSettings, tableId, options, count) {
 	}
 	// Displaying always the clicked row if row click exists
 	fnScrollDatatableToRowClick($table);
-	
+
 	// Changing filter class when there's some
 	// filter value
 	fnChangeFilterClass($table);
@@ -218,13 +218,7 @@ function fnVal($control) {
 	var nControl = $control[0];
 
 	if (nControl.nodeName.toLowerCase() == "input") {
-		var patternDate = nControl.attributes["data-dateformat"];
-		if(patternDate != undefined && nControl["value"] != ""){
-			return jQuery.datepicker.formatDate(jQueryDateFormat(patternDate.value),
-						new Date(nControl["value"]));
-		}else{
-			return $control.val();
-		}
+    return $control.val();
 	}
 
 	// Note: At present, using .val() on textarea elements strips carriage
@@ -324,7 +318,7 @@ jQuery.fn.dataTableExt.oApi.fnGvNIX_FooterCallback = function(nFoot, data, start
 		return;
 	}
 	updateDatatablesFilters(oSettings);
-	
+
 };
 
 /**
@@ -364,7 +358,7 @@ jQuery.fn.dataTableExt.oApi.fnGvNIX_RowCreatedCallback = function(nRow, aData, i
 };
 
 /*
- * This function highlight results that match with 
+ * This function highlight results that match with
  * the current search
  */
 function showSearchResultsHighLighted($tds, sSearch){
@@ -391,21 +385,21 @@ function showSearchResultsHighLighted($tds, sSearch){
 
 /**
  * This function updates datatables column filters
- * 
+ *
  * @param oSettings
  */
 function updateDatatablesFilters(oSettings) {
 
 	var filters = oSettings.aoPreSearchCols;
 	var footer = jQuery(oSettings.aoFooter)[0];
-	
+
 	// Getting ajax source
 	 var ajaxSource = oSettings.sAjaxSource;
-	 
+
 	 if(ajaxSource !== null && ajaxSource != undefined){
 	 	// If footer is defined
 		if(footer !== undefined){
-			
+
 			for ( var i=0, iLen=filters.length ; i<iLen ; i++ )
 		    {
 				if(footer[i] !== null && footer[i] !== undefined){
@@ -415,16 +409,16 @@ function updateDatatablesFilters(oSettings) {
 
 					// Gettting filter input
 					var filterInput = $cell.find('input');
-					
+
 					 // Adding data to current filter input
 	                if(filterInput !== null && filterInput !== undefined && filterInput.length > 0){
-	                	
+
 	                	// Saving Parent Id
 	                    filterInput.data("dataTableId", oSettings.sTableId);
 	                    // Saving Parent Path
 	                    ajaxSource = ajaxSource.replace("/datatables/ajax","");
 	                    filterInput.data("dataTablePath", ajaxSource);
-	                    
+
 	    				filterInput.css("width", "80%");
 
 	    				if(filterExpression != "")	{
@@ -452,15 +446,15 @@ function updateDatatablesFilters(oSettings) {
 	    				}else{
 	    					filterInput.css("background-color","#ffffff");
 	    				}
-	    				
+
 	    				// Checking that not exists another advanced search
 	    		        if(jQuery(filterInput).parent().find('a').length == 0){
 	    				    new GvNIX_Advanced_Filter(jQuery(filterInput));
 	    		        }
-	    				
+
 	                }
 				}
-		    }			
+		    }
 		}
 	 }
 };
@@ -600,7 +594,7 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings, sNewSource,
  * from http://datatables.net/plug-ins/api#fnStandingRedraw
  */
 $.fn.dataTableExt.oApi.fnStandingRedraw = function(oSettings) {
-	
+
 	if (oSettings.oFeatures.bServerSide === false) {
 		var before = oSettings._iDisplayStart;
 
@@ -621,7 +615,7 @@ $.fn.dataTableExt.oApi.fnStandingRedraw = function(oSettings) {
 /**
  * Move datatable scroll to show current row-clicked
  * <p/>
- * The scroll doen't be moved if any row is in 
+ * The scroll doen't be moved if any row is in
  * editing mode.
  *
  * @param $datatable the datatable instance
@@ -656,7 +650,7 @@ function fnScrollDatatableToRowClick($datatable) {
         var scrollHeight = $body.height();
         var rowHeight = rowSelected.height();
         var rowSelectedPosition = rowSelected[0].offsetTop + rowHeight + (scrollHeight / 2);
-        
+
         if(rowSelectedPosition > scrollHeight){
         	$body.animate({scrollTop:  rowSelectedPosition - scrollHeight});
         }
@@ -670,18 +664,18 @@ function fnScrollDatatableToRowClick($datatable) {
  * callback to know if filter has value
  */
 function fnChangeFilterClass(table){
-	
+
 	var tableId = table.attr("id");
 	var filterDiv = jQuery("#" + tableId + "_filter");
 	var filterInput = filterDiv.find("input");
-	
+
 	if(filterInput.length > 0){
 		// Setting class if value is not empty
 		var value = filterInput.val();
 		if(value !== ""){
 			filterInput.addClass("filter_not_empty");
 		}
-		
+
 		// Registering input click event
 		filterInput.on("keyup", function(){
 			var $input = jQuery(this);
@@ -694,14 +688,14 @@ function fnChangeFilterClass(table){
 			}
 		});
 	}
-	
+
 }
 
 
 /**
  * This method returns a hashcode from
  * a string.
- * 
+ *
  * @param str String to transform
  * @return String
  */

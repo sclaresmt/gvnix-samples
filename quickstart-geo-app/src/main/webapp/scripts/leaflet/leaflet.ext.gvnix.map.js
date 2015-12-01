@@ -524,7 +524,7 @@ var GvNIX_Map_Leaflet;
 		 *            element by default without extra components.
 		 */
 		"fnRegisterLayer" : function(sId, options, layerDiv) {
-			
+
 			var sLayerType = options.layer_type;
 
 			if (sLayerType == "Base") {
@@ -580,7 +580,7 @@ var GvNIX_Map_Leaflet;
 						}
 					}
 				}
-				
+
 				// Getting loading image if exists
 				var loadingImg = $div.find("img[id='"+sId+"_loading_img']");
 				if(loadingImg.length > 0){
@@ -600,7 +600,7 @@ var GvNIX_Map_Leaflet;
 
 				// Saving filter icon
 				newLayer._state.oFilterIcon = jQuery(filterHtmlElement);
-				
+
 				// Append filter element to newLayer div
 				jQuery(filterHtmlElement).appendTo(jQuery(newLayer._state.nLayer));
 
@@ -615,16 +615,16 @@ var GvNIX_Map_Leaflet;
 				newLayer.fnRegisterLayerTool(toolData.id,
 						toolData);
 			}
-			
+
 			// Adding load img if not declared yet and exists on options data
 			if(newLayer._state.loadingImg == null && options.loading_img_url){
 				var loadingImg = jQuery.parseHTML(
 						'<img width="15" style="display:none;" src="'+options.loading_img_url+'" id="'+sId+'_loading_img"/>');
-				
+
 				newLayer._state.oLoadingIcon = jQuery(loadingImg);
-				
+
 			}
-			
+
 
 			// Load status by default (not localStorage)
 			newLayer.fnLoadState(false);
@@ -789,10 +789,10 @@ var GvNIX_Map_Leaflet;
 
 	   /**
 		* Function to initialize layer order using TOC position
-		* 
+		*
 		*/
 		"_fnInitializeLayerOrder" : function (){
-			
+
 			// TODO: Load order status from localStorage
 			var aLayers = this.fnGetTocLayersIds();
 
@@ -805,7 +805,7 @@ var GvNIX_Map_Leaflet;
 
 			}
 
-			
+
 		},
 
 		/**
@@ -1079,8 +1079,12 @@ var GvNIX_Map_Leaflet;
 				}
 			}
 			if (!oTool._fnDoSelect()) {
-				if (st.currentTool) {
+				// if pan control is established set this as current tool
+				if(this.s.pan_control){
+					st.currentTool = st.toolsById[st.id + "_pan_default_tool"];
 					st.currentTool._fnDoSelect();
+				}else{
+					st.currentTool = null;
 				}
 				return false;
 			}
@@ -1432,14 +1436,14 @@ var GvNIX_Map_Leaflet;
 		/**
 		* Updates index value of all registered layers following the order
 		* provided on aLayers array.
-		* 
+		*
 		* @param aLayers
 		* 			Array of layers ids with the new order to use on layer index.
-		* 
+		*
 		* @param bSaveOnLocalStorage
-		* 			boolean that allows to save new layer 
+		* 			boolean that allows to save new layer
 		* 			position on localStorage.
-		* 
+		*
 		*/
 		"_fnUpdateLayersIndex" : function(aLayers, bSaveOnLocalStorage){
 			// Now that we have new positions, we need to update position of leaflet layers
@@ -1452,7 +1456,7 @@ var GvNIX_Map_Leaflet;
 				if(bSaveOnLocalStorage){
 					this._fnSaveMapStatus(aLayers[x] + "_layer_position", index * -1);
 				}
-				
+
 				index--;
 
 			}
@@ -1462,8 +1466,8 @@ var GvNIX_Map_Leaflet;
 		/**
 		* Function to change position of a registered layer on TOC and
 		* change index position of map
-		* 
-		*  @param sLayerId 
+		*
+		*  @param sLayerId
 		*  				String with registered layer id to move
 		*  @param sReferencedLayerId
 		*  				String with referenced layer id where sLayerId will be moved
@@ -1471,20 +1475,20 @@ var GvNIX_Map_Leaflet;
 		*  				String with position of movement. Values "after" and "before"
 		*  				are valid. By Default "before"
 		*  @param bSaveOnLocalStorage
-		*  				boolean that indicates if is necessary to save 
+		*  				boolean that indicates if is necessary to save
 		*  				the new position on localStorage.
 		*/
 		"fnMoveLayer" : function(sLayerId, sReferencedLayerId, sHitMode, bSaveOnLocalStorage){
 			this._fnMoveLayer(sLayerId, sReferencedLayerId, sHitMode, bSaveOnLocalStorage);
 		},
-		
+
 		/**
 		* Function to change position of a registered layer on TOC and
 		* change index position of map
-		* 
+		*
 		* (Default implementation)
-		* 
-		*  @param sLayerId 
+		*
+		*  @param sLayerId
 		*  				String with registered layer id to move
 		*  @param sReferencedLayerId
 		*  				String with referenced layer id where sLayerId will be moved
@@ -1492,7 +1496,7 @@ var GvNIX_Map_Leaflet;
 		*  				String with position of movement. Values "after" and "before"
 		*  				are valid. By Default "before"
 		*  @param bSaveOnLocalStorage
-		*  				boolean that indicates if is necessary to save 
+		*  				boolean that indicates if is necessary to save
 		*  				the new position on localStorage.
 		*/
 		"_fnMoveLayer" : function(sLayerId, sReferencedLayerId, sHitMode, bSaveOnLocalStorage){
@@ -1654,22 +1658,22 @@ var GvNIX_Map_Leaflet;
 		"fnGetLayerById" : function(sId) {
 			return this._data.layersById[sId];
 		},
-		
+
 		/**
 		 * Return a GvNIX_Map_Leaflet.LAYERS instance by its group
-		 * 
+		 *
 		 * @param sParentId
 		 *            parent if of the required layeres
 		 */
 		"fnGetLayersByGroup" : function(sGroupId) {
 			var childLayers = [];
-			
+
 			for(i in this._data.layersById){
 				if(this._data.layersById[i].s.group == sGroupId){
 					childLayers.push(this._data.layersById[i]);
 				}
 			}
-			
+
 			return childLayers;
 		},
 
@@ -2548,7 +2552,7 @@ var GvNIX_Map_Leaflet;
 					node.title += "<span id='" + node.key
 							+ "_span-tools'></span>"
 				}
-				
+
 				return node;
 			},
 
@@ -2577,7 +2581,7 @@ var GvNIX_Map_Leaflet;
 
 					// Set layer custom styles
 					this._fnSetIconStyle(node);
-					
+
 					// Set loading img if needed
 					if(this._state.oLoadingIcon){
 						this._fnSetLoadingIcon(node);
@@ -2590,38 +2594,38 @@ var GvNIX_Map_Leaflet;
 					}
 				}
 			},
-			
+
 			/**
 			 * Include loading Icon if is defined on current layer
-			 * 
+			 *
 			 * @param node
-			 *            Fancytree node object where loading icon 
+			 *            Fancytree node object where loading icon
 			 *            will be included
-			 * 
+			 *
 			 */
 			"_fnSetLoadingIcon" : function(node){
 				this.__fnSetLoadingIcon(node);
 			},
-			
+
 			/**
 			 * Include loading Icon if is defined on current layer
-			 * 
+			 *
 			 * @param node
-			 *            Fancytree node object where loading icon 
+			 *            Fancytree node object where loading icon
 			 *            will be included
 			 * (Default implementation)
 			 */
 			"__fnSetLoadingIcon" : function(node){
 				// Getting loading Img
 				var loadingImg = this._state.oLoadingIcon;
-				
+
 				// Getting node span
 				if(node.span != null){
 					loadingImg.appendTo(node.span);
 				}
 			},
-			
-			
+
+
 
  			/**
 			 * Function that will set registered layer tools on current layer
@@ -2714,7 +2718,7 @@ var GvNIX_Map_Leaflet;
 						$treeNode.data.iconclass = "layer_legend";
 					} else {
 						// Load library icon (Glyphicon)
-						$treeNode.data.iconclass = "glyphicon " + icon;
+						$treeNode.data.iconclass = "glyphicon " + icon + " layer_legend_icon";
 					}
 
 					// Render CSS changes
@@ -4211,6 +4215,26 @@ var GvNIX_Map_Leaflet;
 				return this._state.oLayer;
 			},
 
+
+			/**
+			 * Require this layer visible. The layer visibility will depende on
+			 * fnIsVisibleOnThisZoom value.
+			 *
+			 * @param updateCheck
+			 * @param bDontSaveStatus
+			 * 				if true, layer will be showed but current status
+			 * 				will not be saved on localStorage
+			 *
+			 * @returns true if layer becomes visible
+			 */
+
+			"fnShow" : function(updateCheck, bDontSaveStatus){
+				var bVisible = this.__fnShow(updateCheck, bDontSaveStatus);
+				if(bVisible){
+					this._fnRequestData();
+				}
+			},
+
 			/**
 			 * Cleans all data from children layers
 			 */
@@ -5664,7 +5688,7 @@ var GvNIX_Map_Leaflet;
 
 				if (itemHasChanges) {
 					if (curItem.oPopup) {
-						curItem.oLayer.unbindPopup();
+						this.Util.unbindPopup(curItem.oLayer);
 					}
 					curItem.sWkt = sWkt;
 					curItem.oFeature = oFeature;
@@ -5935,7 +5959,7 @@ var GvNIX_Map_Leaflet;
 					fnPrepareInfo = U.createLayerInfoString;
 				}
 				if (curItem.oPopup) {
-					curItem.oLayer.unbindPopup();
+					this.Util.unbindPopup(curItem.oLayer);
 					curItem.oPopup = null;
 				}
 				var sInfo = fnPrepareInfo(
@@ -6045,7 +6069,7 @@ var GvNIX_Map_Leaflet;
 
 				// check and clear popup dialog
 				if (item.oPopup) {
-					item.oLayer.unbindPopup();
+					this.Util.unbindPopup(item.oLayer);
 					item.oLayer.oPopup = null;
 				}
 				item.oLayerContainer.removeLayer(item.oLayer);
@@ -6213,8 +6237,7 @@ var GvNIX_Map_Leaflet;
 					if (bSelected && st.oPathStyleSelect) {
 						oSrcGeomLayer.setStyle(st.oPathStyleSelect);
 					} else if (bSelected) {
-						oSrcGeomLayer
-								.setStyle({
+									oSrcGeomLayer.setStyle({
 									'color' : s.marker_color_selected ? s.marker_color_selected
 									: s.marker_color
 								});
@@ -6222,9 +6245,8 @@ var GvNIX_Map_Leaflet;
 						oSrcGeomLayer.setStyle(st.oPathStyle);
 					} else {
 						oSrcGeomLayer.setStyle({
-							'color' : s.color
-						});
-					}
+									'color' : s.marker_color
+								});								}
 					if (oSrcGeomLayer.setRadius && s.radius) {
 						oSrcGeomLayer.setRadius(s.radius);
 					}
@@ -6580,8 +6602,26 @@ var GvNIX_Map_Leaflet;
 				}
 
 				return this.__fnLoadState(bUseLocalStorage);
-			}
+			},
 
+			/**
+			 * Require this layer visible. The layer visibility will depende on
+			 * fnIsVisibleOnThisZoom value.
+			 *
+			 * @param updateCheck
+			 * @param bDontSaveStatus
+			 * 				if true, layer will be showed but current status
+			 * 				will not be saved on localStorage
+			 *
+			 * @returns true if layer becomes visible
+			 */
+
+			"fnShow" : function(updateCheck, bDontSaveStatus){
+				var bVisible = this.__fnShow(updateCheck, bDontSaveStatus);
+				if(bVisible){
+					this._fnRequestData();
+				}
+			},
 		});
 
 	/**
@@ -6989,6 +7029,10 @@ var GvNIX_Map_Leaflet;
 			    if (st.oLayer) {
 			    	st.oMarkerLayer.clearLayers();
 			    	st.oPathLayer.clearLayers();
+			    	if(st.oLabelingLayer){
+				    	st.oLabelingMarkerLayer.clearLayers();
+				    	st.oLabelingPathLayer.clearLayers();
+			    	}
 			    }
 			    if(st.$Input){
 			    	st.$Input.val("");
@@ -7002,8 +7046,8 @@ var GvNIX_Map_Leaflet;
 			"__fnIsEmpty" : function() {
 				var st = this._state;
 				if (st.oLayer) {
-					return st.oMarkerLayer.getLayers().length > 0
-					|| st.oPathLayer.getLayers().length > 0;
+					return st.oMarkerLayer.getLayers().length == 0
+					|| st.oPathLayer.getLayers().length == 0;
 				}
 				return true;
 			},
@@ -7067,6 +7111,20 @@ var GvNIX_Map_Leaflet;
 	 * Component utils
 	 */
 	GvNIX_Map_Leaflet.Util = {
+
+		/**
+		 * Disable propagation of event 'click'
+		 */
+		"disableClickPropagation" : function(el) {
+			var stop = L.DomEvent.stopPropagation;
+
+			for (var i = L.Draggable.START.length - 1; i >= 0; i--) {
+				L.DomEvent.on(el, L.Draggable.START[i], stop);
+			}
+
+			return L.DomEvent.on(el, 'click', stop).on(el,
+				'dblclick', stop);
+		},
 
 		/**
 		 *
@@ -7494,6 +7552,24 @@ var GvNIX_Map_Leaflet;
 				return bbox;
 			}
 			return;
+		},
+
+		/**
+		 * Removes and unbind a Leaflet pop-up item from a geometry layer.
+		 *
+		 * @param oLayer
+		 *            Leaflet layer object to unbind pop-up
+		 */
+		"unbindPopup" : function(oLayer) {
+			if (oLayer.getLayers) {
+				// oLayer is a Group
+				oLayer.eachLayer(function(layer) {
+					// Recursively call itself
+					this.unbindPopup(layer);
+				}, this);
+			} else {
+				oLayer.unbindPopup();
+			}
 		}
 	}; // GvNIX_Map_Leaflet.Util
 
@@ -7602,19 +7678,19 @@ var GvNIX_Map_Leaflet;
 			}else if(!aoPreviousData || !aoCurrentData){
 				return true;
 			}
-			
+
 			var aoPreviousSearch = aoPreviousData.oPreviousSearch;
 			var aoCurrentSearch = aoCurrentData.oPreviousSearch;
-			
+
 			if (!aoPreviousSearch && !aoCurrentSearch) {
 				return false;
 			}else if(!aoPreviousSearch || !aoCurrentSearch){
 				return true;
 			}
-			
+
 			var sPreviousSearch = aoPreviousSearch.sSearch;
 			var sCurrentSearch = aoCurrentSearch.sSearch;
-			
+
 			if (!sPreviousSearch && !sCurrentSearch) {
 				return false;
 			}else if(!sPreviousSearch || !sCurrentSearch){

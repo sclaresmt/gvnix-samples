@@ -10,6 +10,7 @@ import com.springsource.petclinic.domain.Pet;
 import com.springsource.petclinic.web.PetController;
 import java.lang.StringBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +46,14 @@ privileged aspect PetController_Roo_GvNIXLoupeController {
     
     @RequestMapping(params = "selector", produces = "text/html")
     public String PetController.showOnlyList(Model uiModel, HttpServletRequest request, @RequestParam("path") String listPath) {
+        // as we can't get target table configuration lets use standard _ajax_ configuration.
+        uiModel.asMap().put("datatablesHasBatchSupport", false);
+        uiModel.asMap().put("datatablesUseAjax", true);
+        uiModel.asMap().put("datatablesInlineEditing", false);
+        uiModel.asMap().put("datatablesInlineCreating", false);
+        uiModel.asMap().put("datatablesSecurityApplied", false);
+        uiModel.asMap().put("datatablesStandardMode", true);
+        uiModel.asMap().put("finderNameParam", "ajax_find");
         // Do common datatables operations: get entity list filtered by request
         // parameters
         Map<String, String> params = populateParametersMap(request);
@@ -52,6 +61,8 @@ privileged aspect PetController_Roo_GvNIXLoupeController {
         String parentId = params.remove("_dt_parentId");
         if (StringUtils.isNotBlank(parentId)) {
             uiModel.addAttribute("parentId", parentId);
+        } else {
+            uiModel.addAttribute("parentId", "Pet_selector");
         }
         String rowOnTopIds = params.remove("dtt_row_on_top_ids");
         if (StringUtils.isNotBlank(rowOnTopIds)) {
@@ -61,9 +72,14 @@ privileged aspect PetController_Roo_GvNIXLoupeController {
         if (StringUtils.isNotBlank(tableHashId)) {
             uiModel.addAttribute("dtt_parent_table_id_hash", tableHashId);
         }
-         if (!params.isEmpty()) {
+        params.remove("selector");
+        params.remove("path");
+        if (!params.isEmpty()) {
             uiModel.addAttribute("baseFilter", params);
         }
+        uiModel.addAttribute("dtt_ignoreParams", Arrays.asList("selector","path"));
+        uiModel.addAttribute("dtt_disableEditing", "true");
+        
         // Show only the list fragment (without footer, header, menu, etc.)
         return "forward:/WEB-INF/views/" + listPath + ".jspx";
     }

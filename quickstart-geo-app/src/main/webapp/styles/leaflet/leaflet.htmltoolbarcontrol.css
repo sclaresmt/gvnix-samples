@@ -13,8 +13,7 @@
 	font-size: 1.3em;
 	max-height: 45px;
 	display: inline-block;
-	overflow-x: auto;
-	overflow-y: hidden;
+	overflow: visible;
 	margin-bottom: 5px;
 	padding: 3px;
 }
@@ -31,7 +30,7 @@
 
 .leaflet-control-toolbar-list i:hover {
 	background-color: rgb(244, 244, 244);
-	
+
 }
 
 .leaflet-control-toolbar-collapse-button {

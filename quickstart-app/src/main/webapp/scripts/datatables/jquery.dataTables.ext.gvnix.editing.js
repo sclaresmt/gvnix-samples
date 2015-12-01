@@ -593,7 +593,7 @@ var GvNIX_Editing;
 							}
 
 							for(var k = 0; k < $inputCtrl.length; k++){
-								
+
 								// Update input class
 								if (jQuery($inputCtrl[k]).attr('type') == 'checkbox') {
 									$editCtrls.attr('class', $editCtrls.attr('class') + ' checkbox');
@@ -655,25 +655,12 @@ var GvNIX_Editing;
 						}
 					});
 				}
-				
+
 
 				// Redraw the table
 				this.fnRedrawVisibleRows();
 
 				this.fnUpdateEditingTools();
-
-				// Initializing Loupe components
-				setTimeout(function(){
-					oTable.find(".loupe_control").each(function(index) {
-						new GvNIX_Loupe(jQuery(this));
-					});
-					oTable.find(".row_editing").each(function(index){
-						// Bind events for update inputs, focus cursor and initialize components
-						this.editing_binded = false;
-						oTable.fnEditing()._fnBindRowEvents(this);
-					});
-
-				},100);
 
 			}, this) );
 
@@ -1163,7 +1150,7 @@ var GvNIX_Editing;
 
 				// Bind events for create inputs, focus cursor and initialize components
 				this._fnBindCreateRowEvents(this.fnGetCreationRowById(oCreateRow.sRowId));
-				
+
 				// Adding script to hide related properties
 				createPanel.append(this._fnHideRelatedFields(dataTablesMappedProperty, dataTablesMappedValue))
 
@@ -1171,16 +1158,16 @@ var GvNIX_Editing;
 
 			return true;
 		},
-		
+
 		/**
 		 * Function to hide related fields and set related value
-		 * 
-		 * @param dataTablesMappedProperty related property. 
+		 *
+		 * @param dataTablesMappedProperty related property.
 		 * @param dataTablesMappedValue related property value
 		 * @returns script string to append on inline create form
 		 */
 		"_fnHideRelatedFields": function(dataTablesMappedProperty, dataTablesMappedValue){
-			
+
 			var scriptText = "";
 			if(dataTablesMappedProperty !== ""){
 				scriptText = "<script type=\"text/javascript\">"
@@ -2519,7 +2506,7 @@ var GvNIX_Editing;
 	 * @type String
 	 * @default See code
 	 */
-	GvNIX_Editing.VERSION = "1.5.1.RC2";
+	GvNIX_Editing.VERSION = "1.5.1.RC4";
 	GvNIX_Editing.prototype.VERSION = GvNIX_Editing.VERSION;
 
 	/** TODO Add as datatable feature * */

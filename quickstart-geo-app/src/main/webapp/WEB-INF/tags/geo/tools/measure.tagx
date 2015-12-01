@@ -9,9 +9,10 @@
  		<spring:message code="${preventExitMessage}" var="label" htmlEscape="false" />
   	</c:if>
 
+    <spring:message code="tooltip_tool_measure" var="tooltip"/>
 
   	<!-- Generating info tool -->
 	<i id="${id}_measure_tool" class="whhg icon-ruler toolbar_button" data-preventexitmessage="${label}"
-        data-type="measure">&amp;nbsp;</i>
+        data-type="measure" title="${tooltip}">&amp;nbsp;</i>
 
 </jsp:root>

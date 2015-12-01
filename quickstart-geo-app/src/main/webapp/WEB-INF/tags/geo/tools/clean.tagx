@@ -17,11 +17,12 @@
     </c:if>
 
     <spring:message code="${messageConfirmDel}" var="msgDelete" htmlEscape="false" />
+    <spring:message code="tooltip_tool_clean" var="tooltip"/>
 
   	<!-- Generating clean tool -->
 	<i id="${id}_clean_tool" class="whhg icon-trash toolbar_button"
         data-type="clean" data-layerid="${layerId}"
         data-messagedelete="${msgDelete}"
-        >&amp;nbsp;</i>
+        title="${tooltip}">&amp;nbsp;</i>
 
 </jsp:root>

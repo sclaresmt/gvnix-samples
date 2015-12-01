@@ -72,7 +72,9 @@
 					function callbackFunct${datatablesId} (selection, trId){
 						if (trId){
 							// Load details when exists a clicked row
-							loadDetail("${datatablesId}", "${mainDatatablesId}", getDetailUrl("${datatablesId}", "${datatablesDetailUrl}", "${detailItem.mappedBy}", rowOnTop_${datatablesId}, "${dtt_table_id_hash}", trId));
+							var detailIdHash = jQuery.base64.encode(unescape(encodeURIComponent( "${datatablesId}" )));
+							detailIdHash = fnGetHashCode(detailIdHash);
+							loadDetail("${datatablesId}", "${mainDatatablesId}", getDetailUrl("${datatablesId}", "${datatablesDetailUrl}", "${detailItem.mappedBy}", rowOnTop_${datatablesId}, "${dtt_table_id_hash}", trId, detailIdHash));
 							rowOnTop_${datatablesId} = null;
 						}
 					}

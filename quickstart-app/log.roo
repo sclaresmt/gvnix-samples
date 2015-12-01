@@ -1,4 +1,4 @@
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-11-13 10:47:23
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-11-30 13:49:18
 project --topLevelPackage com.springsource.petclinic --projectName petclinic
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
 enum type --class ~.reference.PetType
@@ -71,9 +71,9 @@ web mvc datatables detail add --type ~.web.VetController --property visits
 web mvc loupe setup
 web mvc loupe set --controller ~.web.VisitController
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
-web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list --additionalFields firstName,lastName
 web mvc loupe set --controller ~.web.PetController
-web mvc loupe field --controller ~.web.PetController --field owner
+web mvc loupe field --controller ~.web.PetController --field owner --additionalFields firstName,lastName
 menu setup
 security setup
 web mvc bootstrap update
@@ -104,13 +104,6 @@ monitoring setup
 monitoring all
 jpa audit setup
 jpa audit all
-// script --file ../../git/gvnix-samples/quickstart-app/quickstart.roo
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-11-13 11:54:32
-hint
+// script --file quickstart.roo
 q
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log closed at 2015-11-13 11:55:52
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-11-19 11:24:47
-web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list --additionalFields firstName,lastName
-web mvc loupe field --controller ~.web.PetController --field owner --additionalFields firstName,lastName
-q
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log closed at 2015-11-19 11:25:43
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log closed at 2015-11-30 14:03:46

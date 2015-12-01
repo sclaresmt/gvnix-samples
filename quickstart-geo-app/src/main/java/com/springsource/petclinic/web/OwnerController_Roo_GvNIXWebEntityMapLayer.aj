@@ -39,14 +39,16 @@ privileged aspect OwnerController_Roo_GvNIXWebEntityMapLayer {
         return new ResponseEntity<List<Owner>>(result, headers, org.springframework.http.HttpStatus.OK);
     }
     
-    @RequestMapping(params = "selector", produces = "text/html")
-    public String OwnerController.showOnlyList(Model uiModel, HttpServletRequest request, @RequestParam("path") String listPath) {
+    @RequestMapping(params = "mapselector", produces = "text/html")
+    public String OwnerController.showOnlyListForMap(Model uiModel, HttpServletRequest request, @RequestParam("path") String listPath) {
         // Do common datatables operations: get entity list filtered by request parameters
         Map<String, String> params = populateParametersMap(request);
         
         if (!params.isEmpty()) {
             uiModel.addAttribute("baseFilter", params);
         }
+        
+        uiModel.addAttribute("dtt_ignoreParams", Arrays.asList("mapselector","path"));
         
         // Show only the list fragment (without footer, header, menu, etc.)
         return "forward:/WEB-INF/views/owners/" + listPath + ".jspx";

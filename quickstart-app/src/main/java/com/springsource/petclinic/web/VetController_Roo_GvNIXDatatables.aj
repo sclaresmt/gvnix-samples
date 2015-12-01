@@ -91,13 +91,17 @@ privileged aspect VetController_Roo_GvNIXDatatables {
         if (StringUtils.isNotBlank(parentId)) {
             uiModel.addAttribute("parentId", parentId);
         }
+        String parentTableHashId = params.remove("dtt_parent_table_id_hash");
+        if (StringUtils.isNotBlank(parentTableHashId)) {
+            uiModel.addAttribute("dtt_parent_table_id_hash", parentTableHashId);
+        }
+        String tableHashId = params.remove("dtt_table_id_hash");
+        if (StringUtils.isNotBlank(tableHashId) && !uiModel.containsAttribute("dtt_table_id_hash")) {
+            uiModel.addAttribute("dtt_table_id_hash", tableHashId);
+        }
         String rowOnTopIds = params.remove("dtt_row_on_top_ids");
         if (StringUtils.isNotBlank(rowOnTopIds)) {
             uiModel.addAttribute("dtt_row_on_top_ids", rowOnTopIds);
-        }
-        String tableHashId = params.remove("dtt_parent_table_id_hash");
-        if (StringUtils.isNotBlank(tableHashId)) {
-            uiModel.addAttribute("dtt_parent_table_id_hash", tableHashId);
         }
         if (!params.isEmpty()) {
             uiModel.addAttribute("baseFilter", params);

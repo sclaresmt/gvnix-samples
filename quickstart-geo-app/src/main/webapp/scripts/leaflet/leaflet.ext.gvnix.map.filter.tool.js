@@ -117,7 +117,7 @@
 
 				// Loading Datatable list
 				filterDialog.load(
-						layer.s.path + "?selector&path=list",
+						layer.s.path + "?mapselector&path=list",
 						jQuery.proxy(this.__fnOnOpenDialog, this))
 						.dialog('open');
 

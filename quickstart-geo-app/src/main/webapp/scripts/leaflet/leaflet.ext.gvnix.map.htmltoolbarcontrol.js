@@ -43,7 +43,7 @@ L.Control.HtmlToolbarControl = L.Control.extend({
     container.setAttribute('aria-haspopup', true);
 
     if (!L.Browser.touch) {
-      L.DomEvent.disableClickPropagation(container);
+      GvNIX_Map_Leaflet.Util.disableClickPropagation(container);
       L.DomEvent.on(container, 'wheel', L.DomEvent.stopPropagation);
     } else {
       L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);

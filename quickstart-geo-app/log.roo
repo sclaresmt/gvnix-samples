@@ -1,4 +1,4 @@
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-10-30 12:14:34
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-11-30 13:49:18
 project --topLevelPackage com.springsource.petclinic --projectName petclinic
 jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
 enum type --class ~.reference.PetType
@@ -71,9 +71,9 @@ web mvc datatables detail add --type ~.web.VetController --property visits
 web mvc loupe setup
 web mvc loupe set --controller ~.web.VisitController
 web mvc loupe field --controller ~.web.VisitController --field pet --caption name --additionalFields name,weight --max 5
-web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list
+web mvc loupe field --controller ~.web.VisitController --field vet --listPath vetlist/list --additionalFields firstName,lastName
 web mvc loupe set --controller ~.web.PetController
-web mvc loupe field --controller ~.web.PetController --field owner
+web mvc loupe field --controller ~.web.PetController --field owner --additionalFields firstName,lastName
 menu setup
 security setup
 web mvc bootstrap update
@@ -100,30 +100,32 @@ remote service operation --name ws_list_pets --service ~.services.PetsServices
 web mvc fancytree setup
 web mvc fancytree add edit --controller ~.web.PetController --page editable_tree
 web mvc fancytree add show --controller ~.web.VetController --page tree
-jpa audit setup
-jpa audit all
 monitoring setup
 monitoring all
+jpa audit setup
+jpa audit all
+// script --file quickstart.roo
+q
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log closed at 2015-11-30 14:03:46
+// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-11-30 14:05:04
 jpa setup --provider HIBERNATE --database POSTGRES --userName gvnix --databaseName postgis_example --password gvnix --hostName localhost
 jpa geo setup --provider HIBERNATE_SPATIAL
 field geo --fieldName location --type POINT --class ~.domain.Owner
 field geo --fieldName distance --type LINESTRING --class ~.domain.Owner
 field geo --fieldName area --type POLYGON --class ~.domain.Owner
 finder geo all
-web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview --projection EPSG4326
-web mvc geo controller --class ~.web.MapController --preferredMapping map
 web mvc geo field --controller ~.web.OwnerController --field location
 web mvc geo field --controller ~.web.OwnerController --field distance
 web mvc geo field --controller ~.web.OwnerController --field area
 web mvc geo base layer field --controller ~.web.OwnerController --field location --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
 web mvc geo base layer field --controller ~.web.OwnerController --field area --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
-web mvc geo base layer field --controller ~.web.OwnerController --field distance --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile 
+web mvc geo base layer field --controller ~.web.OwnerController --field distance --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8" --type tile
+web mvc geo controller --class ~.web.MapViewerController --preferredMapping mapview --projection EPSG4326
+web mvc geo controller --class ~.web.MapController --preferredMapping map 
 web mvc geo tilelayer --name satellit --url "http://maptile.maps.svc.ovi.com/maptiler/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8"
 web mvc geo wmslayer --name "geological map of valencia" --url "http://mapas.igme.es/gis/services/Cartografia_Geologica/IGME_GeologicoCValenciana_400/MapServer/WMSServer" --format "image/png" --transparent true --version "1.1.1" --crs EPSG4326 --layers "0,1,2,3"
 web mvc geo entity all
 web mvc geo tool measure --name measure
 web mvc geo tool custom --name latlng --icon fa-location-arrow --activateFunction activateLatLngTool --deactivateFunction deactivateLatLngTool --iconLibrary fa
 web mvc geo component overview --class ~.web.MapController
-// script --file ../../git/gvnix-samples/quickstart-geo-app/quickstart-geo.roo
-// Spring Roo 1.3.2.RELEASE [rev d18aef8] log opened at 2015-10-30 13:27:29
-hint
+// script --file quickstart-geo.roo

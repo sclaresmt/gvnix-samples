@@ -16,14 +16,14 @@
   </c:if>
 
   <spring:message var="searchLabel" code="search_label" />
-
   <spring:message var="notFoundMessage" code="search_not_found_message" />
+  <spring:message code="tooltip_tool_geo_search" var="tooltip"/>
 
 	<!-- Generating geosearch tool -->
   <i id="${id}_geosearch_tool" class="whhg icon-search toolbar_button"
         data-type="geosearch" data-provider_selected="${provider}"
         data-retain_zoom_level="${keepZoom}" data-show_marker="${showMarker}"
         data-search_label="${searchLabel}" data-not_found_message="${notFoundMessage}"
-        >&amp;nbsp;</i>
+        title="${tooltip}">&amp;nbsp;</i>
 
 </jsp:root>

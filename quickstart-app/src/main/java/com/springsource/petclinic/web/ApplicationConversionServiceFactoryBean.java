@@ -10,7 +10,7 @@ import com.springsource.petclinic.domain.Pet;
 import com.springsource.petclinic.domain.Vet;
 
 /**
- * A central place to register application converters and formatters.
+ * A central place to register application converters and formatters. 
  */
 @RooConversionService
 public class ApplicationConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {

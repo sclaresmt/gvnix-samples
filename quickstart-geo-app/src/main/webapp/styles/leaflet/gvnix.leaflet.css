@@ -42,6 +42,40 @@
 	overflow-y: auto;
 }
 
+/* Small devices*/
+@media (max-width: 768px){
+  .fancytreeDiv{
+    max-height: 100px;
+  }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px){
+  .fancytreeDiv{
+    max-height: 200px;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .fancytreeDiv{
+    max-height: 285px;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .fancytreeDiv{
+    max-height: 285px;
+  }
+}
+
+.fancytreeDiv{
+  overflow-y: auto;
+  margin-top: -2px;
+  padding: 10px;
+}
+
 .mapviewer_tools_bar{
 	font-size:10px;
 	background-color:#F9F9F9;
@@ -210,7 +244,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     background: #ccc;
 }
 
-.input-range-tooltip { 
+.input-range-tooltip {
   position:absolute;
   font-size:11px;
   text-align:center;

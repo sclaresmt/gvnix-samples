@@ -32,8 +32,6 @@ like UI customization, performance improvement, database queries tunning, etc.
 You can see an example of a *generated web application* using gvNIX
 http://petclinic-gvnix.rhcloud.com/login[here] (*user*: admin | *pass*: admin)
 
-NOTE: _Some functionalities cannot work correctly in the demo dued to openshift constraints_
-
 == Run from Git
 
 If you want to preview this sample application, follow this steps on the following order. If you prefer to develop by your own, go to https://github.com/DISID/gvnix-samples/tree/master/quickstart-app#build-your-own-app[gvNIX Sample application Guide]

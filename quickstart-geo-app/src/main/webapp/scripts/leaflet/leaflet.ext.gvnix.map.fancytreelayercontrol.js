@@ -61,7 +61,7 @@ L.Control.FancytreeLayers = L.Control.extend({
     container.setAttribute('aria-haspopup', true);
 
     if (!L.Browser.touch) {
-      L.DomEvent.disableClickPropagation(container);
+      GvNIX_Map_Leaflet.Util.disableClickPropagation(container);
       L.DomEvent.on(container, 'wheel', L.DomEvent.stopPropagation);
     } else {
       L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
@@ -434,20 +434,12 @@ L.Control.FancytreeLayers = L.Control.extend({
 					// Make layer visible
 					tocLayer.fnShow(true);
 
-					// Request entity_simple data to the server
-					if (tocLayer.s.layer_type == "entity_simple" || tocLayer.s.layer_type == "entity"){
-						tocLayer._fnRequestData();
-					}
-
 					// Make all parents visible
 					data.node.visitParents(function(parentNode) {
 						var parentLayer = map
 								.fnGetLayerById(parentNode.key);
 						if (parentLayer) {
 							parentLayer.fnShow(false);
-							if (parentLayer.s.layer_type == "entity"){
-								parentLayer._fnRequestData();
-							}
 						}
 					});
 
